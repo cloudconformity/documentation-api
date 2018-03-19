@@ -30,6 +30,7 @@ User access to each endpoint is listed below:
 | GET /accounts/accountId/settings/rules | Y | Y | Y | N |
 | PATCH /accounts/accountId/settings/rules | Y | Y | N | N |
 | GET /checks * | Y | Y | Y | N |
+| GET /events *** | Y | Y | Y | N |
 | GET /settings/communication/accountId ** | Y | Y | Y | N |
 | POST /settings/communication ** | Y | Y | N | N |
 | PATCH /settings/communication/settingId ** | Y | Y | N | N |
@@ -38,7 +39,9 @@ User access to each endpoint is listed below:
 
 * Response will depend on the AccountIds added to the query parameter. For example, if a user has no access to an account and they add that account to the AccountIds array, an error will be thrown.
 
-** User role will limit the amount of data they can GET or POST/PATCH. For more information, consult the [Settings ReadMe](./Settings.md#) .
+** User role will limit the amount of data they can GET or POST/PATCH. For more information, consult the [Settings ReadMe](./Settings.md#).
+
+*** If user role is ADMIN, organisation-level events will also be returned.
 
 ## Get The Current User
 

@@ -1,4 +1,4 @@
-# Cloud Conformity Accounts API
+# Cloud Conformity Checks API
 
 Below is a list of the available APIs:
 
