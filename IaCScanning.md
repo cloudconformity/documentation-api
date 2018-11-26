@@ -117,3 +117,7 @@ _Example:_
 All resource level rules are supported.
 Refer to [Cloud Conformity rule catalogue](https://us-west-2.cloudconformity.com/v1/services) 
 for the list of rules.
+
+#### Examples:
+* [Scan a CloudFormation template using Bash](./examples/bash/iac-scanning/scan.sh)
+* [Scan a CloudFormation template using Python](./examples/python/iac-scanning/scan.py)
