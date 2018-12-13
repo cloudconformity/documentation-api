@@ -34,7 +34,9 @@ This endpoint is used to create a custom checks. You may pass one check or an ar
     - `message`: String, descriptive message about the check
     - `region`: String, a valid AWS region. Please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions)
     - `resource`: String, the AWS resource this check applies to. (optional)
-    - `rule-title`: String, custom rule title. (optional, defaults to "Custom Rule" if not specified)
+    - `rule-title`: String, custom rule title. (optional, defaults to "Custom Rule" if not specified). 
+        - Note: If there are multiple custom checks with the same rule id, then the rule title of the check with the most recently updated date will be used. Hence this field can be used to update a custom rule's title with a new value.
+        
     - `risk-level`: String, one risk level from the following: LOW\| MEDIUM \| HIGH \| VERY_HIGH \| EXTREME
     - `status`: String, SUCCESS or FAILURE
     - `categories`: An array of category (AWS well-architected framework category) strings from the following: security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence (optional)
