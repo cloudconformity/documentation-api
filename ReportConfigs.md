@@ -55,6 +55,8 @@ There are some attributes you need to pass inside configuration object. The tabl
 ##### Filtering
 The table below give more information about filter options:
 
+For a complete filtering options, please check filtering API
+
 | Name  | Values |
 | ------------- | ------------- |
 | `filter.regions`  | An array of valid AWS region strings. (e.g. ["us-west-1", "us-west-2"])<br /> For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions) |
@@ -63,7 +65,7 @@ The table below give more information about filter options:
 | `filter.tags`  | An array of any assigned metadata tags to your AWS resources |
 
 
-Example request for creating an account level report config:
+Example request:
 
 ```
 curl -X POST \
