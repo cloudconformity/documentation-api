@@ -48,21 +48,12 @@ There are some attributes you need to pass inside configuration object. The tabl
 | emails | This attribute is optional, represents email addresses that report would be sent to. It must be a array contains valid email addresses. |
 | filter | This attribute is optional, contains how to filter checks to generate the report. When it was not provided, it means everything by default. When it was provided, follow [Filtering](#filtering) |
 | scheduled | This attribute is optional, means whether the report is scheduled. It must be a boolean value when it was provided. |
-|frequency | This attribute is optional, but when the attribute `scheduled` is true, it muse be a cron expression string that starts with day of month field |
+|frequency | This attribute is optional, but when the attribute `scheduled` is true, it must be a cron expression string that starts with day of month field. For exmaple, daily cron expression would be `* * *` |
 | tz | This attribute is optional. It's used as which timezone the report schedule is based on, when the attribute `scheduled` is true. If this attribute was provided, it must be string that is a valid value of timezone database name such as `Australia/Sydney`. |
 
 
 ##### Filtering
-The table below give more information about filter options:
-
-For a complete filtering options, please check filtering API
-
-| Name  | Values |
-| ------------- | ------------- |
-| `filter.regions`  | An array of valid AWS region strings. (e.g. ["us-west-1", "us-west-2"])<br /> For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions) |
-| `filter.services`  | An array of AWS service strings from the following: <br /> AutoScaling \| CloudConformity \| CloudFormation \| CloudFront \| CloudTrail \| CloudWatch \|<br />CloudWatchEvents \| CloudWatchLogs \| Config \| DynamoDB \| EBS \| EC2 \| ElastiCache \|<br />Elasticsearch \| ELB \| IAM \| KMS \| RDS \| Redshift \| ResourceGroup \| Route53 \| S3 \| SES \| SNS \| SQS \| VPC \| WAF \| ACM \| Inspector \| TrustedAdvisor \| Shield \| EMR \| Lambda \| Support \| Organizations \| Kinesis \| EFS<br /><br />For more information about services, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
-| `filter.categories`  | An array of category (AWS well-architected framework category) strings from the following:<br /> security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence <br />|
-| `filter.tags`  | An array of any assigned metadata tags to your AWS resources |
+Refer to [Filtering options](./Filtering.md)
 
 
 Example request:
