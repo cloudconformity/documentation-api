@@ -14,7 +14,7 @@ This feature can be used in conjunction with a GET request to copy report config
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Some guidelines about using this endpoint:
-- Settings are created as long as your inputs are valid. The onus is on you to ensure you don't create report configs that are duplicate or too similar in nature.
+- Report configs are created as long as your inputs are valid. The onus is on you to ensure you don't create report configs that are duplicate or too similar in nature.
 - Each report config can be **account-level**, **group-level** OR **organisation-level**
     - If creating account-level report config, you must have a valid `accountId`.
     - If creating group-level report config, you must have a valid `groupId`. If you provided `accountId` and `groupId` at the same time, `groupId` would be ignored.
@@ -62,7 +62,7 @@ The table below give more information about filter options:
 | `filter.tags`  | An array of any assigned metadata tags to your AWS resources |
 
 
-Example request for creating an account level pager-duty setting:
+Example request for creating an account level report config:
 
 ```
 curl -X POST \
@@ -162,7 +162,7 @@ A GET request to this endpoint allows you to list report configs filter by `acco
 *Query Organisation Level Report Configs*: querying without any query parameters.
 
 
-Example request for email-only settings:
+Example request:
 
 ```
 
@@ -283,7 +283,7 @@ This endpoint allows you to get the details of the specified report config.
 - `id`: The Cloud Conformity ID of the report config
 
 
-Example Request:
+Example request:
 
 ```
 curl -H "Content-Type: application/vnd.api+json" \
@@ -369,7 +369,7 @@ A PATCH request to this endpoint allows you to update a specific report config.
     - `configuration`: Object containing parameters that are different for each channel. For more details consult the [configurations-table](#configuration)
 
 
-Example request to update an account level pager-duty setting:
+Example request:
 
 ```
 curl -X PATCH \
@@ -458,7 +458,7 @@ A DELETE request to this endpoint allows a user to delete a report config.
 ##### Headers
 `Content-Type`: application/vnd.api+json
 
-Example Request:
+Example request:
 ```
 curl -X DELETE \
 -H "Content-Type: application/vnd.api+json" \
