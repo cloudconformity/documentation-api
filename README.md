@@ -89,6 +89,7 @@ Below is a list of the available APIs:
 - [External Ids](./ExternalId.md)
 - [Settings](./Settings.md)
 - [Users](./Users.md)
+- [Report Configs](./ReportConfigs.md)
 
 ## Support
 
