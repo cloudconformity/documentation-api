@@ -19,7 +19,7 @@ This feature can be used in conjunction with a GET request to copy report config
     - If creating account-level report config, you must have a valid `accountId`.
     - If creating group-level report config, you must have a valid `groupId`. If you provided `accountId` and `groupId` at the same time, `groupId` would be ignored.
     - If creating organisation-level report config you don't provide any `accountId` or `groupId`.
-    - Only ADMIN users can create organisation-level report-configs.
+    - Only ADMIN/POWER users can create organisation-level report-configs.
     - Only ADMIN/POWER users can create organisation-level and group-level report-configs.
 
 ##### Endpoints:
