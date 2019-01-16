@@ -15,7 +15,7 @@ This feature can be used in conjunction with a GET request to copy report config
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Some guidelines about using this endpoint:
 - Report configs are created as long as your inputs are valid. The onus is on you to ensure you don't create report configs that are duplicate or too similar in nature.
-- Each report config can be **account-level**, **group-level** OR **organisation-level**
+- Each report config can be **account-level**, **group-level**, or **organisation-level**.
     - If creating account-level report config, you must have a valid `accountId`.
     - If creating group-level report config, you must have a valid `groupId`. If you provided `accountId` and `groupId` at the same time, `groupId` would be ignored.
     - If creating organisation-level report config you don't provide any `accountId` or `groupId`.
@@ -44,12 +44,12 @@ There are some attributes you need to pass inside configuration object. The tabl
 | Attribute | Details |
 | ------------- | ------------- |
 | title | This attribute is report title, which must be a string |
-| sendEmail | This attribue is optinal. When report was scheduled, aka the attribute `scheduled` is true, this is a toggle to send report to specific email addresses. It should be boolean when provided |
+| sendEmail | This attribute is optional. When report was scheduled, aka the attribute `scheduled` is true, this is a toggle to send report to specific email addresses. It should be boolean when provided |
 | emails | This attribute is optional, represents email addresses that report would be sent to. It must be a array contains valid email addresses. |
 | filter | This attribute is optional, contains how to filter checks to generate the report. When it was not provided, it means everything by default. When it was provided, follow [Filtering](#filtering) |
 | scheduled | This attribute is optional, means whether the report is scheduled. It must be a boolean value when it was provided. |
-|frequency | This attribute is optional, but when the attribute `scheduled` is true, it must be a cron expression string that starts with day of month field. For exmaple, daily cron expression would be `* * *` |
-| tz | This attribute is optional. It's used as which timezone the report schedule is based on, when the attribute `scheduled` is true. If this attribute was provided, it must be string that is a valid value of timezone database name such as `Australia/Sydney`. |
+| frequency | This attribute is optional, but when the attribute `scheduled` is true, it must be a [cron expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) string that starts with day of month field. For example, daily cron expression would be `* * *` |
+| tz | This attribute is optional. It's used as which timezone the report schedule is based on, when the attribute `scheduled` is true. If this attribute was provided, it must be string that is a valid value of [timezone database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) name such as `Australia/Sydney`. |
 
 
 ##### Filtering
@@ -69,19 +69,19 @@ curl -X POST \
 			"accountId": "HksLj2_",
 			"configuration": {
 				"title": "Daily report of IAM",
-		        "scheduled": true,
-		        "frequency": "* * *",
-		        "tz": "Australia/Sydney",
-		        "sendEmail": true,
-		        "emails": [
-		            "youremail@somecompany.com"
-		        ],
-		        "filter": {
-		            "services": [
-		                "IAM"
-		            ],
-		            "suppressed": true
-		        }
+				"scheduled": true,
+				"frequency": "* * *",
+				"tz": "Australia/Sydney",
+				"sendEmail": true,
+				"emails": [
+					"youremail@somecompany.com"
+				],
+				"filter": {
+					"services": [
+						"IAM"
+					],
+					"suppressed": true
+				}
 			}
 		}
 	}
@@ -92,47 +92,47 @@ Example Response:
 
 ```
 { "data": {
-    "type": "report-config",
-    "id": "vO4SPFxrcC",
-    "attributes": {
-        "type": "report-config",
-        "configuration": {
-            "title": "Daily Report of IAM",
-            "scheduled": true,
-            "frequency": "* * *",
-            "tz": "Australia/Sydney",
-            "sendEmail": true,
-            "emails": [
-		        "youremail@somecompany.com"
-            ],
-            "filter": {
-                "services": [
-		            "IAM"
-                ],
-                "suppressed": true
-            }
-        },
-        "is-account-level": true,
-        "is-group-level": false,
-        "is-organisation-level": false
-    },
-    "relationships": {
-        "organisation": {
-            "data": {
-                "type": "organisations",
-                "id": "2kj0JksM"
-            }
-        },
-        "account": {
-            "data": {
-                "type": "accounts",
-                "id": "HksLj2_"
-            }
-        },
-        "group": {
-            "data": null
-        }
-    }
+	"type": "report-config",
+	"id": "vO4SPFxrcC",
+	"attributes": {
+		"type": "report-config",
+		"configuration": {
+			"title": "Daily Report of IAM",
+			"scheduled": true,
+			"frequency": "* * *",
+			"tz": "Australia/Sydney",
+			"sendEmail": true,
+			"emails": [
+				"youremail@somecompany.com"
+			],
+			"filter": {
+				"services": [
+					"IAM"
+				],
+				"suppressed": true
+			}
+		},
+		"is-account-level": true,
+		"is-group-level": false,
+		"is-organisation-level": false
+	},
+	"relationships": {
+		"organisation": {
+			"data": {
+				"type": "organisations",
+				"id": "2kj0JksM"
+			}
+		},
+		"account": {
+			"data": {
+				"type": "accounts",
+				"id": "HksLj2_"
+			}
+		},
+		"group": {
+			"data": null
+		}
+	}
 } }
 ```
 
@@ -168,98 +168,98 @@ https://us-west-2-api.cloudconformity.com/v1/report-configs?accountId=ryi6NPivW
 Example Response for an ADMIN user:
 ```
 { "data": [
-    {
-        "type": "report-config",
-        "id": "ryi6NPivW:report-config:3zOFWeqVnp",
-        "attributes": {
-            "type": "report-config",
-            "configuration": {
-                "title": "Report Title #1",
-                "scheduled": true,
-                "frequency": "1 * *",
-                "tz": "Australia/Sydney",
-                "sendEmail": true,
-                "emails": [
-                    "john@somecompany.com"
-                ],
-                "filter": {
-                    "services": [
-                        "Kinesis"
-                    ],
-                    "suppressed": true
-                }
-            },
-            "is-account-level": true,
-            "is-group-level": false,
-            "is-organisation-level": false
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            },
-            "account": {
-                "data": {
-                    "type": "accounts",
-                    "id": "ryi6NPivW"
-                }
-            },
-            "group": {
-                "data": null
-            },
-            "profile": {
-                "data": null
-            }
-        }
-    },
-    {
-        "type": "report-config",
-        "id": "ryi6NPivW:report-config:4AYIaOZ_5f",
-        "attributes": {
-            "type": "report-config",
-            "configuration": {
-                "title": "Report title #2",
-                "scheduled": true,
-                "frequency": "* * *",
-                "tz": "Australia/Sydney",
-                "sendEmail": true,
-                "emails": [
-                    "john@somecompany.com"
-                ],
-                "filter": {
-                    "services": [
-                        "IAM"
-                    ],
-                    "suppressed": true
-                }
-            },
-            "is-account-level": true,
-            "is-group-level": false,
-            "is-organisation-level": false
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            },
-            "account": {
-                "data": {
-                    "type": "accounts",
-                    "id": "ryi6NPivW"
-                }
-            },
-            "group": {
-                "data": null
-            },
-            "profile": {
-                "data": null
-            }
-        }
-    }
+	{
+		"type": "report-config",
+		"id": "ryi6NPivW:report-config:3zOFWeqVnp",
+		"attributes": {
+			"type": "report-config",
+			"configuration": {
+				"title": "Report Title #1",
+				"scheduled": true,
+				"frequency": "1 * *",
+				"tz": "Australia/Sydney",
+				"sendEmail": true,
+				"emails": [
+					"john@somecompany.com"
+				],
+				"filter": {
+					"services": [
+						"Kinesis"
+					],
+					"suppressed": true
+				}
+			},
+			"is-account-level": true,
+			"is-group-level": false,
+			"is-organisation-level": false
+		},
+		"relationships": {
+			"organisation": {
+				"data": {
+					"type": "organisations",
+					"id": "B1nHYYpwx"
+				}
+			},
+			"account": {
+				"data": {
+					"type": "accounts",
+					"id": "ryi6NPivW"
+				}
+			},
+			"group": {
+				"data": null
+			},
+			"profile": {
+				"data": null
+			}
+		}
+	},
+	{
+		"type": "report-config",
+		"id": "ryi6NPivW:report-config:4AYIaOZ_5f",
+		"attributes": {
+			"type": "report-config",
+			"configuration": {
+				"title": "Report title #2",
+				"scheduled": true,
+				"frequency": "* * *",
+				"tz": "Australia/Sydney",
+				"sendEmail": true,
+				"emails": [
+					"john@somecompany.com"
+				],
+				"filter": {
+					"services": [
+						"IAM"
+					],
+					"suppressed": true
+				}
+			},
+			"is-account-level": true,
+			"is-group-level": false,
+			"is-organisation-level": false
+		},
+		"relationships": {
+			"organisation": {
+				"data": {
+					"type": "organisations",
+					"id": "B1nHYYpwx"
+				}
+			},
+			"account": {
+				"data": {
+					"type": "accounts",
+					"id": "ryi6NPivW"
+				}
+			},
+			"group": {
+				"data": null
+			},
+			"profile": {
+				"data": null
+			}
+		}
+	}
 ]}
 ```
 
@@ -287,54 +287,54 @@ https://us-west-2-api.cloudconformity.com/v1/report-configs/ryi6NPivW:report-con
 Example Response:
 ```
 {
-    "data": {
-        "type": "report-config",
-        "id": "ryi6NPivW:report-config:7BTWU6tSvd",
-        "attributes": {
-            "type": "report-config",
-            "manual": false,
-            "enabled": true,
-            "configuration": {
-                "title": "Daily report",
-                "scheduled": true,
-                "frequency": "* * *",
-                "tz": "Australia/Sydney",
-                "sendEmail": true,
-                "emails": [
-                    "doe@somecompany.com"
-                ],
-                "filter": {
-                    "services": [
-                        "IAM"
-                    ],
-                    "suppressed": true
-                }
-            },
-            "is-account-level": true,
-            "is-group-level": false,
-            "is-organisation-level": false
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            },
-            "account": {
-                "data": {
-                    "type": "accounts",
-                    "id": "ryi6NPivW"
-                }
-            },
-            "group": {
-                "data": null
-            },
-            "profile": {
-                "data": null
-            }
-        }
-    }
+	"data": {
+		"type": "report-config",
+		"id": "ryi6NPivW:report-config:7BTWU6tSvd",
+		"attributes": {
+			"type": "report-config",
+			"manual": false,
+			"enabled": true,
+			"configuration": {
+				"title": "Daily report",
+				"scheduled": true,
+				"frequency": "* * *",
+				"tz": "Australia/Sydney",
+				"sendEmail": true,
+				"emails": [
+					"doe@somecompany.com"
+				],
+				"filter": {
+					"services": [
+						"IAM"
+					],
+					"suppressed": true
+				}
+			},
+			"is-account-level": true,
+			"is-group-level": false,
+			"is-organisation-level": false
+		},
+		"relationships": {
+			"organisation": {
+				"data": {
+					"type": "organisations",
+					"id": "B1nHYYpwx"
+				}
+			},
+			"account": {
+				"data": {
+					"type": "accounts",
+					"id": "ryi6NPivW"
+				}
+			},
+			"group": {
+				"data": null
+			},
+			"profile": {
+				"data": null
+			}
+		}
+	}
 }
 ```
 
@@ -376,16 +376,16 @@ curl -X PATCH \
 			"accountId": "ryi6NPivW",
 			"configuration": {
 				"title": "Disabed Report",
-		        "scheduled": false,
-		        "frequency": "* * *",
-		        "tz": "Australia/Sydney",
-		        "sendEmail": false,
-		        "filter": {
-		            "services": [
-		                "Kinesis"
-		            ],
-		            "suppressed": true
-		        }
+				"scheduled": false,
+				"frequency": "* * *",
+				"tz": "Australia/Sydney",
+				"sendEmail": false,
+				"filter": {
+					"services": [
+						"Kinesis"
+					],
+					"suppressed": true
+				}
 			}
 		}
 	}
@@ -396,44 +396,44 @@ Example Response:
 
 ```
 {
-    "type": "report-config",
-    "id": "ryi6NPivW:report-config:7BTWU6tSvd",
-    "attributes": {
-        "type": "report-config",
-        "configuration": {
-            "title": "Disabed Report",
-            "scheduled": false,
-            "frequency": "* * *",
-            "tz": "Australia/Sydney",
-            "sendEmail": false,
-            "filter": {
-                "services": [
-                    "Kinesis"
-                ],
-                "suppressed": true
-            }
-        }
-        "is-account-level": true,
-        "is-group-level": false,
-        "is-organisation-level": false
-    },
-    "relationships": {
-        "organisation": {
-            "data": {
-                "type": "organisations",
-                "id": "B1nHYYpwx"
-            }
-        },
-        "account": {
-            "data": {
-                "type": "accounts",
-                "id": "ryi6NPivW"
-            }
-        },
-        "group": {
-            "data": null
-        }
-    }
+	"type": "report-config",
+	"id": "ryi6NPivW:report-config:7BTWU6tSvd",
+	"attributes": {
+		"type": "report-config",
+		"configuration": {
+			"title": "Disabed Report",
+			"scheduled": false,
+			"frequency": "* * *",
+			"tz": "Australia/Sydney",
+			"sendEmail": false,
+			"filter": {
+				"services": [
+					"Kinesis"
+				],
+				"suppressed": true
+			}
+		}
+		"is-account-level": true,
+		"is-group-level": false,
+		"is-organisation-level": false
+	},
+	"relationships": {
+		"organisation": {
+			"data": {
+				"type": "organisations",
+				"id": "B1nHYYpwx"
+			}
+		},
+		"account": {
+			"data": {
+				"type": "accounts",
+				"id": "ryi6NPivW"
+			}
+		},
+		"group": {
+			"data": null
+		}
+	}
 }
 ```
 
@@ -464,8 +464,8 @@ Example Response:
 
 ```
 {
-    "meta": {
-        "status": "deleted"
-    }
+	"meta": {
+		"status": "deleted"
+	}
 }
 ```
