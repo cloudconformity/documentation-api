@@ -372,7 +372,6 @@ curl -X PATCH \
 {
 	"data": {
 		"attributes": {
-			"accountId": "ryi6NPivW",
 			"configuration": {
 				"title": "Disabed Report",
 				"scheduled": false,
