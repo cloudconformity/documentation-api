@@ -357,9 +357,9 @@ A PATCH request to this endpoint allows you to update a specific report config.
 - `data`: An array containing JSONAPI compliant data objects with following properties
   - `type`: `"report-config"`,
   - `attributes`: Object containing
-    - `accountId`: Optional account ID that user could access to
-    - `groupId`: Optional group ID that user could access to
     - `configuration`: Object containing parameters that are different for each channel. For more details consult the [configurations-table](#configuration)
+
+**Note:** accountId or groupId could not be changed after report-config was created.
 
 
 Example request:
