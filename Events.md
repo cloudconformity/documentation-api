@@ -53,7 +53,9 @@ The table below give more information about filter options:
 For example, the following is a request for static-deployer events within a specified time frame on one account:
 
 ```
-curl -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" https://us-west-2-api.cloudconformity.com/v1/events?accountIds=ryi9NPivK&filter[identities]=static-deployer&filter[since]=1519919272016&filter[until]=1519932055819
+curl -H "Content-Type: application/vnd.api+json" \
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/events?accountIds=ryi9NPivK&filter[identities]=static-deployer&filter[since]=1519919272016&filter[until]=1519932055819
 ```
 Example Response:
 ###### Each event can be quite large and the example below is purposefully truncated
