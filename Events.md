@@ -23,13 +23,13 @@ This endpoint allows you to collect events that you have access to.
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Some guidelines about using this endpoint:
-1. If acountIds are not provided, events are returned from all accounts you have access to. If you are ADMIN, organisation-level events are also returned.
+1. If accountIds are not provided, events are returned from all accounts you have access to. If you are ADMIN, organisation-level events are also returned.
 2. If you provide an accountId to an account you do not have at least ReadOnly access to, events from that account will not be returned.
 3. You can pull 2 types of events from this endpoint. `aws=true` will return **AWS events**; `cc=true` will return Cloud Conformity **activity-events**. For more information, see example below.
 4. All events have a name attribute. Some important Cloud Conformity events are listed in the [Event Names Table](#event-names). <br />
 Using the filter[name] as part of your query will get a history of that specific event. filter[name] also supports wildcards.
-    1. Astericks at the end: `filter[name]=account.bot.update*` will get all events where the name starts with account.bot.update.
-    2. Astericks in the middle:`filter[name]=account.*.update*` will match all account updating events like `account.bot.update` and `account.rule.update`.
+    1. Asterisk at the end: `filter[name]=account.bot.update*` will get all events where the name starts with account.bot.update.
+    2. Asterisk in the middle:`filter[name]=account.*.update*` will match all account updating events like `account.bot.update` and `account.rule.update`.
     3. Use of question marks: `filter[name]=a??.check.create` will match `api.check.created` and not `account.check.created`. Each ? is a character wildcard. 
 <br />
 
