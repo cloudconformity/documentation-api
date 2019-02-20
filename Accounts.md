@@ -47,7 +47,7 @@ This endpoint is used to register a new AWS account with Cloud Conformity.
         - `roleArn`: The Role ARN of the role you have already created to grant access to Cloud Conformity
         - `externalId`: The External ID that you have requested on the previous step
     - `costPackage`: Boolean, true for enabling the cost package add-on for the account (AWS spend analysis, forecasting, monitoring)
-    - `securityPackage`: Boolean, true for enabling the security package add-on for the account (real-time monitoring, additional security rules)
+    - `hasRealTimeMonitoring`: Boolean, true for enabling the Real-Time Threat monitoring add-on
 
 Example Request:
 
@@ -69,7 +69,7 @@ curl -X POST \
         }
       },
       "costPackage": true,
-      "securityPackage": true
+      "hasRealTimeMonitoring": true
     }
   }
 }' \
@@ -87,7 +87,7 @@ Example Response:
       "environment": "MyEnv",
       "awsaccount-id": "123456789012",
       "status": "ACTIVE",
-      "security-package": true,
+      "has-real-time-monitoring": true,
       "cost-package": true,
       "created-date": 1505595441887,
       "settings": {
@@ -158,7 +158,7 @@ Example Response:
         "name": "Test",
         "environment": "Test",
         "awsaccount-id": "123456789013",
-        "security-package": true,
+        "has-real-time-monitoring": true,
         "created-date": 1502472854056,
         "last-notified-date": 1503580590169,
         "last-checked-date": 1503584192576,
@@ -181,7 +181,7 @@ Example Response:
         "name": "Route53",
         "environment": "Route53",
         "awsaccount-id": "123456789012",
-        "security-package": true,
+        "has-real-time-monitoring": true,
         "cost-package": true,
         "created-date": 1489703037251,
         "last-notified-date": 1503503192127,
@@ -233,7 +233,7 @@ Example Response:
                 "environment": "Test",
                 "awsaccount-id": "123456789012",
                 "status": "ACTIVE",
-                "security-package": true,
+                "has-real-time-monitoring": true,
                 "created-date": 1502472854056,
                 "settings": {
                     "communication": {
@@ -425,7 +425,7 @@ We recommend you first [Get account details](#get-account-details) to verify tha
 - `data`: an JSON object containing JSONAPI compliant data object with following properties
   - `attributes`: An attribute object containing
     - `costPackage`: Boolean, true for enabling the cost package add-on for the account (AWS spend analysis, forecasting, monitoring)
-    - `securityPackage`: Boolean, true for enabling the security package add-on for the account (real-time monitoring, additional security rules)
+    - `hasRealTimeMonitoring`: Boolean, true for enabling the Real-Time Threat Monitoriring package add-on for the account
 
 Example Request:
 
@@ -438,7 +438,7 @@ curl -X PATCH \
     "data": {
         "attributes": {
             "costPackage": true,
-            "securityPackage": true
+            "hasRealTimeMonitoring": true
         }
     }
 }' \
@@ -457,7 +457,7 @@ Example Response:
             "environment": "myAWSenv",
             "awsaccount-id": "123456789101",
             "status": "ACTIVE",
-            "security-package": true,
+            "has-real-time-monitoring": true,
             "cost-package": true,
             "last-notified-date": 1504113512701,
             "last-checked-date": 1504113511956,
@@ -530,7 +530,7 @@ Example Response:
             "code": "PAE",
             "awsaccount-id": "123456789101",
             "status": "ACTIVE",
-            "security-package": true,
+            "has-real-time-monitoring": true,
             "cost-package": true,
             "last-notified-date": 1504113512701,
             "last-checked-date": 1504113511956,
@@ -782,7 +782,7 @@ For more information about rule specifivities, consult [Cloud Conformity Service
 
 Error Details | Resolution
 --- | ---
-This security (or cost) package rule `ruleId` is not part of the account subscription | You cannot configure rule settings for this rule. Try another rule.
+This Real-Time Threat Monitoring (or cost) package rule `ruleId` is not part of the account subscription | You cannot configure rule settings for this rule. Try another rule.
 `ruleId` is not configurable from this endpoint. | This is either a cost-setting or organisation-setting which you cannot configure via this account rule settings endpoint.
 Rule risk level missing for `ruleId` | `ruleSetting.riskLevel` is a required parameter
 Rule risk level provided for `ruleId` is incorrect | only "LOW", "MEDIUM", "HIGH", "VERY_HIGH", and "EXTREME" are accepted risk levels
@@ -793,20 +793,17 @@ Rule `ruleId` is not configurable | remove `ruleSetting.extraSettings`, you may 
 
 
 
-
-
-
 ## Get Rule Settings
 
 A GET request to this endpoint allows you to get rule settings for all configured rules of the specified account.
 If a rule has never been configured, it will not show up in the resulting data.
-For example, even if our bots run rule RDS-018 for your account hourly, if you have never configured it, it will not be 
+For example, even if our bots run rule RDS-018 for your account hourly, if you have never configured it, it will not be
 part of the data body we send back.
 
 This endpoint only returns configured rules. If you want to include default rule settings, set `includeDefaults=true` in
 query parameters.
 
-Details of rule setting types used by Cloud Conformity are available [here](./RuleSettings.md) 
+Details of rule setting types used by Cloud Conformity are available [here](./RuleSettings.md)
 
 ##### Endpoints:
 
@@ -1056,7 +1053,7 @@ For more information about rule specifivities, consult [Cloud Conformity Service
 
 Error Details | Resolution
 --- | ---
-This security (or cost) package rule `rule.id` is not part of the account subscription | Remove that rule setting from the array
+This Real-Time Threat Monitoring (or cost) package rule `rule.id` is not part of the account subscription | Remove that rule setting from the array
 `ruleId` is not configurable from this endpoint. | This is either a cost-setting or organisation-setting which you cannot configure via this account rule settings endpoint.
 Rule risk level missing for `ruleId` | `ruleSetting.riskLevel` is a required parameter
 Rule risk level provided for `ruleId` is incorrect | only "LOW", "MEDIUM", "HIGH", "VERY_HIGH", and "EXTREME" are accepted risk levels

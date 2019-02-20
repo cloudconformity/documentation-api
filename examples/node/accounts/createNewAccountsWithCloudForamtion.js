@@ -1,18 +1,35 @@
-"use strict";
-// Bulk account creation
+/*
 
-const request = require("request-promise");
+This examples illustrate the way one can add multiple accounts to Cloud Conformity
+
+This example assumes that the AWS accounts have already been provisioned with the appropriate AWS IAM Role.
+The name of the role is defined in the CloudConformityRoleName variable.
+
+Prerequisite:
+- Node.js installed
+- request, request-promise and bluebird packages globally installed.
+  To install those packages, run:
+  npm i -g request request-promise bluebird
+- substitute values for the following variables, with your values:
+  endpoint, APIKey and CloudConformityRoleName
+
+To execute the script run:
+  node createNewAccountsSimplified.js
+
+*/
+
+const request = require('request-promise');
 const Promise = require("bluebird");
 const AWS = require("aws-sdk");
 
 // Substitute value below
-// IMPORTANT : Contact us to acquire our AWS Account ID
-const cloudConformityAWSAccountId = "12345678901234";
+// IMPORTANT : Contact us to acquire the Cloud Conformity AWS Account ID
+const CloudConformityAWSAccountId = "12345678901234";
 const endpoint = "CLOUD_CONFORMITY_API_ENDPOINT";
-const apiKey = "YOUR_API_KEY";
+const APIKey = "YOUR_API_KEY";
 const templateURL = "https://s3-us-west-2.amazonaws.com/cloudconformity/CloudConformity.template";
 
-let accounts = [{
+const accounts = [{
 	accessKeyId: "AKIAI_MY_ACCESS_KEY",
 	secretAccessKey: "YOUR_SECRET",
 	name: "My account",
@@ -24,28 +41,23 @@ let accounts = [{
 	environment: "My other environment"
 }];
 
-let loadExternalId = () => {
-
-	console.log("Loading external ID...");
-
-	return request({
-		method: "GET",
-		uri: `${endpoint}/v1/organisation/external-id`,
-		headers: {
-			"Content-Type": "application/vnd.api+json",
-			"Authorization": `ApiKey ${apiKey}`
-		}
-	}).then(response => JSON.parse(response).data.id);
-
+const externalIdRequestOptions = {
+	method: 'POST',
+	uri: `${endpoint}/v1/external-ids`,
+	headers: {
+		"Content-Type": "application/vnd.api+json",
+		'Authorization': `ApiKey ${APIKey}`
+	},
+	json: true
 };
 
-loadExternalId().then(function (externalId) {
+(async function() {
 
-	console.log("Got external ID", externalId);
+	const externalId = request(externalIdRequestOptions).then((xtl) => xtl.data.id);
 
-	return Promise.mapSeries(accounts, function (account) {
+	await Promise.mapSeries(accounts, function(account) {
 
-		let params = {
+		const params = {
 			StackName: "CloudConformity",
 			Capabilities: [
 				"CAPABILITY_NAMED_IAM"
@@ -53,39 +65,41 @@ loadExternalId().then(function (externalId) {
 			TemplateURL: templateURL,
 			Parameters: [{
 				ParameterKey: 'AccountId',
-				ParameterValue: `${cloudConformityAWSAccountId}`
+				ParameterValue: `${CloudConformityAWSAccountId}`
 			}, {
 				ParameterKey: 'ExternalId',
 				ParameterValue: externalId
 			}]
 		};
 
-		let config = {
+		const config = new AWS.Config({
 			accessKeyId: account.accessKeyId,
-			secretAccessKey: account.secretAccessKey,
-			region: process.env.AWS_REGION
-		};
+			secretAccessKey: account.secretAccessKey
+		});
 
-		console.log("Creating CloudConformity stack...");
+		console.log("Got an external id %s, crating CloudConformity stack", externalId);
 
-		let CloudFormation = Promise.promisifyAll(new AWS.CloudFormation(config), {
+		const CloudFormation = Promise.promisifyAll(new AWS.CloudFormation(config), {
 			filter: function(name, func, target, passesDefaultFilter) {
 				return passesDefaultFilter &&
 					name !== "onAsync" &&
 					name !== "on";
 			}
 		});
-		return CloudFormation.createStackAsync(params).then(function (result) {
 
-			let waitCompletion = function () {
+		console.log("Creating stack");
+
+		return CloudFormation.createStackAsync(params).then(function(result) {
+
+			const waitCompletion = function() {
 
 				console.log("Waiting for stack creation...");
 
-				let params = {
+				var params = {
 					StackName: result.StackId
 				};
 
-				return CloudFormation.describeStacksAsync(params).then((data) => data.Stacks).get(0).then(function (stack) {
+				return CloudFormation.describeStacksAsync(params).then((data) => data.Stacks).get(0).then(function(stack) {
 
 					if (["CREATE_IN_PROGRESS", "UPDATE_IN_PROGRESS"].includes(stack.StackStatus)) {
 
@@ -108,13 +122,13 @@ loadExternalId().then(function (externalId) {
 
 			return waitCompletion();
 
-		}).then(function (roleArn) {
+		}).then(function(roleArn) {
 
 			console.log("Will create an account with role ARN %s, external Id %s", roleArn, externalId);
 
-			let options = {
+			const options = {
 				method: 'POST',
-				uri: 'https://us-west-2-api.cloudconformity.com/v1/accounts',
+				uri: `${endpoint}/v1/accounts`,
 				body: {
 					data: {
 						attributes: {
@@ -131,14 +145,14 @@ loadExternalId().then(function (externalId) {
 				},
 				headers: {
 					"Content-Type": "application/vnd.api+json",
-					'Authorization': `ApiKey ${apiKey}`
+					'Authorization': `ApiKey ${APIKey}`
 				},
 				json: true
 			};
 
 			return request(options);
 
-		}).then(function () {
+		}).then(function() {
 
 			console.log(...arguments);
 
