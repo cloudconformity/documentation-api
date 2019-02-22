@@ -13,6 +13,6 @@ Not complete set of options. (To be completed!)
 | `filter.createdLessThanDays`  | Only show checks created less than X days ago. Number. e.g. 5. |
 | `filter.categories`  | An array of category (AWS well-architected framework category) strings from the following:<br /> security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence <br />|
 | `filter.riskLevels`  | Risk level. Possible values: ["EXTREME" \| "VERY_HIGH" \| "HIGH" \| "MEDIUM" \| "LOW"] |
-| `filter.compliances`  | Compliance and standards. Possible values: ["AWAF" \| "CISAWSF" \| "PCI DSS" \| "HIPAA" \| "GDPR" \| "APRA"] |
+| `filter.complianceStandards`  | Compliance and standards. Possible values: ["AWAF" \| "CISAWSF" \| "PCI DSS" \| "HIPAA" \| "GDPR" \| "APRA"] |
 | `filter.statuses`  | The status of the check. Valid values: ["SUCCESS" \| "FAILURE"] |
 | `filter.suppressed`  | Show Suppressed rules. A boolean. If undefined, it will default to true. Valid values: [true \|false] |
