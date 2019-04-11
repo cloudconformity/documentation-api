@@ -524,7 +524,7 @@ A PATCH request to this endpoint allows you to update a specific communication s
 `PATCH /settings/communication/settingId`
 
 ##### Parameters
-- `data`: An JSON object containing JSONAPI compliant data object with following properties
+- `data`: A JSON object containing JSONAPI compliant data object with following properties
   - `type`: `settings`,
   - `attributes`: Object containing
     - `type`: `"communication"`
