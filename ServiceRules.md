@@ -5,11 +5,11 @@ Below is a list of the available API calls:
 - [Get Service Rules Mapping](#get-service-rules-mapping)
 
 ## Get Service Rules Mapping
-A POST request to this endpoint allows you to retrieve a list of rules mapped to each service and their underlying attributes.
+A GET request to this endpoint allows you to retrieve a list of rules mapped to each service and their underlying attributes.
 
 ##### Endpoints:
 
-`POST /services`
+`GET /services`
 
 ##### Parameters
 This end point takes no parameters.
