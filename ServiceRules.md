@@ -18,8 +18,7 @@ This end point takes no parameters.
 Example request to update an account level pager-duty setting:
 
 ```
-curl -X POST \
--H "Content-Type: application/vnd.api+json" \
+curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 https://us-west-2-api.cloudconformity.com/v1/services
 ```
