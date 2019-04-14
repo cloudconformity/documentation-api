@@ -15,7 +15,7 @@ A GET request to this endpoint allows you to retrieve a list of rules mapped to 
 This end point takes no parameters.
 
 ### Examples
-Example request to update an account level pager-duty setting:
+Example request to download a JSON of rules and services mapping:
 
 ```
 curl -H "Content-Type: application/vnd.api+json" \
