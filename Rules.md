@@ -1,10 +1,10 @@
-# Cloud Conformity Service Rules API
+# Cloud Conformity Rules API
 
 Below is a list of the available API calls:
 
-- [Get Service Rules Mapping](#get-service-rules-mapping)
+- [Get Rules](#get-rules)
 
-## Get Service Rules Mapping
+## Get Rules
 A GET request to this endpoint allows you to retrieve a list of rules mapped to each service and their underlying attributes.
 
 ##### Endpoints:
@@ -15,11 +15,11 @@ A GET request to this endpoint allows you to retrieve a list of rules mapped to 
 This end point takes no parameters.
 
 ### Examples
-Example request to download a JSON of rules and services mapping:
+Example request to download a JSON of rules:
 
 ```
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
 https://us-west-2-api.cloudconformity.com/v1/services
 ```
 Example Response:
