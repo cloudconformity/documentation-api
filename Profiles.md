@@ -28,8 +28,9 @@ User access to each endpoint is listed below:
 | DELETE /profiles/id  *(delete a profile)* | Y | N | N | N |
 | GET /profiles/id/rules *(get a list of rules associated to the profile)* | Y | N | N | N |
 | GET /profiles/id/rules/rule-id *(get details about a rule)* | Y | N | N | N |
-| POST /profiles/id/rules/rule-id *(update rule settings)* | Y | N | N | N |
+| PUT /profiles/id/rules *(update rule settings)* | Y | N | N | N |
 | DELETE /profiles/id/rules/rule-id *(delete a rule)* | Y | N | N | N |
+| DELETE /profiles/id/rules *(delete all rules)* | Y | N | N | N |
 
 * Response will depend on the ProfileId's and RuleId's added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
 
@@ -37,14 +38,18 @@ User access to each endpoint is listed below:
 
 ## List All Profiles
 
-This endpoint displays a list of profiles associated to an account.
+This endpoint displays a list of profiles associated to an organisation.
 
 ##### Endpoints:
 
 `GET /profiles`
 
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
 ##### Parameters
-This end point takes no parameters (?????).
+This endpoint takes no parameters.
 
 Example Request:
 
@@ -67,6 +72,10 @@ This endpoint allows you to get the details of the specified profile.
 ##### Endpoints:
 
 `GET /profiles/id`
+
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
 
 ##### Parameters
 - `id`: The Cloud Conformity ID of the profile
@@ -93,22 +102,41 @@ This endpoint allows you to create a new profile.
 
 `POST /profiles`
 
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
 ##### Parameters
-- `some-settings-here`: a JSON object containing JSONAPI compliant data object with following properties:
-  - `setting1`: setting 1
-  - `setting2`: setting 2
+- `data`: An array containing JSONAPI compliant data objects with following properties
+  - `type`: `"profile"`,
+  - `attributes`: Object containing:
+    - `configuration`: Object containing profile parameters. For more details consult the [configurations-table](#configuration)
+
+
+##### Configuration
+There are some attributes you need to pass inside the configuration object. The table below provides more information about configuration options:
+
+| Attribute | Details |
+| ------------- | ------------- |
+| name | This attribute is the name of the profile, which must be a string |
+| description |  This attribute is the description of the profile, which must be a string |
 
 Example Request:
 
 ```
 curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
--d '{ 
-    "some-settings-here" {
-        setting1: 1,
-        setting2: 2
-     }
-    }'\
+-d '
+{
+	"data": {
+		"attributes": {
+			"configuration": {
+				"name": "SecurityProfile",
+				"description": "This profile is for the Security Team to configure their alerts."
+			}
+		}
+	}
+}' \
 https://us-west-2-api.cloudconformity.com/v1/profiles/
 ```
 Example Response:
@@ -126,22 +154,32 @@ This endpoint allows you to update a profile.
 
 `PATCH /profiles/id`
 
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
 ##### Parameters
-- `some-settings-here`: a JSON object containing JSONAPI compliant data object with following properties:
-  - `setting1`: setting 1
-  - `setting2`: setting 2
+- `data`: An array containing JSONAPI compliant data objects with following properties
+  - `type`: `"profile"`,
+  - `attributes`: Object containing:
+    - `configuration`: Object containing profile parameters. For more details consult the [configurations-table](#configuration)
 
 Example Request:
 
 ```
 curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
--d '{ 
-    "some-settings-here" {
-        setting1: 1,
-        setting2: 2
-     }
-    }'\
+-d '
+{
+	"data": {
+		"attributes": {
+			"configuration": {
+				"name": "NewSecurityProfile",
+				"description": "New description for the security profile."
+			}
+		}
+	}
+}' \
 https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
 ```
 Example Response:
@@ -159,9 +197,12 @@ This endpoint allows you to delete a specified profile.
 
 `DELETE /profiles/id`
 
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
 ##### Parameters
 - `id`: The Cloud Conformity ID of the profile
-
 
 Example Request:
 
