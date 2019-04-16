@@ -9,7 +9,7 @@ A GET request to this endpoint allows you to retrieve a list of rules mapped to 
 
 ##### Endpoints:
 
-`GET /services`
+`GET /services/`
 
 ##### Parameters
 This end point takes no parameters.
@@ -20,7 +20,7 @@ Example request to download a JSON of rules:
 ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
-https://us-west-2-api.cloudconformity.com/v1/services
+https://us-west-2-api.cloudconformity.com/v1/services/
 ```
 Example Response:
 ```json
