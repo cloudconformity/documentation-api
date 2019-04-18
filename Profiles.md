@@ -61,7 +61,76 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/
 Example Response:
 
 ```
-{ Fill response here }
+{
+	"data": [
+		{
+			"type": "profile",
+			"id": "profile: {profile-id}",
+			"attributes": {
+				"type": "profile",
+				"configuration": {
+					"name": "Test-001",
+					"description": "This is the initial description for test profile"
+				},
+				"created-by": "{user-id}",
+				"created-date": {created-date},
+				"is-account-level": false,
+				"is-group-level": false,
+				"is-organisation-level": true
+			},
+			"relationships": {
+				"organisation": {
+					"data": {
+						"type": "organisations",
+						"id": "{organisation-id}"
+					}
+				},
+				"account": {
+					"data": null
+				},
+				"group": {
+					"data": null
+				},
+				"profile": {
+					"data": null
+				}
+			}
+		},{
+			"type": "profile",
+			"id": "profile: {profile-id-2}",
+			"attributes": {
+				"type": "profile",
+				"configuration": {
+					"name": "Test-002",
+					"description": "This is the initial description for test profile 2"
+				},
+				"created-by": "{user-id}",
+				"created-date": {created-date},
+				"is-account-level": false,
+				"is-group-level": false,
+				"is-organisation-level": true
+			},
+			"relationships": {
+				"organisation": {
+					"data": {
+						"type": "organisations",
+						"id": "{organisation-id}"
+					}
+				},
+				"account": {
+					"data": null
+				},
+				"group": {
+					"data": null
+				},
+				"profile": {
+					"data": null
+				}
+			}
+		}
+	]
+}
+
 ```
 
 
@@ -90,7 +159,44 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
 ```
 Example Response:
 ```
-{ Fill response here }
+{
+	"data": [
+		{
+			"type": "profile",
+			"id": "profile: {profile-id}",
+			"attributes": {
+				"type": "profile",
+				"configuration": {
+					"name": "Test-001",
+					"description": "This is the initial description for test profile"
+				},
+				"created-by": "{user-id}",
+				"created-date": {created-date},
+				"is-account-level": false,
+				"is-group-level": false,
+				"is-organisation-level": true
+			},
+			"relationships": {
+				"organisation": {
+					"data": {
+						"type": "organisations",
+						"id": "{organisation-id}"
+					}
+				},
+				"account": {
+					"data": null
+				},
+				"group": {
+					"data": null
+				},
+				"profile": {
+					"data": null
+				}
+			}
+		}
+	]
+}
+
 ```
 
 
@@ -127,12 +233,11 @@ Example Request:
 curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
-{
-	"data": {
-		"attributes": {
-			"configuration": {
-				"name": "SecurityProfile",
-				"description": "This profile is for the Security Team to configure their alerts."
+{ "data": {
+	"attributes": {
+		"configuration": {
+			"name": "SecurityProfile",
+			"description": "This profile is for the Security Team to configure their alerts."
 			}
 		}
 	}
@@ -142,7 +247,43 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/
 Example Response:
 
 ```
-{ Fill response here }
+{
+	"data": [
+		{
+			"type": "profile",
+			"id": "profile: {profile-id}",
+			"attributes": {
+				"type": "profile",
+				"configuration": {
+					"name": "SecurityProfile",
+					"description": "This profile is for the Security Team to configure their alerts."
+				},
+				"created-by": "{user-id}",
+				"created-date": {created-date},
+				"is-account-level": false,
+				"is-group-level": false,
+				"is-organisation-level": true
+			},
+			"relationships": {
+				"organisation": {
+					"data": {
+						"type": "organisations",
+						"id": "{organisation-id}"
+					}
+				},
+				"account": {
+					"data": null
+				},
+				"group": {
+					"data": null
+				},
+				"profile": {
+					"data": null
+				}
+			}
+		}
+	]
+}
 ```
 
 
@@ -185,7 +326,43 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
 Example Response:
 
 ```
-{ Fill response here }
+{
+	"data": [
+		{
+			"type": "profile",
+			"id": "profile: {profile-id}",
+			"attributes": {
+				"type": "profile",
+				"configuration": {
+					"name": "NewSecurityProfile",
+					"description": "New description for the security profile."
+				},
+				"created-by": "{user-id}",
+				"created-date": {created-date},
+				"is-account-level": false,
+				"is-group-level": false,
+				"is-organisation-level": true
+			},
+			"relationships": {
+				"organisation": {
+					"data": {
+						"type": "organisations",
+						"id": "{organisation-id}"
+					}
+				},
+				"account": {
+					"data": null
+				},
+				"group": {
+					"data": null
+				},
+				"profile": {
+					"data": null
+				}
+			}
+		}
+	]
+}
 ```
 
 
@@ -213,5 +390,5 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
 ```
 Example Response:
 ```
-{ Fill response here }
+{ "meta": { "status": "deleted" } }
 ```
