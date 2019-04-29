@@ -34,8 +34,6 @@ User access to each endpoint is listed below:
 
 * Response will depend on the ProfileId's and RuleId's added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
 
-* User role will limit the amount of data they can GET or POST/PATCH. For more information, consult the [Settings ReadMe](./Settings.md#).
-
 ## List All Profiles
 
 This endpoint displays a list of profiles associated to an organisation.
