@@ -26,13 +26,17 @@ User access to each endpoint is listed below:
 | POST /profiles  *(create a new profile)* | Y | N | N | N |
 | PATCH /profiles/id  *(update a profile)* | Y | N | N | N |
 | DELETE /profiles/id  *(delete a profile)* | Y | N | N | N |
-| GET /profiles/id/rules *(get a list of rules associated to the profile)* | Y | N | N | N |
-| GET /profiles/id/rules/rule-id *(get details about a rule)* | Y | N | N | N |
-| PUT /profiles/id/rules *(update rule settings)* | Y | N | N | N |
-| DELETE /profiles/id/rules/rule-id *(delete a rule)* | Y | N | N | N |
-| DELETE /profiles/id/rules *(delete all rules)* | Y | N | N | N |
+| GET /profiles/id?includes={includes}&types={types} *(get a list of rules associated to the profile)* | Y | N | N | N |
+| GET /profiles/id/rules/id?includes={includes}&types={types} *(get details about a rule)* | Y | N | N | N |
+| PATCH /profiles/id?includes={includes}&types={types} *(update rule settings)* | Y | N | N | N |
+| POST /profiles/id?includes={includes}&types={types} *(add new rule settings/delete rule settings)* | Y | N | N | N |
 
 * Response will depend on the ProfileId's and RuleId's added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
+
+| Parameters | Details | Options |
+| ------------- | ------------- | ------------- |
+| includes | This parameter provides the option to include additional information to the profile. Currently, only Settings is supported. | settings |
+| types | This parameter provides the option to include multiple types. Currently only Rules is supported | rules |
 
 ## List All Profiles
 
@@ -287,7 +291,7 @@ Example Response:
 
 ## Update A Profile
 
-This endpoint allows you to update a profile.
+This endpoint allows you to update profile details.
 
 ##### Endpoints:
 
@@ -389,4 +393,117 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
 Example Response:
 ```
 { "meta": { "status": "deleted" } }
+```
+
+
+## List Rule Settings within a Profile
+
+This endpoint allows you to view the rule settings for a specified profile.
+
+##### Endpoints:
+
+`GET /profiles/id?includes={includes}&types{type}`
+
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the profile
+
+Example Request:
+
+```
+curl -X DELETE -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
+```
+Example Response:
+```
+RESPONSE GOES HERE
+```
+
+
+## Update Rule Settings within a Profile
+
+This endpoint allows you to update existing rule settings for a specified profile.
+The 
+
+##### Endpoints:
+
+`PATCH /profiles/id?includes={includes}&types{type}`
+
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the profile
+
+Example Request:
+
+```
+curl -X DELETE -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \ -d "DATA GOES HERE"
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
+```
+Example Response:
+```
+RESPONSE GOES HERE
+```
+
+
+## Add new Rule Settings to a Profile
+
+This endpoint allows you to add new rule settings to a specified profile.
+
+##### Endpoints:
+
+`POST /profiles/id?includes={includes}&types{type}`
+
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the profile
+
+Example Request:
+
+```
+curl -X DELETE -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \ -d "DATA GOES HERE"
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
+```
+Example Response:
+```
+RESPONSE GOES HERE
+```
+
+
+## Delete Rule Settings on a Profile
+
+This endpoint allows you to delete rule settings for a specified profile.
+
+##### Endpoints:
+
+`POST /profiles/id?includes={includes}&types{type}`
+
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the profile
+
+Example Request:
+
+```
+curl -X DELETE -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \ -d "DATA GOES HERE --- unwanted rules ommitted"
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
+```
+Example Response:
+```
+RESPONSE GOES HERE
 ```
