@@ -4,10 +4,10 @@
 Below is a list of the available APIs:
 
 - [List All Profiles](#list-all-profiles)
-- [Get Profile Details](#get-profile-details)
-- [Create New Profile](#create-new-profile)
-- [Update A Profile](#update-a-profile)
-- [Delete A Profile](#delete-a-profile)
+- [Get Profile and Rule Settings](#get-profile-and-rule-settings)
+- [Save New Profile and Add Rule Settings to Profile](#save-new-profile-and-rule-settings)
+- [Update Profile and Rule Settings](#update-profile-and-rule-settings)
+- [Delete Profile and Rule Settings](#delete-profile-and-rule-settings)
 
 ## User Privileges
 There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
@@ -22,21 +22,17 @@ User access to each endpoint is listed below:
 | Endpoint | admin | full access user| read-only user | no access user |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GET /profiles  *(get a list of profiles)* | Y | N | N | N |
-| GET /profiles/id  *(get details about a profile)* | Y | N | N | N |
-| POST /profiles  *(create a new profile)* | Y | N | N | N |
-| PATCH /profiles/id  *(update a profile)* | Y | N | N | N |
-| DELETE /profiles/id  *(delete a profile)* | Y | N | N | N |
-| GET /profiles/id?includes={includes}&types={types} *(get a list of rules associated to the profile)* | Y | N | N | N |
-| GET /profiles/id/rules/id?includes={includes}&types={types} *(get details about a rule)* | Y | N | N | N |
-| PATCH /profiles/id?includes={includes}&types={types} *(update rule settings)* | Y | N | N | N |
-| POST /profiles/id?includes={includes}&types={types} *(add new rule settings/delete rule settings)* | Y | N | N | N |
+| GET /profiles/id  *(get details about a profile and rule settings)* | Y | N | N | N |
+| POST /profiles  *(save a profile and rule settings)* | Y | N | N | N |
+| PATCH /profiles/id  *(update a profile and rule settings)* | Y | N | N | N |
+| DELETE /profiles/id  *(delete a profile and rule settings)* | Y | N | N | N |
 
-* Response will depend on the ProfileId's and RuleId's added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
+* Response will depend on the ProfileId's, Include Settings flag and Types condition added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
 
-| Parameters | Details | Options |
+| Parameters | Details | Value |
 | ------------- | ------------- | ------------- |
-| includes | This parameter provides the option to include additional information to the profile. Currently, only Settings is supported. | settings |
-| types | This parameter provides the option to include multiple types. Currently only Rules is supported | rules |
+| includes | This parameter provides the option to include additional information to the profile. Currently, only Rule Settings is supported. | ruleSettings |
+
 
 ## List All Profiles
 
@@ -63,80 +59,35 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/
 Example Response:
 
 ```
-{
-	"data": [
-		{
-			"type": "profile",
-			"id": "profile: {profile-id}",
-			"attributes": {
-				"type": "profile",
-				"configuration": {
-					"name": "Test-001",
-					"description": "This is the initial description for test profile"
-				},
-				"created-by": "{user-id}",
-				"created-date": {created-date},
-				"is-account-level": false,
-				"is-group-level": false,
-				"is-organisation-level": true
-			},
-			"relationships": {
-				"organisation": {
-					"data": {
-						"type": "organisations",
-						"id": "{organisation-id}"
-					}
-				},
-				"account": {
-					"data": null
-				},
-				"group": {
-					"data": null
-				},
-				"profile": {
-					"data": null
-				}
-			}
-		},{
-			"type": "profile",
-			"id": "profile: {profile-id-2}",
-			"attributes": {
-				"type": "profile",
-				"configuration": {
-					"name": "Test-002",
-					"description": "This is the initial description for test profile 2"
-				},
-				"created-by": "{user-id}",
-				"created-date": {created-date},
-				"is-account-level": false,
-				"is-group-level": false,
-				"is-organisation-level": true
-			},
-			"relationships": {
-				"organisation": {
-					"data": {
-						"type": "organisations",
-						"id": "{organisation-id}"
-					}
-				},
-				"account": {
-					"data": null
-				},
-				"group": {
-					"data": null
-				},
-				"profile": {
-					"data": null
-				}
-			}
-		}
-	]
-}
 
+{
+  "data": [
+    {
+      "type": "profiles",
+      "id": "1",
+      "attributes": {
+        "configuration": {
+          "name": "Profile1",
+          "description": "Description2"
+        }
+      }
+    },
+    {
+      "type": "profiles",
+      "id": "2",
+      "attributes": {
+        "configuration": {
+            "name": "Profile2",
+            "description": "Description2"
+        }
+      }
+    } ...
+  ]
+}
 ```
 
 
-## Get Profile Details
+## Get Profile and Rule Settings
 
 This endpoint allows you to get the details of the specified profile.
 
@@ -151,60 +102,96 @@ This endpoint allows you to get the details of the specified profile.
 ##### Parameters
 - `id`: The Cloud Conformity ID of the profile
 
+##### Getting Profile Details
 
-Example Request:
+Example Request for getting details of a profile:
 
 ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
 ```
 Example Response:
 ```
 {
-	"data": [
-		{
-			"type": "profile",
-			"id": "profile: {profile-id}",
-			"attributes": {
-				"type": "profile",
-				"configuration": {
-					"name": "Test-001",
-					"description": "This is the initial description for test profile"
-				},
-				"created-by": "{user-id}",
-				"created-date": {created-date},
-				"is-account-level": false,
-				"is-group-level": false,
-				"is-organisation-level": true
-			},
-			"relationships": {
-				"organisation": {
-					"data": {
-						"type": "organisations",
-						"id": "{organisation-id}"
-					}
-				},
-				"account": {
-					"data": null
-				},
-				"group": {
-					"data": null
-				},
-				"profile": {
-					"data": null
-				}
-			}
-		}
-	]
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Test-Profile",
+        "description": "Testing Save API"
+      }
+    }
+  }
 }
 
 ```
 
+##### Getting Profile Details with Included Rule Settings
 
-## Create New Profile
+Example request to get a profile and its rule settings.
+```
+curl -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=ruleSettings
+```
 
-This endpoint allows you to create a new profile.
+Example Response:
+```
+{
+  "included": [
+    {
+      "type": "rules",
+      "id": "{profile-id}:rule:S3-003",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "EXTREME",
+          "extraSettings": [],
+          "exceptions": { "tags": ["SaveTestTag"], "resources": [] },
+          "ruleId": "S3-003"
+        }
+      }
+    },
+    {
+      "type": "rules",
+      "id": "{profile-id}:rule:S3-002",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "LOW",
+          "extraSettings": [],
+          "exceptions": { "tags": ["SaveTestTag2"], "resources": [] },
+          "ruleId": "S3-002"
+        }
+      }
+    }
+  ],
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Test-Profile",
+        "description": "Testing Save API"
+      }
+    },
+    "relationships": {
+      "ruleSettings": {
+        "data": [
+          { "type": "rules", "id": "{profile-id}:rule:S3-003" },
+          { "type": "rules", "id": "{profile-id}:rule:S3-002" }
+        ]
+      }
+    }
+  }
+}
+```
+
+## Save New Profile and Rule Settings
+
+This endpoint allows you to create a new profile and subsequently add rule settings to the new profile.
 
 ##### Endpoints:
 
@@ -215,13 +202,14 @@ This endpoint allows you to create a new profile.
 `Authorization`: ApiKey
 
 ##### Parameters
-- `data`: An array containing JSONAPI compliant data objects with following properties
-  - `type`: `"profile"`,
-  - `attributes`: Object containing:
-    - `configuration`: Object containing profile parameters. For more details consult the [configurations-table](#configuration)
+- `requestBody`:
+  - `data`: An object containing JSONAPI compliant data objects with following properties
+    - `type`: `"profile"`,
+    - `attributes`: Object containing:
+      - `configuration`: Object containing profile parameters. For more details, consult the [profile-configuration-table](#profile-configuration) below.
 
 
-##### Configuration
+##### Profile Configuration
 There are some attributes you need to pass inside the configuration object. The table below provides more information about configuration options:
 
 | Attribute | Details |
@@ -229,69 +217,333 @@ There are some attributes you need to pass inside the configuration object. The 
 | name | This attribute is the name of the profile, which must be a string |
 | description |  This attribute is the description of the profile, which must be a string |
 
-Example Request:
+##### Saving a new Profile
+The expected behavior of this request to create a new profile.
 
+Example Request for saving a new profile:
 ```
 curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
-{ "data": {
-	"attributes": {
-		"configuration": {
-			"name": "SecurityProfile",
-			"description": "This profile is for the Security Team to configure their alerts."
-			}
-		}
-	}
+{
+  requestBody: {
+    data: {
+      type: "profile",
+      attributes: {
+        configuration: {
+          name: "Test-New-Profile",
+          description: "Testing Save New API"
+        }
+      }
+    }
+  }
 }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles/
+https://us-west-2-api.cloudconformity.com/v1/profiles
 ```
-Example Response:
 
+Example Response:
 ```
 {
-	"data": [
-		{
-			"type": "profile",
-			"id": "profile: {profile-id}",
-			"attributes": {
-				"type": "profile",
-				"configuration": {
-					"name": "SecurityProfile",
-					"description": "This profile is for the Security Team to configure their alerts."
-				},
-				"created-by": "{user-id}",
-				"created-date": {created-date},
-				"is-account-level": false,
-				"is-group-level": false,
-				"is-organisation-level": true
-			},
-			"relationships": {
-				"organisation": {
-					"data": {
-						"type": "organisations",
-						"id": "{organisation-id}"
-					}
-				},
-				"account": {
-					"data": null
-				},
-				"group": {
-					"data": null
-				},
-				"profile": {
-					"data": null
-				}
-			}
-		}
-	]
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Test-New-Profile",
+        "description": "Testing Save New API"
+      }
+    }
+  }
+}
+
+```
+
+##### Saving Rule Settings to your Profile
+This option allows you to add rule settings to your profile at creation or afterwards.
+
+###### Parameters
+- `id`: Profile ID.
+- `requestBody`: All of the below fields must be populated within request body:
+  - `data`: An array containing JSONAPI compliant data objects with following properties:
+    - `type`: `"profile"`,
+    - `attributes`: Object containing:
+      - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration).
+    - `relationships`: Object containing rule settings that are associated to this profile:
+      - `ruleSettings`:
+      - `data`:  An array of associated rule settings.
+  - `included`: An array containing JSONAPI compliant data objects with following properties:
+    - `type`: `"rule"`,
+    - `attributes`: Object containing attributes of this type:
+      - `configuration`: Object containing profile parameters. For more details consult the [rule-settings-configuration-table](#rule-settings-configuration) below.
+
+
+###### Rule Settings Configuration
+There are some attributes you need to pass inside the rule settings configuration object. The table below provides more information about configuration options:
+
+| Attribute | Details | Accepted Values
+| ------------- | ------------- | ------------- |
+| enabled | This attribute determines whether this setting is enabled | true, false |
+| riskLevel |  This attribute configures the level of risk assigned to the rule  | "EXTREME", "VERY_HIGH", "HIGH", "MEDIUM", "LOW" |
+| extraSettings |  This array stores objects that configure the extra settings to this rule (NOTE: This applies to RTM rule settings) | {name: "ttl", type: "ttl", value: 72, ttl: true} |
+| exceptions |  This array stores objects that configure exceptions to this rule | |
+| exceptions: tags |  This attribute tags this exception | e.g. ApplyToNewS3Bucket |
+| exceptions: resources |  This attribute applies this exception to the following resources | S3 |
+| ruleId |  This attribute is id of the rule type being updated | e.g. S3-001 (refer to Cloud Conformity rules for the full list) |
+
+###### Save new profile with rule settings included
+The expected behavior of this request to save a new profile and configure new rule settings associated with that profile.
+
+Example request for new profile creation including rule settings:
+```
+curl -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+-d '
+{
+  requestBody: {
+    data: {
+      type: profile,
+      attributes: {
+        configuration: {
+          name: "Test-Profile",
+          description: "Testing Save API"
+        }
+      },
+      relationships: {
+        ruleSettings: {
+          data: [
+            {
+              type: "rule",
+              id: "rule:S3-003"
+            }
+          ]
+        }
+      }
+    },
+    included: [
+      {
+        type: "rule",
+        id: "rule:S3-003",
+        attributes: {
+          configuration: {
+            enabled: true,
+            riskLevel: "EXTREME",
+            extraSettings: [],
+            exceptions: {
+              tags: ["SaveTestTag"],
+              resources: []
+            },
+            ruleId: "S3-003"
+          }
+        }
+      }
+    ]
+  }
+}'\
+https://us-west-2-api-development.cloudconformity.com/v1/profiles/
+```
+Example Response:
+```
+{
+  "included": [
+    {
+      "type": "rules",
+      "id": "gh-RwlRno:rule:S3-003",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "EXTREME",
+          "extraSettings": [],
+          "exceptions": {
+            "tags": ["SaveTestTag"],
+            "resources": []
+          },
+          "ruleId": "S3-003"
+        }
+      }
+    }
+  ],
+  "data": {
+    "type": "profiles",
+    "id": "gh-RwlRno",
+    "attributes": {
+      "configuration": {
+        "name": "Test-Profile",
+        "description": "Testing Save API"
+      }
+    },
+    "relationships": {
+      "ruleSettings": {
+        "data": [
+          {
+            "type": "rules",
+            "id": "gh-RwlRno:rule:S3-003"
+          }
+        ]
+      }
+    }
+  }
 }
 ```
 
+###### Save rule settings in an existing Profile
+The expected behavior of this request to overwrite all existing rule settings to a configured profile or write new rule settings to an existing empty profile.
 
-## Update A Profile
+You must indicate the profile id in the request url otherwise a new profile will be created with the indicated rule settings configured.
 
-This endpoint allows you to update profile details.
+Example Request for saving rule settings:
+```
+curl -X POST -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+-d '
+{
+  requestBody: {
+    data: {
+      type: "profile",
+      id: "{profile-id}",
+      attributes: {
+        configuration: {
+          name: "Test-Profile",
+          description: "Testing Save API"
+        }
+      },
+      relationships: {
+        ruleSettings: {
+          data: [
+            {
+              type: "rule",
+              id: "{profile-id}:rule:S3-003"
+            },
+            {
+              ...: More Settings
+            }
+          ]
+        }
+      }
+    },
+    included: [
+      {
+        type: "rule",
+        id: "{profile-id}:rule:S3-003",
+        attributes: {
+          configuration: {
+            enabled: true,
+            riskLevel: "EXTREME",
+            extraSettings: [],
+            exceptions: {
+              tags: ["SaveTestTag"],
+              resources: []
+            },
+            ruleId: "S3-003"
+          }
+        }
+      },
+      {
+        ...: More Settings
+      }
+    ]
+  }
+}' \
+https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+```
+
+Example Response:
+```
+{
+  "included": [
+    {
+      "type": "rules",
+      "id": "{profile-id}:rule:S3-003",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "EXTREME",
+          "extraSettings": [],
+          "exceptions": { "tags": ["SaveTestTag"], "resources": [] },
+          "ruleId": "S3-003"
+        }
+      }
+    },
+    {
+      "type": "rules",
+      "id": "{profile-id}:rule:S3-002",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "LOW",
+          "extraSettings": [],
+          "exceptions": { "tags": ["SaveTestTag2"], "resources": [] },
+          "ruleId": "S3-002"
+        }
+      }
+    }
+  ],
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Test-Profile",
+        "description": "Testing Save API"
+      }
+    },
+    "relationships": {
+      "ruleSettings": {
+        "data": [
+          { "type": "rules", "id": "{profile-id}:rule:S3-003" },
+          { "type": "rules", "id": "{profile-id}:rule:S3-002" }
+        ]
+      }
+    }
+  }
+}
+
+```
+
+###### Delete all settings in an existing Profile
+The expected behavior of this request to preserve an existing profile's configuration while deleting all existing rule settings.
+
+Example Request for modifying an existing profile and deleting its settings:
+```
+curl -X POST -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+-d '
+{
+  requestBody: {
+    data: {
+      type: "profile",
+      id: "{profile-id}",
+      attributes: {
+        configuration: {
+          name: "Test-Profile",
+          description: "Testing Save API"
+        }
+      },
+      relationships: {}
+    }
+  }
+}' \
+https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+
+```
+Example Response:
+```
+{
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Test-Profile",
+        "description": "Testing Save API"
+      }
+    }
+  }
+}
+```
+
+## Update Profile and Rule Settings
+
+This endpoint allows you to update profile details and its associated rule settings.
 
 ##### Endpoints:
 
@@ -305,72 +557,169 @@ This endpoint allows you to update profile details.
 - `data`: An array containing JSONAPI compliant data objects with following properties
   - `type`: `"profile"`,
   - `attributes`: Object containing:
-    - `configuration`: Object containing profile parameters. For more details consult the [configurations-table](#configuration)
+    - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration)
 
-Example Request:
+Example Request to only update profile details:
 
 ```
 curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-	"data": {
-		"attributes": {
-			"configuration": {
-				"name": "NewSecurityProfile",
-				"description": "New description for the security profile."
-			}
-		}
-	}
-}' \
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
+    requestBody: {
+      data: {
+        type: "profile",
+        id: "{profile-id}",
+        attributes: {
+          configuration: {
+            name: "Old-Profile-Name",
+            description: "New Description"
+          }
+        }
+      }
+    }
+  }' \
+https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+```
+Example Response:
+```
+{
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Old-Profile-Name",
+        "description": "New Description"
+      }
+    }
+  }
+}
+```
+To update rule settings along with your profile:
+
+###### Parameters
+- `id`: Profile ID.
+- `requestBody`: All of the below fields must be populated within request body:
+  - `data`: An array containing JSONAPI compliant data objects with following properties:
+    - `type`: `"profile"`,
+    - `attributes`: Object containing:
+      - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration).
+    - `relationships`: Object containing rule settings that are associated to this profile:
+      - `ruleSettings`:
+      - `data`:  An array of associated rule settings.
+  - `included`: An array containing JSONAPI compliant data objects with following properties:
+    - `type`: `"rule"`,
+    - `attributes`: Object containing attributes of this type:
+      - `configuration`: Object containing profile parameters. For more details consult the [rule-settings-configuration-table](#rule-settings-configuration).
+			
+Example Request to update profile details and one rule setting:
+```
+curl -X PATCH -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+-d '
+{
+  requestBody: {
+    data: {
+      type: "profile",
+      id: "{profile-id}",
+      attributes: {
+        configuration: {
+          name: "Old-Profile-Name",
+          description: "New Description"
+        }
+      },
+      relationships: {
+        ruleSettings: {
+          data: [
+            {
+              type: "rule",
+              id: "{profile-id}:rule:S3-003"
+            }
+          ]
+        }
+      }
+    },
+    included: [
+      {
+        type: "rule",
+        id: "{profile-id}:rule:S3-003",
+        attributes: {
+          configuration: {
+            enabled: true,
+            riskLevel: "HIGH",
+            extraSettings: [],
+            exceptions: {
+              tags: "[UpdateTestTag]",
+              resources: []
+            },
+            ruleId: "S3-003"
+          }
+        }
+      }
+    ]
+  }
+}'\
+https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
 ```
 Example Response:
 
 ```
 {
-	"data": [
-		{
-			"type": "profile",
-			"id": "profile: {profile-id}",
-			"attributes": {
-				"type": "profile",
-				"configuration": {
-					"name": "NewSecurityProfile",
-					"description": "New description for the security profile."
-				},
-				"created-by": "{user-id}",
-				"created-date": {created-date},
-				"is-account-level": false,
-				"is-group-level": false,
-				"is-organisation-level": true
-			},
-			"relationships": {
-				"organisation": {
-					"data": {
-						"type": "organisations",
-						"id": "{organisation-id}"
-					}
-				},
-				"account": {
-					"data": null
-				},
-				"group": {
-					"data": null
-				},
-				"profile": {
-					"data": null
-				}
-			}
-		}
-	]
+  "included": [
+    {
+      "type": "rules",
+      "id": "{profile-id}:rule:S3-002",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "HIGH",
+          "extraSettings": [],
+          "exceptions": { "tags": ["UpdateTestTag"], "resources": [] },
+          "ruleId": "S3-002"
+        }
+      }
+    },
+    {
+      "type": "rules",
+      "id": "{profile-id}:rule:S3-003",
+      "attributes": {
+        "configuration": {
+          "enabled": true,
+          "riskLevel": "EXTREME",
+          "extraSettings": [],
+          "exceptions": { "tags": ["OldTestTag"], "resources": [] },
+          "ruleId": "S3-003"
+        }
+      }
+    }
+  ],
+  "data": {
+    "type": "profiles",
+    "id": "{profile-id}",
+    "attributes": {
+      "configuration": {
+        "name": "Old-Profile-Name",
+        "description": "New Description"
+      }
+    },
+    "relationships": {
+      "ruleSettings": {
+        "data": [
+          { "type": "rules", "id": "{profile-id}:rule:S3-002" },
+          { "type": "rules", "id": "{profile-id}:rule:S3-003" }
+        ]
+      }
+    }
+  }
 }
+
 ```
 
 
-## Delete A Profile
+## Delete Profile and Rule Settings
 
-This endpoint allows you to delete a specified profile.
+This endpoint allows you to delete a specified profile and all affiliated rule settings.
 
 ##### Endpoints:
 
@@ -388,122 +737,9 @@ Example Request:
 ```
 curl -X DELETE -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
 ```
 Example Response:
 ```
 { "meta": { "status": "deleted" } }
-```
-
-
-## List Rule Settings within a Profile
-
-This endpoint allows you to view the rule settings for a specified profile.
-
-##### Endpoints:
-
-`GET /profiles/id?includes={includes}&types{type}`
-
-##### Headers
-`Content-Type`: application/vnd.api+json
-`Authorization`: ApiKey
-
-##### Parameters
-- `id`: The Cloud Conformity ID of the profile
-
-Example Request:
-
-```
-curl -X DELETE -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey YOUR-API-KEY" \
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
-```
-Example Response:
-```
-RESPONSE GOES HERE
-```
-
-
-## Update Rule Settings within a Profile
-
-This endpoint allows you to update existing rule settings for a specified profile.
-The 
-
-##### Endpoints:
-
-`PATCH /profiles/id?includes={includes}&types{type}`
-
-##### Headers
-`Content-Type`: application/vnd.api+json
-`Authorization`: ApiKey
-
-##### Parameters
-- `id`: The Cloud Conformity ID of the profile
-
-Example Request:
-
-```
-curl -X DELETE -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey YOUR-API-KEY" \ -d "DATA GOES HERE"
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
-```
-Example Response:
-```
-RESPONSE GOES HERE
-```
-
-
-## Add new Rule Settings to a Profile
-
-This endpoint allows you to add new rule settings to a specified profile.
-
-##### Endpoints:
-
-`POST /profiles/id?includes={includes}&types{type}`
-
-##### Headers
-`Content-Type`: application/vnd.api+json
-`Authorization`: ApiKey
-
-##### Parameters
-- `id`: The Cloud Conformity ID of the profile
-
-Example Request:
-
-```
-curl -X DELETE -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey YOUR-API-KEY" \ -d "DATA GOES HERE"
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
-```
-Example Response:
-```
-RESPONSE GOES HERE
-```
-
-
-## Delete Rule Settings on a Profile
-
-This endpoint allows you to delete rule settings for a specified profile.
-
-##### Endpoints:
-
-`POST /profiles/id?includes={includes}&types{type}`
-
-##### Headers
-`Content-Type`: application/vnd.api+json
-`Authorization`: ApiKey
-
-##### Parameters
-- `id`: The Cloud Conformity ID of the profile
-
-Example Request:
-
-```
-curl -X DELETE -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey YOUR-API-KEY" \ -d "DATA GOES HERE --- unwanted rules ommitted"
-https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}?includes=settings&types=[rules]
-```
-Example Response:
-```
-RESPONSE GOES HERE
 ```
