@@ -271,6 +271,8 @@ This option allows you to add rule settings to your profile at creation or after
     - `relationships`: Object containing rule settings that are associated to this profile:
       - `ruleSettings`:
       - `data`:  An array of associated rule settings.
+      	- `type`: `"rule"`,
+	- `id`: Rule id
   - `included`: An array containing JSONAPI compliant data objects with following properties:
     - `type`: `"rule"`,
     - `attributes`: Object containing attributes of this type:
@@ -295,7 +297,7 @@ The expected behavior of this request to save a new profile and configure new ru
 
 Example request for new profile creation including rule settings:
 ```
-curl -H "Content-Type: application/vnd.api+json" \
+curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
@@ -650,7 +652,7 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
             riskLevel: "HIGH",
             extraSettings: [],
             exceptions: {
-              tags: "[UpdateTestTag]",
+              tags: ["UpdateTestTag"],
               resources: []
             },
             ruleId: "S3-003"
