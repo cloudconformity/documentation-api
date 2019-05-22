@@ -8,7 +8,6 @@ Below is a list of the available APIs:
 - [Save New Profile and Add Rule Settings to Profile](#save-new-profile-and-rule-settings)
 - [Update Profile and Rule Settings](#update-profile-and-rule-settings)
 - [Delete Profile and Rule Settings](#delete-profile-and-rule-settings)
-- [Apply Profile to Accounts](#apply-profile-to-accounts)
 
 ## User Privileges
 There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
@@ -27,7 +26,6 @@ User access to each endpoint is listed below:
 | POST /profiles  *(save a profile and rule settings)* | Y | N | N | N |
 | PATCH /profiles/id  *(update a profile and rule settings)* | Y | N | N | N |
 | DELETE /profiles/id  *(delete a profile and rule settings)* | Y | N | N | N |
-| POST /profiles/id/apply  *(apply a profile to a set of accounts)* | Y | N | N | N |
 
 * Response will depend on the ProfileId's, Include Settings flag and Types condition added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
 
@@ -296,10 +294,10 @@ There are some attributes you need to pass inside the rule settings configuratio
 | ------------- | ------------- | ------------- |
 | enabled | This attribute determines whether this setting is enabled | true, false |
 | riskLevel |  This attribute configures the level of risk assigned to the rule  | "EXTREME", "VERY_HIGH", "HIGH", "MEDIUM", "LOW" |
-| extraSettings |  This array stores objects that configure the extra settings to this rule (NOTE: This applies to RTM rule settings) | {name: "ttl", type: "ttl", value: 72, ttl: true} |
+| extraSettings |  This array stores objects that configure the extra settings to this rule | {name: "ttl", type: "ttl", value: 72, ttl: true} |
 | exceptions |  This array stores objects that configure exceptions to this rule | |
-| exceptions: tags |  This attribute tags this exception | e.g. ApplyToNewS3Bucket |
-| exceptions: resources |  This attribute applies this exception to the following resources | S3 |
+| exceptions: tags |  This attribute tags this exception | "NewS3BucketTag" |
+| exceptions: resources |  This attribute applies this exception to the following resources | "i-xxxx" |
 | ruleId |  This attribute is id of the rule type being updated | e.g. S3-001 (refer to Cloud Conformity rules for the full list) |
 
 ###### Save new profile with rule settings included
@@ -339,7 +337,7 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
     ]
   }
 }'\
-https://us-west-2-api-development.cloudconformity.com/v1/profiles/
+https://us-west-2-api.cloudconformity.com/v1/profiles/
 ```
 Example Response:
 ```
@@ -526,7 +524,7 @@ Example Response:
 
 ## Update Profile and Rule Settings
 
-This endpoint allows you to update profile details and its associated rule settings. Only the settings passed in the request will be added/updated and no other rule settings will be affected.
+This endpoint allows you to update profile details and its associated rule settings. Only the settings passed in the request will be added/updated and no other existing rule settings will be affected.
 
 ##### Endpoints:
 
@@ -561,7 +559,7 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
       }
     }
   }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
 ```
 Example Response:
 ```
@@ -578,7 +576,7 @@ Example Response:
   }
 }
 ```
-To update rule settings along with your profile:
+To update rule settings along with your profile, only the settings passed in the request will be added/updated and no other existing rule settings will be affected:
 
 ###### Parameters
 - `id`: Profile ID.
@@ -629,7 +627,7 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
     ]
   }
 }'\
-https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
 ```
 Example Response:
 
@@ -711,58 +709,4 @@ https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
 Example Response:
 ```
 { "meta": { "status": "deleted" } }
-```
-
-## Apply Profile to Accounts
-
-This endpoint allows you to apply profile and rule settings to a set of accounts under your organisation.
-
-##### Endpoints:
-
-`POST /profiles/id/apply`
-
-##### Headers
-`Content-Type`: application/vnd.api+json
-`Authorization`: ApiKey
-
-##### Parameters
-- `id`: The Cloud Conformity ID of the profile
-- `requestBody`:
-  - `accountIds`: An Array of account Id's that will be configured by the profile.
-  - `types`: An Array of setting types to be applied to the accounts. NOTE: Only `ruleSettings` is supported in the current version.
-  - `mode`: Mode of how the profile will be applied to the accounts, i.e. "fill-gaps", "overwrite" or "replace". For a description of these modes, see the [modes-table](#modes) below.
-  - `notes`: Log notes. This field is expected to be filled out, ideally with a reason for the profile being applied.
-
-
-#### Modes
-| Mode | Details |
-| ------------- | ------------- |
-| fill-gaps | Merge existing settings with this Profile. If there is a conflict, the account's existing setting will be used. |
-| overwrite |  Merge existing settings with this Profile. If there is a conflict, the Profile's setting will be used. |
-| replace |  Clear all existing settings and apply settings from this Profile. |
-
-Example Request for getting details of a profile:
-
-```
-curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey YOUR-API-KEY" \
--d '
-{
-  requestBody: {
-    accountIds: ["accountId1", "accountId2"],
-    types: ["ruleSettings"],
-    mode: "overwrite",
-    notes: "Applying profile {profile-id} to accounts"
-  }
-}' https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/apply
-```
-Example Response:
-```
-{
-  "meta": {
-    "status": "sent",
-    "message": "Profile will be applied to the accounts in background"
-  }
-}
-
 ```
