@@ -319,22 +319,10 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
           name: "Test-Profile",
           description: "Testing Save API"
         }
-      },
-      relationships: {
-        ruleSettings: {
-          data: [
-            {
-              type: "rule",
-              id: "rule:S3-003"
-            }
-          ]
-        }
       }
     },
     included: [
       {
-        type: "rule",
-        id: "rule:S3-003",
         attributes: {
           configuration: {
             enabled: true,
@@ -417,25 +405,10 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
           name: "Test-Profile",
           description: "Testing Save API"
         }
-      },
-      relationships: {
-        ruleSettings: {
-          data: [
-            {
-              type: "rule",
-              id: "{profile-id}:rule:S3-003"
-            },
-            {
-              ...: More Settings
-            }
-          ]
-        }
       }
     },
     included: [
       {
-        type: "rule",
-        id: "{profile-id}:rule:S3-003",
         attributes: {
           configuration: {
             enabled: true,
@@ -512,7 +485,7 @@ Example Response:
 ```
 
 ###### Delete all settings
-The expected behavior of this request to preserve an existing profile's configuration while deleting all existing rule settings.
+The expected behavior of this request to preserve an existing profile's configuration while deleting all existing rule settings. Relationships must be an empty
 
 Example Request for modifying an existing profile and deleting its settings:
 ```
@@ -523,14 +496,12 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
   requestBody: {
     data: {
       type: "profile",
-      id: "{profile-id}",
       attributes: {
         configuration: {
           name: "Test-Profile",
           description: "Testing Save API"
         }
-      },
-      relationships: {}
+      }
     }
   }
 }' \
@@ -581,7 +552,6 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
     requestBody: {
       data: {
         type: "profile",
-        id: "{profile-id}",
         attributes: {
           configuration: {
             name: "Old-Profile-Name",
@@ -634,28 +604,15 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
   requestBody: {
     data: {
       type: "profile",
-      id: "{profile-id}",
       attributes: {
         configuration: {
           name: "Old-Profile-Name",
           description: "New Description"
         }
-      },
-      relationships: {
-        ruleSettings: {
-          data: [
-            {
-              type: "rule",
-              id: "{profile-id}:rule:S3-003"
-            }
-          ]
-        }
       }
     },
     included: [
       {
-        type: "rule",
-        id: "{profile-id}:rule:S3-003",
         attributes: {
           configuration: {
             enabled: true,
