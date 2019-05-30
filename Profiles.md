@@ -54,7 +54,7 @@ Example Request:
 ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
-https://us-west-2-api.cloudconformity.com/v1/profiles/
+https://us-west-2-api.cloudconformity.com/v1/profiles
 ```
 Example Response:
 
@@ -64,24 +64,20 @@ Example Response:
   "data": [
     {
       "type": "profiles",
-      "id": "1",
+      "id": {profile-id},
       "attributes": {
-        "configuration": {
-          "name": "Profile1",
-          "description": "Description2"
-        }
+        "name": "Test-Profile-1",
+        "description": "A test profile with rule settings"
       }
     },
     {
       "type": "profiles",
-      "id": "2",
+      "id": {profile-id},
       "attributes": {
-        "configuration": {
-            "name": "Profile2",
-            "description": "Description2"
-        }
+          "name": "Test-Profile-2",
+          "description": "A second test profile with rule settings"
       }
-    } ...
+    }, ...more profiles
   ]
 }
 ```
@@ -116,12 +112,10 @@ Example Response:
 {
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Test-Profile",
-        "description": "Testing Save API"
-      }
+      "name": "Test-Profile-1",
+      "description": "A test profile with rule settings."
     }
   }
 }
@@ -143,45 +137,56 @@ Example Response:
   "included": [
     {
       "type": "rules",
-      "id": "{profile-id}:rule:S3-003",
+      "id": "EC2-001",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "EXTREME",
-          "extraSettings": [],
-          "exceptions": { "tags": ["SaveTestTag"], "resources": [] },
-          "ruleId": "S3-003"
-        }
+        "enabled": false,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
+        },
+        "extraSettings": [],
+        "riskLevel": "LOW"
       }
     },
     {
       "type": "rules",
-      "id": "{profile-id}:rule:S3-002",
+      "id": "RTM-002",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "LOW",
-          "extraSettings": [],
-          "exceptions": { "tags": ["SaveTestTag2"], "resources": [] },
-          "ruleId": "S3-002"
-        }
+        "enabled": true,
+        "exceptions": {
+          "tags": [],
+          "resources": []
+        },
+        "extraSettings": [
+          {
+            "name": "ttl",
+            "type": "ttl",
+            "value": 72,
+            "ttl": true
+          }
+        ],
+        "riskLevel": "MEDIUM"
       }
     }
   ],
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Test-Profile",
-        "description": "Testing Save API"
-      }
+      "name": "Test-Profile-1",
+      "description": "A test profile with rule settings."
     },
     "relationships": {
       "ruleSettings": {
         "data": [
-          { "type": "rules", "id": "{profile-id}:rule:S3-003" },
-          { "type": "rules", "id": "{profile-id}:rule:S3-002" }
+          {
+            "type": "rules",
+            "id": "EC2-001"
+          },
+          {
+            "type": "rules",
+            "id": "RTM-002"
+          }
         ]
       }
     }
@@ -234,15 +239,11 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  requestBody: {
-    data: {
-      type: "profile",
-      attributes: {
-        configuration: {
-          name: "Test-New-Profile",
-          description: "Testing Save New API"
-        }
-      }
+  data: {
+    type: "profiles",
+    attributes: {
+      name: "New-Test-Profile",
+      description: "A test description for a new profile."
     }
   }
 }' \
@@ -254,12 +255,10 @@ Example Response:
 {
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Test-New-Profile",
-        "description": "Testing Save New API"
-      }
+      "name": "New-Test-Profile",
+      "description": "A test description for a new profile."
     }
   }
 }
@@ -309,32 +308,61 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  requestBody: {
-    data: {
-      type: profile,
+  included: [
+    {
+      type: "rules",
+      id: "EC2-001",
       attributes: {
-        configuration: {
-          name: "Test-Profile",
-          description: "Testing Save API"
-        }
+        enabled: false,
+        exceptions: {
+          tags: ["TestUpdateTags"],
+          resources: []
+        },
+        extraSettings: [],
+        riskLevel: "LOW"
       }
     },
-    included: [
-      {
-        attributes: {
-          configuration: {
-            enabled: true,
-            riskLevel: "EXTREME",
-            extraSettings: [],
-            exceptions: {
-              tags: ["SaveTestTag"],
-              resources: []
-            },
-            ruleId: "S3-003"
+    {
+      type: "rules",
+      id: "RTM-002",
+      attributes: {
+        enabled: true,
+        exceptions: {
+          tags: [],
+          resources: []
+        },
+        extraSettings: [
+          {
+            name: "ttl",
+            type: "ttl",
+            "value": 72,
+            "ttl": true
           }
-        }
+        ],
+        riskLevel: "MEDIUM"
       }
-    ]
+    }
+  ],
+  data: {
+    type: "profiles",
+    attributes: {
+      name: "New-Test-Profile",
+      description: "A test description for a new profile."
+    },
+    relationships: {
+      ruleSettings: {
+        data: [
+          {
+            type: "rules",
+            id: "EC2-001"
+          },
+          {
+            type: "rules",
+            id: "RTM-002"
+          }
+        ]
+      }
+    }
   }
 }'\
 https://us-west-2-api.cloudconformity.com/v1/profiles/
@@ -345,48 +373,68 @@ Example Response:
   "included": [
     {
       "type": "rules",
-      "id": "gh-RwlRno:rule:S3-003",
+      "id": "EC2-001",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "EXTREME",
-          "extraSettings": [],
-          "exceptions": {
-            "tags": ["SaveTestTag"],
-            "resources": []
-          },
-          "ruleId": "S3-003"
-        }
+        "enabled": false,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
+        },
+        "extraSettings": [],
+        "riskLevel": "LOW"
+      }
+    },
+    {
+      "type": "rules",
+      "id": "RTM-002",
+      "attributes": {
+        "enabled": true,
+        "exceptions": {
+          "tags": [],
+          "resources": []
+        },
+        "extraSettings": [
+          {
+            "name": "ttl",
+            "type": "ttl",
+            "value": 72,
+            "ttl": true
+          }
+        ],
+        "riskLevel": "MEDIUM"
       }
     }
   ],
   "data": {
     "type": "profiles",
-    "id": "gh-RwlRno",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Test-Profile",
-        "description": "Testing Save API"
-      }
+      "name": "Test-Profile-1",
+      "description": "A test profile with rule settings."
     },
     "relationships": {
       "ruleSettings": {
         "data": [
           {
             "type": "rules",
-            "id": "gh-RwlRno:rule:S3-003"
+            "id": "EC2-001"
+          },
+          {
+            "type": "rules",
+            "id": "RTM-002"
           }
         ]
       }
     }
   }
 }
+
 ```
 
 ###### Save rule settings to an existing Profile
 The expected behavior of this request to overwrite all existing rule settings to a configured profile or write new rule settings to an existing empty profile.
 
-You must indicate the profile id in the request url otherwise a new profile will be created with the indicated rule settings configured.
+You must indicate the profile id in the request body otherwise a new profile will be created with the indicated rule settings configured.
 
 Example Request for saving rule settings:
 ```
@@ -394,39 +442,65 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  requestBody: {
-    data: {
-      type: "profile",
-      id: "{profile-id}",
+  included: [
+    {
+      type: "rules",
+      id: "EC2-001",
       attributes: {
-        configuration: {
-          name: "Test-Profile",
-          description: "Testing Save API"
-        }
+        enabled: false,
+        exceptions: {
+          tags: ["TestUpdateTags"],
+          resources: []
+        },
+        extraSettings: [],
+        riskLevel: "LOW"
       }
     },
-    included: [
-      {
-        attributes: {
-          configuration: {
-            enabled: true,
-            riskLevel: "EXTREME",
-            extraSettings: [],
-            exceptions: {
-              tags: ["SaveTestTag"],
-              resources: []
-            },
-            ruleId: "S3-003"
+    {
+      type: "rules",
+      id: "RTM-002",
+      attributes: {
+        enabled: true,
+        exceptions: {
+          tags: [],
+          resources: []
+        },
+        extraSettings: [
+          {
+            name: "ttl",
+            type: "ttl",
+            "value": 72,
+            "ttl": true
           }
-        }
-      },
-      {
-        ...: More Settings
+        ],
+        riskLevel: "MEDIUM"
       }
-    ]
+    }
+  ],
+  data: {
+    type: "profiles",
+    id: {profile-id}, // Add id field with the profile id to be modified.
+    attributes: {
+      name: "Test-Profile-1",
+      description: "A test description for a profile."
+    },
+    relationships: {
+      ruleSettings: {
+        data: [
+          {
+            type: "rules",
+            id: "EC2-001"
+          },
+          {
+            type: "rules",
+            id: "RTM-002"
+          }
+        ]
+      }
+    }
   }
 }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+https://us-west-2-api.cloudconformity.com/v1/profiles
 ```
 
 Example Response:
@@ -435,55 +509,65 @@ Example Response:
   "included": [
     {
       "type": "rules",
-      "id": "{profile-id}:rule:S3-003",
+      "id": "EC2-001",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "EXTREME",
-          "extraSettings": [],
-          "exceptions": { "tags": ["SaveTestTag"], "resources": [] },
-          "ruleId": "S3-003"
-        }
+        "enabled": false,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
+        },
+        "extraSettings": [],
+        "riskLevel": "LOW"
       }
     },
     {
       "type": "rules",
-      "id": "{profile-id}:rule:S3-002",
+      "id": "RTM-002",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "LOW",
-          "extraSettings": [],
-          "exceptions": { "tags": ["SaveTestTag2"], "resources": [] },
-          "ruleId": "S3-002"
-        }
+        "enabled": true,
+        "exceptions": {
+          "tags": [],
+          "resources": []
+        },
+        "extraSettings": [
+          {
+            "name": "ttl",
+            "type": "ttl",
+            "value": 72,
+            "ttl": true
+          }
+        ],
+        "riskLevel": "MEDIUM"
       }
     }
   ],
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Test-Profile",
-        "description": "Testing Save API"
-      }
+      "name": "Test-Profile-1",
+      "description": "A test profile with rule settings."
     },
     "relationships": {
       "ruleSettings": {
         "data": [
-          { "type": "rules", "id": "{profile-id}:rule:S3-003" },
-          { "type": "rules", "id": "{profile-id}:rule:S3-002" }
+          {
+            "type": "rules",
+            "id": "EC2-001"
+          },
+          {
+            "type": "rules",
+            "id": "RTM-002"
+          }
         ]
       }
     }
   }
 }
-
 ```
 
 ###### Delete all settings
-The expected behavior of this request to preserve an existing profile's configuration while deleting all existing rule settings. Relationships must be an empty
+The expected behavior of this request to preserve an existing profile's configuration while deleting all existing rule settings. To do so, exclude the "includes" and "relationships" field from the request.
 
 Example Request for modifying an existing profile and deleting its settings:
 ```
@@ -491,19 +575,16 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  requestBody: {
-    data: {
-      type: "profile",
-      attributes: {
-        configuration: {
-          name: "Test-Profile",
-          description: "Testing Save API"
-        }
-      }
+  data: {
+    type: "profiles",
+    id: {profile-id},
+    attributes: {
+      name: "New-Test-Profile",
+      description: "A test description for a new profile."
     }
   }
 }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles?id={profile-id}
+https://us-west-2-api.cloudconformity.com/v1/profiles
 
 ```
 Example Response:
@@ -511,12 +592,10 @@ Example Response:
 {
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Test-Profile",
-        "description": "Testing Save API"
-      }
+      "name": "New-Test-Profile",
+      "description": "A test description for a new profile."
     }
   }
 }
@@ -540,25 +619,22 @@ This endpoint allows you to update profile details and its associated rule setti
   - `attributes`: Object containing:
     - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration)
 
-Example Request to only update profile details:
+Example Request to only update profile details - name and description:
 
 ```
 curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-    requestBody: {
-      data: {
-        type: "profile",
-        attributes: {
-          configuration: {
-            name: "Old-Profile-Name",
-            description: "New Description"
-          }
-        }
-      }
+  data: {
+    type: "profiles",
+    id: {profile-id},
+    attributes: {
+      name: "New-Name-Test-Profile",
+      description: "Updated test description for a new profile."
     }
-  }' \
+  }
+}' \
 https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
 ```
 Example Response:
@@ -566,12 +642,10 @@ Example Response:
 {
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Old-Profile-Name",
-        "description": "New Description"
-      }
+      "name": "New-Name-Test-Profile",
+      "description": "Updated test description for a new profile."
     }
   }
 }
@@ -593,38 +667,44 @@ To update rule settings along with your profile, only the settings passed in the
     - `attributes`: Object containing attributes of this type:
       - `configuration`: Object containing profile parameters. For more details consult the [rule-settings-configuration-table](#rule-settings-configuration).
 			
-Example Request to update profile details and one rule setting:
+Example Request to update profile details and add one rule setting to existing settings:
 ```
 curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  requestBody: {
-    data: {
-      type: "profile",
+  included: [
+    {
+      type: "rules",
+      id: "EC2-006",
       attributes: {
-        configuration: {
-          name: "Old-Profile-Name",
-          description: "New Description"
-        }
+        enabled: true,
+        exceptions: {
+          tags: ["TestUpdateTags"],
+          resources: []
+        },
+        extraSettings: [],
+        riskLevel: "LOW"
       }
+    }
+  ],
+  data: {
+    type: "profiles",
+    id: {profile-id},
+    attributes: {
+      name: "Update-Test-Profile",
+      description: "Update test description"
     },
-    included: [
-      {
-        attributes: {
-          configuration: {
-            enabled: true,
-            riskLevel: "HIGH",
-            extraSettings: [],
-            exceptions: {
-              tags: ["UpdateTestTag"],
-              resources: []
-            },
-            ruleId: "S3-003"
+    relationships: {
+      ruleSettings: {
+        data: [
+          {
+            type: "rules",
+            id: "EC2-006"
           }
-        }
+        ]
       }
-    ]
+    }
   }
 }'\
 https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}
@@ -636,51 +716,78 @@ Example Response:
   "included": [
     {
       "type": "rules",
-      "id": "{profile-id}:rule:S3-002",
+      "id": "EC2-001",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "HIGH",
-          "extraSettings": [],
-          "exceptions": { "tags": ["UpdateTestTag"], "resources": [] },
-          "ruleId": "S3-002"
-        }
+        "enabled": false,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
+        },
+        "extraSettings": [],
+        "riskLevel": "LOW"
       }
     },
     {
       "type": "rules",
-      "id": "{profile-id}:rule:S3-003",
+      "id": "EC2-006",
       "attributes": {
-        "configuration": {
-          "enabled": true,
-          "riskLevel": "EXTREME",
-          "extraSettings": [],
-          "exceptions": { "tags": ["OldTestTag"], "resources": [] },
-          "ruleId": "S3-003"
-        }
+        "enabled": true,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
+        },
+        "extraSettings": [],
+        "riskLevel": "LOW"
+      }
+    },
+    {
+      "type": "rules",
+      "id": "RTM-002",
+      "attributes": {
+        "enabled": true,
+        "exceptions": {
+          "tags": [],
+          "resources": []
+        },
+        "extraSettings": [
+          {
+            "name": "ttl",
+            "type": "ttl",
+            "value": 72,
+            "ttl": true
+          }
+        ],
+        "riskLevel": "MEDIUM"
       }
     }
   ],
   "data": {
     "type": "profiles",
-    "id": "{profile-id}",
+    "id": {profile-id},
     "attributes": {
-      "configuration": {
-        "name": "Old-Profile-Name",
-        "description": "New Description"
-      }
+      "name": "Update-Test-Profile",
+      "description": "Update test description"
     },
     "relationships": {
       "ruleSettings": {
         "data": [
-          { "type": "rules", "id": "{profile-id}:rule:S3-002" },
-          { "type": "rules", "id": "{profile-id}:rule:S3-003" }
+          {
+            "type": "rules",
+            "id": "EC2-001"
+          },
+          {
+            "type": "rules",
+            "id": "EC2-006"
+          },
+          {
+            "type": "rules",
+            "id": "RTM-002"
+          }
         ]
       }
     }
   }
 }
-
 ```
 
 
