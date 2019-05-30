@@ -239,11 +239,11 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  data: {
-    type: "profiles",
-    attributes: {
-      name: "New-Test-Profile",
-      description: "A test description for a new profile."
+  "data": {
+    "type": "profiles",
+    "attributes": {
+      "name": "New-Test-Profile",
+      "description": "A test description for a new profile."
     }
   }
 }' \
@@ -308,63 +308,64 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  included: [
+  "included": [
     {
-      type: "rules",
-      id: "EC2-001",
-      attributes: {
-        enabled: false,
-        exceptions: {
-          tags: ["TestUpdateTags"],
-          resources: []
+      "type": "rules",
+      "id": "EC2-001",
+      "attributes": {
+        "enabled": false,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
         },
-        extraSettings: [],
-        riskLevel: "LOW"
+        "extraSettings": [],
+        "riskLevel": "LOW"
       }
     },
     {
-      type: "rules",
-      id: "RTM-002",
-      attributes: {
-        enabled: true,
-        exceptions: {
-          tags: [],
-          resources: []
+      "type": "rules",
+      "id": "RTM-002",
+      "attributes": {
+        "enabled": true,
+        "exceptions": {
+          "tags": [],
+          "resources": []
         },
-        extraSettings: [
+        "extraSettings": [
           {
-            name: "ttl",
-            type: "ttl",
+            "name": "ttl",
+            "type": "ttl",
             "value": 72,
             "ttl": true
           }
         ],
-        riskLevel: "MEDIUM"
+        "riskLevel": "MEDIUM"
       }
     }
   ],
-  data: {
-    type: "profiles",
-    attributes: {
-      name: "New-Test-Profile",
-      description: "A test description for a new profile."
+  "data": {
+    "type": "profiles",
+    "attributes": {
+      "name": "New-Test-Profile",
+      "description": "A test description for a new profile."
     },
-    relationships: {
-      ruleSettings: {
-        data: [
+    "relationships": {
+      "ruleSettings": {
+        "data": [
           {
-            type: "rules",
-            id: "EC2-001"
+            "type": "rules",
+            "id": "EC2-001"
           },
           {
-            type: "rules",
-            id: "RTM-002"
+            "type": "rules",
+            "id": "RTM-002"
           }
         ]
       }
     }
   }
-}'\
+}
+'\
 https://us-west-2-api.cloudconformity.com/v1/profiles/
 ```
 Example Response:
@@ -442,58 +443,58 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  included: [
+  "included": [
     {
-      type: "rules",
-      id: "EC2-001",
-      attributes: {
-        enabled: false,
-        exceptions: {
-          tags: ["TestUpdateTags"],
-          resources: []
+      "type": "rules",
+      "id": "EC2-001",
+      "attributes": {
+        "enabled": false,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
         },
-        extraSettings: [],
-        riskLevel: "LOW"
+        "extraSettings": [],
+        "riskLevel": "LOW"
       }
     },
     {
-      type: "rules",
-      id: "RTM-002",
-      attributes: {
-        enabled: true,
-        exceptions: {
-          tags: [],
-          resources: []
+      "type": "rules",
+      "id": "RTM-002",
+      "attributes": {
+        "enabled": true,
+        "exceptions": {
+          "tags": [],
+          "resources": []
         },
-        extraSettings: [
+        "extraSettings": [
           {
-            name: "ttl",
-            type: "ttl",
+            "name": "ttl",
+            "type": "ttl",
             "value": 72,
             "ttl": true
           }
         ],
-        riskLevel: "MEDIUM"
+        "riskLevel": "MEDIUM"
       }
     }
   ],
-  data: {
-    type: "profiles",
-    id: {profile-id}, // Add id field with the profile id to be modified.
-    attributes: {
-      name: "Test-Profile-1",
-      description: "A test description for a profile."
+  "data": {
+    "type": "profiles",
+    "id": {profile-id},
+    "attributes": {
+      "name": "Test-Profile-1",
+      "description": "A test description for a profile."
     },
-    relationships: {
-      ruleSettings: {
-        data: [
+    "relationships": {
+      "ruleSettings": {
+        "data": [
           {
-            type: "rules",
-            id: "EC2-001"
+            "type": "rules",
+            "id": "EC2-001"
           },
           {
-            type: "rules",
-            id: "RTM-002"
+            "type": "rules",
+            "id": "RTM-002"
           }
         ]
       }
@@ -575,15 +576,15 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  data: {
-    type: "profiles",
-    id: {profile-id},
-    attributes: {
-      name: "New-Test-Profile",
-      description: "A test description for a new profile."
+    "data": {
+      "type": "profiles",
+      "id": {profile-id},
+      "attributes": {
+        "name": "New-Test-Profile",
+        "description": "A test description for a new profile."
+      }
     }
-  }
-}' \
+  }' \
 https://us-west-2-api.cloudconformity.com/v1/profiles
 
 ```
@@ -626,12 +627,12 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  data: {
-    type: "profiles",
-    id: {profile-id},
-    attributes: {
-      name: "New-Name-Test-Profile",
-      description: "Updated test description for a new profile."
+  "data": {
+    "type": "profiles",
+    "id": {profile-id},
+    "attributes": {
+      "name": "New-Name-Test-Profile",
+      "description": "Updated test description for a new profile."
     }
   }
 }' \
@@ -673,34 +674,34 @@ curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
-  included: [
+  "included": [
     {
-      type: "rules",
-      id: "EC2-006",
-      attributes: {
-        enabled: true,
-        exceptions: {
-          tags: ["TestUpdateTags"],
-          resources: []
+      "type": "rules",
+      "id": "EC2-006",
+      "attributes": {
+        "enabled": true,
+        "exceptions": {
+          "tags": ["TestUpdateTags"],
+          "resources": []
         },
-        extraSettings: [],
-        riskLevel: "LOW"
+        "extraSettings": [],
+        "riskLevel": "LOW"
       }
     }
   ],
-  data: {
-    type: "profiles",
-    id: {profile-id},
-    attributes: {
-      name: "Update-Test-Profile",
-      description: "Update test description"
+  "data": {
+    "type": "profiles",
+    "id": {profile-id},
+    "attributes": {
+      "name": "Update-Test-Profile",
+      "description": "Update test description"
     },
-    relationships: {
-      ruleSettings: {
-        data: [
+    "relationships": {
+      "ruleSettings": {
+        "data": [
           {
-            type: "rules",
-            id: "EC2-006"
+            "type": "rules",
+            "id": "EC2-006"
           }
         ]
       }
