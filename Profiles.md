@@ -295,7 +295,7 @@ There are some attributes you need to pass inside the rule settings configuratio
 | riskLevel |  This attribute configures the level of risk assigned to the rule  | "EXTREME", "VERY_HIGH", "HIGH", "MEDIUM", "LOW" |
 | extraSettings |  This array stores objects that configure the extra settings to this rule | {name: "ttl", type: "ttl", value: 72, ttl: true} |
 | exceptions |  This array stores objects that configure exceptions to this rule | |
-| exceptions: tags |  This attribute tags this exception | "NewS3BucketTag" |
+| exceptions: tags |  This attribute tags this exception | "NewS3BucketTag" or "tagKey::tagValue" |
 | exceptions: resources |  This attribute applies this exception to the following resources | "i-xxxx" |
 | ruleId |  This attribute is id of the rule type being updated | e.g. S3-001 (refer to Cloud Conformity rules for the full list) |
 
