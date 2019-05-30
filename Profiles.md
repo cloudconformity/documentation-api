@@ -8,6 +8,7 @@ Below is a list of the available APIs:
 - [Save New Profile and Add Rule Settings to Profile](#save-new-profile-and-rule-settings)
 - [Update Profile and Rule Settings](#update-profile-and-rule-settings)
 - [Delete Profile and Rule Settings](#delete-profile-and-rule-settings)
+- [Apply Profile to Accounts](#apply-profile-to-accounts)
 
 ## User Privileges
 There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
@@ -26,6 +27,7 @@ User access to each endpoint is listed below:
 | POST /profiles  *(save a profile and rule settings)* | Y | N | N | N |
 | PATCH /profiles/id  *(update a profile and rule settings)* | Y | N | N | N |
 | DELETE /profiles/id  *(delete a profile and rule settings)* | Y | N | N | N |
+| POST /profiles/id/apply  *(apply a profile to a set of accounts)* | Y | N | N | N |
 
 * Response will depend on the ProfileId's, Include Settings flag and Types condition added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
 
@@ -818,3 +820,59 @@ Example Response:
 ```
 { "meta": { "status": "deleted" } }
 ```
+
+
+## Apply Profile to Accounts
+
+This endpoint allows you to apply profile and rule settings to a set of accounts under your organisation.
+
+##### Endpoints:
+
+`POST /profiles/id/apply`
+
+##### Headers
+`Content-Type`: application/vnd.api+json
+`Authorization`: ApiKey
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the profile
+- `requestBody`:
+  - `accountIds`: An Array of account Id's that will be configured by the profile.
+  - `types`: An Array of setting types to be applied to the accounts. NOTE: Only `ruleSettings` is supported in the current version.
+  - `mode`: Mode of how the profile will be applied to the accounts, i.e. "fill-gaps", "overwrite" or "replace". For a description of these modes, see the [modes-table](#modes) below.
+  - `notes`: Log notes. This field is expected to be filled out, ideally with a reason for the profile being applied.
+
+
+#### Modes
+| Mode | Details |
+| ------------- | ------------- |
+| fill-gaps | Merge existing settings with this Profile. If there is a conflict, the account's existing setting will be used. |
+| overwrite |  Merge existing settings with this Profile. If there is a conflict, the Profile's setting will be used. |
+| replace |  Clear all existing settings and apply settings from this Profile. |
+
+Example Request for getting details of a profile:
+
+```
+curl -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+-d '
+{ 
+	"meta": {
+		"accountIds": [{account-id-1}, {account-id-2}],
+		"types": ["rule"],
+		"mode": "overwrite",
+		"notes": "Applying profile to accounts",
+	}
+}' https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/apply
+```
+Example Response:
+```
+{
+  "meta": {
+    "status": "sent",
+    "message": "Profile will be applied to the accounts in background"
+  }
+}
+
+```
+
