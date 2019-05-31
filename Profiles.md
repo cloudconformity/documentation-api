@@ -56,7 +56,7 @@ Example Request:
 ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
-https://us-west-2-api.cloudconformity.com/v1/profiles
+https://us-west-2-api.cloudconformity.com/v1/profiles/
 ```
 Example Response:
 
@@ -217,15 +217,13 @@ This endpoint allows you to create a new profile and subsequently add rule setti
 `Authorization`: ApiKey
 
 ##### Parameters
-- `requestBody`:
-  - `data`: An object containing JSONAPI compliant data objects with following properties
-    - `type`: `"profile"`,
-    - `attributes`: Object containing:
-      - `configuration`: Object containing profile parameters. For more details, consult the [profile-configuration-table](#profile-configuration) below.
+- `data`: An object containing JSONAPI compliant data objects with following properties
+  - `type`: `"profiles"`,
+  - `attributes`: Object containing profile attributes. For more details, consult the [profile-attributes-table](#profile-attributes) below.
 
 
-##### Profile Configuration
-There are some attributes you need to pass inside the configuration object. The table below provides more information about configuration options:
+##### Profile Attributes
+There are some attributes you need to pass inside the attributes object. The table below provides more information about attributes options:
 
 | Attribute | Details |
 | ------------- | ------------- |
@@ -249,7 +247,7 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
     }
   }
 }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles
+https://us-west-2-api.cloudconformity.com/v1/profiles/
 ```
 
 Example Response:
@@ -272,24 +270,22 @@ This option allows you to add rule settings to your profile at creation or after
 
 ###### Parameters
 - `id`: Profile ID.
-- `requestBody`: All of the below fields must be populated within request body:
+- `data`: All of the below fields must be populated within request body:
   - `data`: An array containing JSONAPI compliant data objects with following properties:
-    - `type`: `"profile"`,
-    - `attributes`: Object containing:
-      - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration).
+    - `type`: `"profiles"`,
+    - `attributes`: Object containing profile attributes. For more details consult the [profile-attributes-table](#profile-attributes).
     - `relationships`: Object containing rule settings that are associated to this profile:
       - `ruleSettings`:
       - `data`:  An array of associated rule settings.
-      	- `type`: `"rule"`,
-	- `id`: Rule id
+      	- `type`: `"rules"`,
   - `included`: An array containing JSONAPI compliant data objects with following properties:
-    - `type`: `"rule"`,
-    - `attributes`: Object containing attributes of this type:
-      - `configuration`: Object containing profile parameters. For more details consult the [rule-settings-configuration-table](#rule-settings-configuration) below.
+    - `type`: `"rules"`,
+    - `id`: This attribute is id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list).
+    - `attributes`: Object containing profile attributes. For more details consult the [rule-settings-table](#rule-settings) below.
 
 
-###### Rule Settings Configuration
-There are some attributes you need to pass inside the rule settings configuration object. The table below provides more information about configuration options:
+###### Rule Settings
+There are some attributes you need to pass inside the rule settings attributes object. The table below provides more information about attributes options:
 
 | Attribute | Details | Accepted Values |
 | ------------- | ------------- | ------------- |
@@ -299,7 +295,6 @@ There are some attributes you need to pass inside the rule settings configuratio
 | exceptions |  This array stores objects that configure exceptions to this rule | |
 | exceptions: tags |  This attribute tags this exception | "NewS3BucketTag" or "tagKey::tagValue" |
 | exceptions: resources |  This attribute applies this exception to the following resources | "i-xxxx" |
-| ruleId |  This attribute is id of the rule type being updated | e.g. S3-001 (refer to Cloud Conformity rules for the full list) |
 
 ###### Save new profile with rule settings included
 The expected behavior of this request to save a new profile and configure new rule settings associated with that profile.
@@ -503,7 +498,7 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
     }
   }
 }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles
+https://us-west-2-api.cloudconformity.com/v1/profiles/
 ```
 
 Example Response:
@@ -570,7 +565,7 @@ Example Response:
 ```
 
 ###### Delete all settings
-The expected behavior of this request to preserve an existing profile's configuration while deleting all existing rule settings. To do so, exclude the "includes" and "relationships" field from the request.
+The expected behavior of this request to preserve an existing profile's attributes while deleting all existing rule settings. To do so, exclude the "includes" and "relationships" field from the request.
 
 Example Request for modifying an existing profile and deleting its settings:
 ```
@@ -587,7 +582,7 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
       }
     }
   }' \
-https://us-west-2-api.cloudconformity.com/v1/profiles
+https://us-west-2-api.cloudconformity.com/v1/profiles/
 
 ```
 Example Response:
@@ -618,9 +613,8 @@ This endpoint allows you to update profile details and its associated rule setti
 
 ##### Parameters
 - `data`: An array containing JSONAPI compliant data objects with following properties
-  - `type`: `"profile"`,
-  - `attributes`: Object containing:
-    - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration)
+  - `type`: `"profiles"`,
+  - `attributes`: Object containing profile attributes. For more details consult the [profile-attributes-table](#profile-attributes)
 
 Example Request to only update profile details - name and description:
 
@@ -657,18 +651,17 @@ To update rule settings along with your profile, only the settings passed in the
 
 ###### Parameters
 - `id`: Profile ID.
-- `requestBody`: All of the below fields must be populated within request body:
+- `data`: All of the below fields must be populated within request body:
   - `data`: An array containing JSONAPI compliant data objects with following properties:
-    - `type`: `"profile"`,
-    - `attributes`: Object containing:
-      - `configuration`: Object containing profile parameters. For more details consult the [profile-configuration-table](#profile-configuration).
+    - `type`: `"profiles"`,
+    - `attributes`: Object containing profile attributes. For more details consult the [profile-attributes-table](#profile-attributes).
     - `relationships`: Object containing rule settings that are associated to this profile:
       - `ruleSettings`:
       - `data`:  An array of associated rule settings.
   - `included`: An array containing JSONAPI compliant data objects with following properties:
-    - `type`: `"rule"`,
-    - `attributes`: Object containing attributes of this type:
-      - `configuration`: Object containing profile parameters. For more details consult the [rule-settings-configuration-table](#rule-settings-configuration).
+    - `type`: `"rules"`,
+    - `id`: This attribute is id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list).
+    - `attributes`: Object containing profile attributes. For more details consult the [rule-settings-table](#rule-settings).
 			
 Example Request to update profile details and add one rule setting to existing settings:
 ```
@@ -836,7 +829,7 @@ This endpoint allows you to apply profile and rule settings to a set of accounts
 
 ##### Parameters
 - `id`: The Cloud Conformity ID of the profile
-- `requestBody`:
+- `meta`:
   - `accountIds`: An Array of account Id's that will be configured by the profile.
   - `types`: An Array of setting types to be applied to the accounts. NOTE: Only `ruleSettings` is supported in the current version.
   - `mode`: Mode of how the profile will be applied to the accounts, i.e. "fill-gaps", "overwrite" or "replace". For a description of these modes, see the [modes-table](#modes) below.
