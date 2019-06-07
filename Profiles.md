@@ -831,7 +831,7 @@ This endpoint allows you to apply profile and rule settings to a set of accounts
 - `id`: The Cloud Conformity ID of the profile
 - `meta`:
   - `accountIds`: An Array of account Id's that will be configured by the profile.
-  - `types`: An Array of setting types to be applied to the accounts. NOTE: Only `ruleSettings` is supported in the current version.
+  - `types`: An Array of setting types to be applied to the accounts. NOTE: Only `rule` is supported in the current version.
   - `mode`: Mode of how the profile will be applied to the accounts, i.e. "fill-gaps", "overwrite" or "replace". For a description of these modes, see the [modes-table](#modes) below.
   - `notes`: Log notes. This field is expected to be filled out, ideally with a reason for the profile being applied.
 
