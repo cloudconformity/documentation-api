@@ -42,7 +42,7 @@ This endpoint displays a list of profiles associated to an organisation.
 
 ##### Endpoints:
 
-`GET /profiles`
+`GET /profiles/`
 
 ##### Headers
 `Content-Type`: application/vnd.api+json
