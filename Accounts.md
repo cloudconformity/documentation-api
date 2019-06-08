@@ -78,7 +78,7 @@ https://us-west-2-api.cloudconformity.com/v1/accounts
 Example Response:
 
 ```
-
+{
   "data": {
     "type": "accounts",
     "id": "H19NxMi5-",
