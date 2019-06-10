@@ -1,30 +1,30 @@
-# Cloud Conformity Infrastructure as Code (IaC) Scanning API
+# Cloud Conformity Infrastructure Template Scanner API
 
 ## Introduction
-Cloud Conformity provides IaC Scanning capability as a preventative measure to 
-ensure your AWS infrastructure remains compliant by detecting risks in IaC files
-before they are launched into AWS.
+Cloud Conformity provides Template Scanner capability as a preventative measure to
+ensure your AWS infrastructure remains compliant by detecting risks in infrastructure template
+files before they are launched into AWS.
 
 This API endpoint is suitable for CI/CD pipelines and automation.
 
 ## Scan a CloudFormation template
-This endpoint is used to scan an IaC file. Currently, CloudFormation template is
+This endpoint is used to scan an infrastructure template file. Currently, CloudFormation template is
 supported.
 
-#### Endpoint: 
+#### Endpoint:
 `POST /v1/iac-scanning/scan`
 
 _Note:_ This API endpoint is subject to change in path, method, and format of input and output.
 
 Request payload is a [JSON:API 1.0](https://jsonapi.org/format/1.0/) compatible
 structure consisting of the following data attributes:
-* **type:** Type of the IaC file.
+* **type:** Type of the infrastructure template file.
   - Type: string
   - Values: `cloudformation-template`
-* **contents:** Contents of the IaC file.
+* **contents:** Contents of the infrastructure template file.
   - Type: string
   - Value: JSON or Yaml string
-  
+
 _Example:_
 - Request:
 	```json5
@@ -119,7 +119,7 @@ _Example:_
 
 #### Supported rules:
 All resource level rules are supported.
-Refer to [Cloud Conformity rule catalogue](https://us-west-2.cloudconformity.com/v1/services) 
+Refer to [Cloud Conformity rule catalogue](https://us-west-2.cloudconformity.com/v1/services)
 for the list of rules.
 
 #### Examples:
