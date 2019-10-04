@@ -17,3 +17,4 @@ Not complete set of options. (To be completed!)
 | `filter.statuses`  | The status of the check. Valid values: ["SUCCESS" \| "FAILURE"] |
 | `filter.suppressedFilterMode`  | Whether to use the `"v1"` or `"v2"` suppressed functionality. `"v1"`: Using `suppressed=true` will return both suppressed and unsuppressed checks, `suppressed=false` will just return unsuppressed checks. `"v2"`: Using `suppressed=true` return will just return suppressed checks, `suppressed=false` will just return unsuppressed checks, and omitting the filter will return both. Defaults to `"v1"`. Valid values: [ "v1" \| "v2" ]
 | `filter.suppressed`  | Show Suppressed rules. A boolean. Will default to `true` for "v1", and omitted for "v2". Valid values: [true \|false] |
+| `filter.providers`  | Cloud providers. Possible values: ["aws" \| "azure"] |
