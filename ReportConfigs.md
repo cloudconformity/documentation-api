@@ -49,8 +49,8 @@ There are some attributes you need to pass inside configuration object. The tabl
 | scheduled | This attribute is optional, means whether the report is scheduled. It must be a boolean value when it was provided. |
 | frequency | This attribute is optional, but when the attribute `scheduled` is true, it must be a [cron expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) string that starts with day of month field. For example, daily cron expression would be `* * *` |
 | tz | This attribute is optional. It's used as which timezone the report schedule is based on, when the attribute `scheduled` is true. If this attribute was provided, it must be string that is a valid value of [timezone database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) name such as `Australia/Sydney`. |
-| generateReportType | This attribute is optional. Valid values are `COMPLIANCE-STANDARD` and `GENERIC`. By default, `GENERIC` type reports are produced. If `COMPLIANCE-STANDARD` is specified, the `complianceStandardId` attribute must also be set. |
-| complianceStandardId | This attribute must be specified if `generateReportType` is set to `COMPLIANCE-STANDARD`. Valid values are: <br><ul> <li>`AWAF`</li> <li>`NIST4`</li> <li>`CISAWSF`</li> |
+| generateReportType | This attribute is optional. Valid values are `COMPLIANCE-STANDARD` and `GENERIC`. By default, `GENERIC` type reports are produced. If `COMPLIANCE-STANDARD` is specified, `filter.reportComplianceStandards` has to be: <br><ul><li>a valid compliance standard id string value (the report is generated for this compliance standard)</li><li>one of the following supported standards: ["AWAF" \| "NIST4" \| "CISAWSF"]</li></ul> |
+
 
 
 ##### Filtering
