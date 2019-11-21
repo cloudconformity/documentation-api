@@ -5,7 +5,7 @@ Below is a list of the available APIs:
 
 - [Get The Current User](#get-the-current-user)
 - [Get User Details](#get-user-details)
-- [Update User Role and Account Access Level](#Update-a-User's-Role-and-Account-Access-Level)
+- [Update User Role and Account Access Level](#update-a-users-role-and-account-access-level)
 
 ## User Privileges
 There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
@@ -42,6 +42,7 @@ User access to each endpoint is listed below:
 | POST /external-ids | Y | N | N | N |
 | GET /users/whoami | Y | Y | Y | Y |
 | GET /users/id | Y | Y | Y | Y |
+| PATCH /users/id | Y | N | N | N |
 
 
 * Response will depend on the AccountIds added to the query parameter. For example, if a user has no access to an account and they add that account to the AccountIds array, an error will be thrown.
@@ -152,7 +153,7 @@ Example Response:
 
 ## Update a User's Role and Account Access Level
 
-This endpoint allows you to update the role and permission of the specified user.
+Update the role and permissions of the specified user.
 Only ADMINs can perform the update to other users within the same organisation.
 
 ##### Endpoints:
@@ -167,6 +168,7 @@ Only ADMINs can perform the update to other users within the same organisation.
     - `account`: The account Id within the organisation 
     - `level`: The level of access the user has to the account { NONE | READONLY | FULL }
 
+Please note only accounts (listed inside the `accessList`) in the request will get updated, existing account permissions are retained.
 
 Example Request to set the user's role to ADMIN | POWER_USER | READ_ONLY:
 
@@ -176,8 +178,8 @@ curl -H "Content-Type: application/vnd.api+json" \
 -d '
 {
     "data": {
-			role: "ADMIN"
-		}
+        role: "ADMIN"
+    }
 }
 ' \
 https://us-west-2-api.cloudconformity.com/v1/users/CClqMqknVb \
@@ -223,22 +225,22 @@ curl -H "Content-Type: application/vnd.api+json" \
 -d '
 {
     "data": {
-			role: "USER",
-			accessList: [
-				{
-					account: "ad03IHuI_",
-					level: "FULL"
-				},
-				{
-					account: "Oa1j-gGTX",
-					level: "READONLY"
-				}
-				{
-					account: "Pa_dgRTA",
-					level: "NONE"
-				}
-			]
-		}
+		role: "USER",
+        accessList: [
+            {
+                account: "ad03IHuI_",
+                level: "FULL"
+            },
+            {
+                account: "Oa1j-gGTX",
+                level: "READONLY"
+            },
+            {
+                account: "Pa_dgRTA",
+                level: "NONE"
+            }
+        ]
+	}
 }
 ' \
 https://us-west-2-api.cloudconformity.com/v1/users/CClqMqknVb \
@@ -252,14 +254,14 @@ curl -H "Content-Type: application/vnd.api+json" \
 -d '
 {
     "data": {
-			role: "USER",
-			accessList: [
-				{
-					account: "ad03IHuI_",
-					level: "READONLY"
-				}
-			]
-		}
+        role: "USER",
+        accessList: [
+            {
+                account: "ad03IHuI_",
+                level: "READONLY"
+            }
+        ]
+    }
 }
 ' \
 https://us-west-2-api.cloudconformity.com/v1/users/CClqMqknVb \
