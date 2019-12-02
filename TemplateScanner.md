@@ -19,6 +19,10 @@ structure consisting of the following data attributes:
 * **type:** Type of the infrastructure template file.
   - Type: string
   - Values: `cloudformation-template`
+* **accountId:** The ID of the account you want to use for rule configurations. If you specify the value for this attribute you must not send `profileId` as template scanner can work with one set of rule configurations. (optional)
+  - Type: string
+* **profileId:** The ID of the profile you want to use for rule configurations. If you specify the value for this attribute you must not send `accountId` as template scanner can work with one set of rule configurations. (optional)
+  - Type: string
 * **contents:** Contents of the infrastructure template file.
   - Type: string
   - Value: JSON or Yaml string
@@ -69,7 +73,30 @@ _Example:_
       ]
     }
 	```
-
+- Request with profile ID:
+    ```json5
+    {
+      "data": {
+        "attributes": {
+          "type": "cloudformation-template",
+          "profileId": "your-profile-id",
+          "contents": "---\nAWSTemplateFormatVersion: '2010-09-09'\nResources:\n  S3Bucket:\n    Type: AWS::S3::Bucket\n    Properties:\n      AccessControl: PublicRead"
+        }
+      }
+    }
+    ```
+- Request with account ID:
+    ```json5
+    {
+      "data": {
+        "attributes": {
+          "type": "cloudformation-template",
+          "accountId": "your-account-id",
+          "contents": "---\nAWSTemplateFormatVersion: '2010-09-09'\nResources:\n  S3Bucket:\n    Type: AWS::S3::Bucket\n    Properties:\n      AccessControl: PublicRead"
+        }
+      }
+    }
+    ```
 #### Supported resource types:
 - APIGateway
   - RestApi
