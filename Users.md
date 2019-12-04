@@ -6,6 +6,7 @@ Below is a list of the available APIs:
 - [Get The Current User](#get-the-current-user)
 - [Get User Details](#get-user-details)
 - [Update User Role and Account Access Level](#update-a-users-role-and-account-access-level)
+- [Revoke User](#revoke-user)
 
 ## User Privileges
 There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
@@ -43,6 +44,7 @@ User access to each endpoint is listed below:
 | GET /users/whoami | Y | Y | Y | Y |
 | GET /users/id | Y | Y | Y | Y |
 | PATCH /users/id | Y | N | N | N |
+| DELETE /users/id | Y | N | N | N |
 
 
 * Response will depend on the AccountIds added to the query parameter. For example, if a user has no access to an account and they add that account to the AccountIds array, an error will be thrown.
@@ -299,3 +301,27 @@ Example Response
 }
 ```
 
+## Revoke User
+
+Revokes a specified user from your organisation
+Only ADMINs can revoke a user within the same organisation.
+
+##### Endpoints:
+
+`DELETE /users/id`
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the user
+
+```
+curl -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+https://us-west-2-api.cloudconformity.com/v1/users/{id} 
+
+```
+
+Example Response
+```
+{ "meta": { "status": "revoked" } }
+
+```
