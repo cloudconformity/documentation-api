@@ -586,7 +586,7 @@ The table below give more information about filter options:
 | filter[suppressed]  | true \| false <br /><br /> Whether or not include all suppressed checks. The default value is `true` for "v1" and omitted for "v2" |
 | filter[createdDate]  | The date when the check was created<br /><br />The numeric value of the specified date as the number of milliseconds since January 1, 1970, 00:00:00 UTC |
 | filter[tags]  | Any assigned metadata tags to your AWS resources |
-| filter[compliances]  | An array of supported standard or framework ids. Possible values: ["AWAF" \| "CISAWSF" \| "CISAWSTTW" \| "PCI" \| "HIPAA" \| "GDPR" \| "APRA" \| "NIST4" \| "SOC2" \| "NIST-CSF"] |
+| filter[compliances]  | An array of supported standard or framework ids. Possible values: ["AWAF" \| "CISAWSF" \| "CISAWSTTW" \| "PCI" \| "HIPAA" \| "GDPR" \| "APRA" \| "NIST4" \| "SOC2" \| "NIST-CSF" \| "ISO27001"] |
 
 <br />
 

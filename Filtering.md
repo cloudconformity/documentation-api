@@ -13,8 +13,8 @@ Not complete set of options. (To be completed!)
 | `filter.createdLessThanDays`  | Only show checks created less than X days ago. Number. e.g. 5. |
 | `filter.categories`  | An array of category (AWS well-architected framework category) strings from the following:<br /> security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence <br />|
 | `filter.riskLevels`  | Risk level. Possible values: ["EXTREME" \| "VERY_HIGH" \| "HIGH" \| "MEDIUM" \| "LOW"] |
-| `filter.complianceStandards`  | An array of supported standard or framework ids. Possible values: ["AWAF" \| "CISAWSF" \| "CISAWSTTW" \| "PCI" \| "HIPAA" \| "GDPR" \| "APRA" \| "NIST4" \| "SOC2" \| "NIST-CSF"] |
-| `filter.reportComplianceStandardId`  | A single standard or framework id string. Possible values: ["AWAF" \| "NIST4" \| "CISAWSF" \| "SOC2" \| "NIST-CSF"] |
+| `filter.complianceStandards`  | An array of supported standard or framework ids. Possible values: ["AWAF" \| "CISAWSF" \| "CISAWSTTW" \| "PCI" \| "HIPAA" \| "GDPR" \| "APRA" \| "NIST4" \| "SOC2" \| "NIST-CSF" \| "ISO27001"] |
+| `filter.reportComplianceStandardId`  | A single standard or framework id string. Possible values: ["AWAF" \| "NIST4" \| "CISAWSF" \| "SOC2" \| "NIST-CSF" \| "ISO27001"] |
 | `filter.statuses`  | The status of the check. Valid values: ["SUCCESS" \| "FAILURE"] |
 | `filter.suppressedFilterMode`  | Whether to use the `"v1"` or `"v2"` suppressed functionality. `"v1"`: Using `suppressed=true` will return both suppressed and unsuppressed checks, `suppressed=false` will just return unsuppressed checks. `"v2"`: Using `suppressed=true` return will just return suppressed checks, `suppressed=false` will just return unsuppressed checks, and omitting the filter will return both. Defaults to `"v1"`. Valid values: [ "v1" \| "v2" ]
 | `filter.suppressed`  | Show Suppressed rules. A boolean. Will default to `true` for "v1", and omitted for "v2". Valid values: [true \|false] |
