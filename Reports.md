@@ -26,7 +26,7 @@ This end point allows you to query all reports that you have access to, based on
 
 Admins, power users, and read only users have access to all reports. Includes account, group and organisation reports.
 
-Users only have access to account reports which they have been granted access to.
+Users only have access to account reports that they have been granted access to
 
 Please note only up to one years worth of reports will be returned
 
@@ -237,11 +237,11 @@ https://us-west-2-api.cloudconformity.com/v1/reports?groupId=grpId123
 
 ## Download Report
 
-This end point allows you to download the report using the report-download-endpoint link created in the response body as part of the [list all reports](#list-all-reports) section.
+This end point allows you to download the report using the report-download-endpoint link created in the response body as part of the [list all reports](#list-all-reports) section. The end point will generate a redirection link to download the report.
 
 Admins, power users, and read only users have access to all reports. Includes account, group and organisation reports.
 
-Users only have access to account reports which they have been granted access to.
+Users only have access to account reports that they have been granted access to.
 
 ##### Endpoints:
 `GET /reports/{reportId}/{entityId}/{type}`
@@ -255,9 +255,14 @@ Users only have access to account reports which they have been granted access to
 - `entityId`: The entity Id, where entityId could be either an accountId, groupId or organisationId
 - `type` The report type { pdf | csv | xlsx }
 
-Example Request for retrieving a pdf account report using the report download endpoint
+Example Request for retrieving the report URL from a report-download-endpoint
  ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 https://us-west-2-api-development.cloudconformity.com/v1/reports/reportId01/accId123/pdf
+```
+
+Example Response
+```
+{"url":"redirectionUrlToDownloadReport"}
 ```
