@@ -22,7 +22,7 @@ There are 4 possible Cloud Conformity roles. Each role grants different levels o
 User access to each endpoint is listed below:
 
 | Endpoint | admin | full access user| read-only user | no access user |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
+| ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
 | GET /api-keys  *(get a list of your api keys)* | Y | Y | Y | Y |
 | GET /api-keys/id  *(get details about an api key)* | Y | Y | Y | Y |
 | POST /accounts  *(create a new account)* | Y | N | N | N |
@@ -39,6 +39,7 @@ User access to each endpoint is listed below:
 | POST /checks | Y | Y | N | N |
 | DELETE /checks/id | Y | Y | N | N |
 | GET /events *** | Y | Y | Y | N |
+| GET /resources | Y | Y | Y | N |
 | GET /settings/communication/accountId ** | Y | Y | Y | N |
 | POST /settings/communication ** | Y | Y | N | N |
 | PATCH /settings/communication/settingId ** | Y | Y | N | N |

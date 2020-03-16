@@ -81,18 +81,19 @@ There are two parameters to configure pagination:
 Below is a list of the available APIs: 
 
 - [Accounts](./Accounts.md)
-- [Rule Settings](./Accounts.md#get-rule-settings)
-- [Rule Setting types](./RuleSettings.md#extra-setting-types)
 - [API Keys](./APIKeys.md)
 - [Checks](./Checks.md)
 - [Events](./Events.md)
 - [External Ids](./ExternalId.md)
 - [Profiles](./Profiles.md)
+- [Report Configs](./ReportConfigs.md)
+- [Resources](./Resources.md)
+- [Rule Settings](./Accounts.md#get-rule-settings)
+- [Rule Setting types](./RuleSettings.md#extra-setting-types)
 - [Rules](./Rules.md)
 - [Settings](./Settings.md)
-- [Users](./Users.md)
-- [Report Configs](./ReportConfigs.md)
 - [Template Scanner](./TemplateScanner.md)
+- [Users](./Users.md)
 
 ## API Request Timeout
 The timeout for API requests has a hard limit of 30 seconds.
