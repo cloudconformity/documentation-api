@@ -534,16 +534,16 @@ Example Response:
 ```
 
 
-## List All Checks
+## List All Account Checks
 
-This endpoint allows you to collect checks for a specified account.
+This endpoint allows you to collect checks for specified accounts.
 
 ##### Endpoints:
 
 `GET /checks`
 
 ##### Parameters
-- `accountIds`: A comma-separated list of Cloud Conformity accountIds.
+- `accountIds`: A comma-separated list of Cloud Conformity accountIds. (required)
 - `page[size]`: Indicates the number of results that should be returned. Maximum value is 1000 and defaults to 100 if not specified
 - `page[number]`: Indicates the page number, defaults to 0
 - `filter`: Optional parameter including services, regions, categories, statuses, ruleIds, riskLevel, suppressed, and tags.
