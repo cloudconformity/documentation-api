@@ -6,6 +6,7 @@ Below is a list of the available API calls:
 - [List All Accounts](#list-all-accounts)
 - [Get Account Details](#get-account-details)
 - [Get Account Access Setting](#get-account-access-setting)
+- [Update Account Bot Setting](#update-account-bot-setting)
 - [Scan Account](#scan-account)
 - [Update Account Subscription](#update-account-subscription)
 - [Update Account](#update-account)
@@ -365,6 +366,134 @@ Example Response:
             }
         }
     }
+}
+
+```
+
+## Update Account Bot Setting
+
+This endpoint allows ADMIN users to get the current setting Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled.
+
+##### Endpoints:
+
+`PATCH  /accounts/id/settings/bot`
+
+##### Parameters
+- `id`: The Cloud Conformity ID of the account
+- `data`: a JSON object containing JSONAPI compliant data object with following properties
+  - `attributes`: An attribute object containing
+    - `settings`: An attribute object containing account settings. This contains the properties
+      - `bot`: An attribute object containing
+        - `disabled`: A boolean value to disable or enable the Conformity Bot | true, false
+        - `delay`: An integer value that sets the number of hours delay between Conformity Bot runs.
+        - `disabledUntil`: A date time in Unix Epoch timestamp format. Setting this value will disable the Conformity Bot until the date and time indicated. Setting this value to `null` will disable the Conformity Bot indefinitely. 
+        - `disabledRegions`: This field can only be applied to AWS accounts. An attribute object containing a list of AWS regions for which Conformity Bot runs will be disabled.
+- `meta`: a JSON object containing JSONAPI compliant data object with following properties
+  - `otherAccounts`: (optional) An array of other account IDs to which the Conformity Bot settings will also be applied.
+
+
+Example Request:
+
+```
+curl -X PATCH \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
+-d '
+{
+  "data": {
+    "type": "accounts",
+    "attributes": {
+      "settings": {
+        "bot": {
+          "disabled": true,
+          "delay": "5",
+          "disabledUntil": 123456789090,
+          "disabledRegions": {
+            "us-east-1": true,
+            "us-east-2": true,
+            "us-west-2": true,
+            "ap-southeast-2": true
+          }
+        }
+      }
+    }
+  },
+  "meta": {
+    "otherAccounts": ["cfe80897"]
+  }
+};' \
+https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
+```
+Example Response:
+```
+{
+  "data": [
+    {
+      "type": "accounts",
+      "id": "2fwmithMj",
+      "attributes": {
+        "name": "Test AWS Account",
+        ...
+        "settings": {
+          "rules": [
+           ...
+          ],
+          "bot": {
+            "lastModifiedFrom": "12.345.67.890",
+            "disabledRegions": {
+              "ap-southeast-2": true,
+              "us-east-1": true,
+              "us-east-2": true,
+              "us-west-2": true
+            },
+            "disabled": true,
+            "disabledUntil": null,
+            "delay": 5,
+            "lastModifiedBy": "3456d0"
+          }
+        },
+        ...
+        "cloud-type": "aws",
+        "managed-group-id": "23784h"
+      },
+      "relationships": {
+        "organisation": {
+          "data": {
+            "type": "organisations",
+            "id": "moid324"
+          }
+        }
+      }
+    },
+    {
+      "type": "accounts",
+      "id": "cfe80897",
+      "attributes": {
+        "name": "Test Azure Account",
+        ...
+        "settings": {
+          "bot": {
+            "lastModifiedFrom": "12.345.67.890",
+            "disabled": true,
+            "disabledUntil": null,
+            "delay": 5,
+            "lastModifiedBy": "3456d0"
+          }
+        },
+        ...
+        "cloud-type": "azure",
+        ...
+      },
+      "relationships": {
+        "organisation": {
+          "data": {
+            "type": "organisations",
+            "id": "moid324"
+          }
+        }
+      }
+    }
+  ]
 }
 
 ```
