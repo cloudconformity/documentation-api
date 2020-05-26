@@ -21,13 +21,13 @@ There are 4 possible Cloud Conformity roles. Each role grants different levels o
 User access to each endpoint is listed below:
 
 | Endpoint                                                           | admin | full access user | read-only user | no access user |
-| ------------------------------------------------------------------ | ----- | ---------------- | -------------- | -------------- |
-| GET /profiles _(get a list of profiles)_                           | Y     | N                | N              | N              |
-| GET /profiles/id _(get details about a profile and rule settings)_ | Y     | N                | N              | N              |
-| POST /profiles _(save a profile and rule settings)_                | Y     | N                | N              | N              |
-| PATCH /profiles/id _(update a profile and rule settings)_          | Y     | N                | N              | N              |
-| DELETE /profiles/id _(delete a profile and rule settings)_         | Y     | N                | N              | N              |
-| POST /profiles/id/apply _(apply a profile to a set of accounts)_   | Y     | N                | N              | N              |
+| ------------------------------------------------------------------ | :---: | :--------------: | :------------: | :------------: |
+| GET /profiles _(get a list of profiles)_                           |   Y   |        N         |       N        |       N        |
+| GET /profiles/id _(get details about a profile and rule settings)_ |   Y   |        N         |       N        |       N        |
+| POST /profiles _(save a profile and rule settings)_                |   Y   |        N         |       N        |       N        |
+| PATCH /profiles/id _(update a profile and rule settings)_          |   Y   |        N         |       N        |       N        |
+| DELETE /profiles/id _(delete a profile and rule settings)_         |   Y   |        N         |       N        |       N        |
+| POST /profiles/id/apply _(apply a profile to a set of accounts)_   |   Y   |        N         |       N        |       N        |
 
 - Response will depend on the ProfileId's, Include Settings flag and Types condition added to the query parameter. For example, if a user has no access to a profile and they modify profile details, an error will be thrown. Alternatively, if a user has no access to a profile and they modify rule settings for that profile, an error will be thrown.
 
@@ -65,6 +65,7 @@ Example Response:
 ```
 
 {
+  "meta": {},
   "data": [
     {
       "type": "profiles",
@@ -117,6 +118,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "data": {
     "type": "profiles",
     "id": {profile-id},
@@ -133,6 +135,8 @@ Example Response:
 
 Example request to get a profile and its rule settings.
 
+Note: A deprecation warning will be included in the response for rules that are deprecated.
+
 ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -143,6 +147,17 @@ Example Response:
 
 ```
 {
+  "meta": {
+    "deprecation": {
+      "warning": {
+        "message": "1 manually configured rule in this profile is deprecated. Refer to our Help Pages for instructions.",
+        "link": "https://www.cloudconformity.com/help/rules.html",
+        "rules": [
+            "EC2-XXX"
+        ]
+      }
+    }
+  },
   "included": [
     {
       "type": "rules",
@@ -263,6 +278,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "data": {
     "type": "profiles",
     "id": {profile-id},
@@ -289,9 +305,9 @@ This option allows you to add rule settings to your profile at creation or after
     - `relationships`: Object containing rule settings that are associated to this profile:
       - `ruleSettings`:
       - `data`: An array of associated rule settings. - `type`: `"rules"`,
-  - `included`: An array containing JSONAPI compliant data objects with following properties:
+  - `included`: An array containing JSONAPI compliant data objects with the following properties:
     - `type`: `"rules"`,
-    - `id`: This attribute is id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list).
+    - `id`: This attribute is the id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list). If the id belongs to a deprecated rule, an error will be thrown.
     - `attributes`: Object containing profile attributes. For more details consult the [rule-settings-table](#rule-settings) below.
 
 ###### Rule Settings
@@ -383,6 +399,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "included": [
     {
       "type": "rules",
@@ -456,6 +473,7 @@ curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
 -d '
 {
+  "meta": {},
   "included": [
     {
       "type": "rules",
@@ -521,6 +539,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "included": [
     {
       "type": "rules",
@@ -608,6 +627,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "data": {
     "type": "profiles",
     "id": {profile-id},
@@ -661,6 +681,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "data": {
     "type": "profiles",
     "id": {profile-id},
@@ -686,7 +707,7 @@ To update rule settings along with your profile, only the settings passed in the
       - `data`: An array of associated rule settings.
   - `included`: An array containing JSONAPI compliant data objects with following properties:
     - `type`: `"rules"`,
-    - `id`: This attribute is id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list).
+    - `id`: This attribute is the id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list). If the id belongs to a deprecated rule, an error will be thrown.
     - `attributes`: Object containing profile attributes. For more details consult the [rule-settings-table](#rule-settings).
 			
 Example request to update profile details and add one rule setting to existing settings:
@@ -736,6 +757,7 @@ Example Response:
 
 ```
 {
+  "meta": {},
   "included": [
     {
       "type": "rules",
