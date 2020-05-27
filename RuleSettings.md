@@ -39,7 +39,7 @@ are formatted as the following example:
 * **enabled:** Whether or not this rule is enabled
   - Type: boolean
   - Values: true, false
-* **riskLevel:** Risk level associated with this rule.
+* **riskLevel:** Risk level associated with this rule. This property is not returned for rules where the `riskLevel` is not configurable.
   - Type: string
   - Values: "LOW", "MEDIUM", "HIGH", "VERY_HIGH", "EXTREME  ""
 * **exceptions:** If a resource matches these exceptions this rule will not be checked against it.
