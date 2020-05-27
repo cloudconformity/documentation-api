@@ -372,28 +372,27 @@ Example Response:
 
 ## Update Account Bot Setting
 
-This endpoint allows ADMIN users to get the current setting Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled.
+This endpoint allows ADMIN users to get the current setting Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled. This endpoint also supports updating single attributes under the `settings` field (see below) in which case, only attributes passed in the request body will be updated.
 
 ##### Endpoints:
 
 `PATCH  /accounts/id/settings/bot`
 
 ##### Parameters
-- `id`: The Cloud Conformity ID of the account
-- `data`: a JSON object containing JSONAPI compliant data object with following properties
+- `id`: The Cloud Coformity ID of the account
+- `data`: a JSON object containing JSONAPI compliant data object with the following properties
   - `attributes`: An attribute object containing
     - `settings`: An attribute object containing account settings. This contains the properties
       - `bot`: An attribute object containing
         - `disabled`: A boolean value to disable or enable the Conformity Bot | true, false
         - `delay`: An integer value that sets the number of hours delay between Conformity Bot runs.
-        - `disabledUntil`: A date time in Unix Epoch timestamp format. Setting this value will disable the Conformity Bot until the date and time indicated. Setting this value to `null` will disable the Conformity Bot indefinitely. 
+        - `disabledUntil`: A date-time in Unix Epoch timestamp format. Setting this value will disable the Conformity Bot until the date and time indicated. Setting this value to `null` will disable the Conformity Bot indefinitely if `disabled` field is set to `true`. 
         - `disabledRegions`: This field can only be applied to AWS accounts. An attribute object containing a list of AWS regions for which Conformity Bot runs will be disabled.
-- `meta`: a JSON object containing JSONAPI compliant data object with following properties
+- `meta`: a JSON object containing JSONAPI compliant data object with the following properties
   - `otherAccounts`: (optional) An array of other account IDs to which the Conformity Bot settings will also be applied.
 
-
-Example Request:
-
+Example Request - Update all attributes
+This request disables the Conformity Bot for all regions until the specified date time, after which it will run every 10 hours for all regions besides `us-west-2`.
 ```
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
@@ -405,21 +404,15 @@ curl -X PATCH \
     "attributes": {
       "settings": {
         "bot": {
-          "disabled": true,
-          "delay": "5",
-          "disabledUntil": 123456789090,
+          "delay": 10,
           "disabledRegions": {
-            "us-east-1": true,
-            "us-east-2": true,
-            "us-west-2": true,
-            "ap-southeast-2": true
-          }
+             "us-west-2": true
+           },
+           "disabled": true,
+           "disabledUntil": 1234567890,
         }
       }
     }
-  },
-  "meta": {
-    "otherAccounts": ["cfe80897"]
   }
 };' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
@@ -440,15 +433,12 @@ Example Response:
           ],
           "bot": {
             "lastModifiedFrom": "12.345.67.890",
+            "delay": 10,
             "disabledRegions": {
-              "ap-southeast-2": true,
-              "us-east-1": true,
-              "us-east-2": true,
               "us-west-2": true
             },
             "disabled": true,
-            "disabledUntil": null,
-            "delay": 5,
+            "disabledUntil": 1234567890,
             "lastModifiedBy": "3456d0"
           }
         },
@@ -464,41 +454,82 @@ Example Response:
           }
         }
       }
-    },
-    {
-      "type": "accounts",
-      "id": "cfe80897",
-      "attributes": {
-        "name": "Test Azure Account",
-        ...
-        "settings": {
-          "bot": {
-            "lastModifiedFrom": "12.345.67.890",
-            "disabled": true,
-            "disabledUntil": null,
-            "delay": 5,
-            "lastModifiedBy": "3456d0"
-          }
-        },
-        ...
-        "cloud-type": "azure",
-        ...
-      },
-      "relationships": {
-        "organisation": {
-          "data": {
-            "type": "organisations",
-            "id": "moid324"
+    }
+  ]
+}
+```
+
+Other requests for example use cases:
+Temporarily disable Conformity Bot until the specified date-time (for more than one account):
+```
+curl -X PATCH \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
+-d '
+{
+  "data": {
+    "type": "accounts",
+    "attributes": {
+      "settings": {
+        "bot": {
+          "disabled": true,
+          "disabledUntil": 123456789090,
+        }
+      }
+    }
+  },
+  "meta": {
+    "otherAccounts": ["cfe80897"]
+  }
+};' \
+https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
+```
+Disable Conformity Bot indefinitely:
+```
+curl -X PATCH \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
+-d '
+{
+  "data": {
+    "type": "accounts",
+    "attributes": {
+      "settings": {
+        "bot": {
+          "disabled": true
+        }
+      }
+    }
+  }
+};' \
+https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
+```
+Disable Conformity Bot runs for a few regions and increase delay between runs in others:
+```
+curl -X PATCH \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
+-d '
+{
+  "data": {
+    "type": "accounts",
+    "attributes": {
+      "settings": {
+        "bot": {
+          "delay": 10,
+          "disabledRegions": {
+            "us-east-1": true,
+            "us-east-2": true,
+            "us-west-2": true,
+            "ap-southeast-2": true
           }
         }
       }
     }
-  ]
-}
-
+  }
+};' \
+https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
 ```
-
-
 
 ## Scan Account
 
