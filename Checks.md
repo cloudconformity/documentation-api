@@ -8,17 +8,16 @@ Below is a list of the available APIs:
 - [Get Check Details](#get-check-details)
 - [Delete Check](#delete-check)
 
-
-
 ## Create custom checks
-This endpoint is used to create a custom checks. You may pass one check or an array of checks in the JSON body.
 
+This endpoint is used to create a custom checks. You may pass one check or an array of checks in the JSON body.
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Some guidelines about using this endpoint:
+
 1. Checks are created as long as your inputs are valid. The onus is on you to ensure the checks you enter are meaningful and useful.
-3. Each check object you enter will require a `check.relationships.account`. If you provide an account which you don't have WRITE access to, the check will not be saved.
-2. Check Ids are constructed from the parameters entered and follow the format:
+2. Each check object you enter will require a `check.relationships.account`. If you provide an account which you don't have WRITE access to, the check will not be saved.
+3. Check Ids are constructed from the parameters entered and follow the format:
    1. **ccc:accountId:ruleId:service:region:resourceId**
    2. If you add a check with the same `accountId`, `ruleId`, `service`, `region`, AND `resourceId` as another existing check in the database, this new check WILL write over the existing check.
    3. Since resource is an optional attribute, checks entered without resource will not have the `resourceId` part of the check Id.
@@ -28,18 +27,22 @@ This endpoint is used to create a custom checks. You may pass one check or an ar
 `POST /checks`
 
 ##### Parameters
+
 - `data`: a data array (or data object if only creating one check) containing JSONAPI compliant objects with following properties
+
   - `type`: "checks"
   - `attributes`: An attributes object containing
+
     - `message`: String, descriptive message about the check
     - `region`: String, a valid AWS region. Please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions)
     - `resource`: String, the AWS resource this check applies to. (optional)
     - `rule-title`: String, custom rule title. (optional, defaults to "Custom Rule" if not specified).
+
       - Note: If there are multiple custom checks with the same rule id, then the rule title of the check with the most recently updated date will be used. Hence this field can be used to update a custom rule's title with a new value.
 
     - `risk-level`: String, one risk level from the following: LOW\| MEDIUM \| HIGH \| VERY_HIGH \| EXTREME
     - `status`: String, SUCCESS or FAILURE
-    - `categories`: An array of category (AWS well-architected framework category) strings from the following: security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence (optional)
+    - `categories`: An array of category (AWS well-architected framework category) strings from the following: security \| cost-optimisation \| reliability \| performance-efficiency \| operational-excellence (optional)
     - `service`: String, a valid AWS service, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
     - `not-scored`: Boolean, true for informational checks (optional)
     - `tags`: Array, an array of tag strings that follow the format: "key::value". You can enter a max of 20 tags, each tag must not exceed 50 characters. (optional)
@@ -49,6 +52,7 @@ This endpoint is used to create a custom checks. You may pass one check or an ar
       - `name`: String, as reference for the back-end. Character limit of 20
       - `type`: String, provide type as you see fit. Character limit of 20
       - `value`: Enter value as you see fit. If entering a number or string, length must not exceed 150.
+
   - `relationships`: A relationships object containing
     - `account`: An account object containing
       - `data`: A data object containing
@@ -173,6 +177,7 @@ curl -X POST \
 }' \
 https://us-west-2-api.cloudconformity.com/v1/checks
 ```
+
 Example Response:
 
 ```
@@ -292,13 +297,13 @@ Example Response:
 }
 ```
 
-
 ## Update check
-This endpoint is used to either update one custom check OR suppress/unsuppress one normal check.
 
+This endpoint is used to either update one custom check OR suppress/unsuppress one normal check.
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Some guidelines about using this endpoint:
+
 1. When updating an custom check, you must leave `region`, `resource`, `service` attributes and `relationship.account` and `relationship.rule` unchanged. These are unique identifier parameters for custom checks and must be always present and unchanged once check is created.
 2. Suppression of check via this endpoint only works with FAILING checks and not successful checks.
 
@@ -308,7 +313,8 @@ This endpoint is used to either update one custom check OR suppress/unsuppress o
 
 ##### Parameters
 
-*The following parameters are for updating a custom check only*
+_The following parameters are for updating a custom check only_
+
 - `data`: a data object containing JSONAPI compliant object with following properties
   - `type`: "checks"
   - `attributes`: An attributes object containing
@@ -318,7 +324,7 @@ This endpoint is used to either update one custom check OR suppress/unsuppress o
     - `rule-title`: String, custom rule title. (optional, defaults to "Custom Rule" if not specified)
     - `risk-level`: String, one risk level from the following: LOW\| MEDIUM \| HIGH \| VERY_HIGH \| EXTREME
     - `status`: String, SUCCESS or FAILURE
-    - `categories`: An array of category (AWS well-architected framework category) strings from the following: security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence (optional)
+    - `categories`: An array of category (AWS well-architected framework category) strings from the following: security \| cost-optimisation \| reliability \| performance-efficiency \| operational-excellence (optional)
     - `service`: String, leave UNCHANGED
     - `not-scored`: Boolean, true for informational checks (optional)
     - `tags`: Array, an array of tag strings that follow the format: "key::value". You can enter a max of 20 tags, each tag must not exceed 50 characters. (optional)
@@ -338,16 +344,15 @@ This endpoint is used to either update one custom check OR suppress/unsuppress o
         - `id`: String, leave UNCHANGED
         - `type`: "rules"
 
+_The following parameters are for normal checks only_
 
-*The following parameters are for normal checks only*
 - `data`: a data object containing JSONAPI compliant object with following properties
   - `type`: "checks"
   - `attributes`: An attributes object containing
     - `suppressed`: Boolean, true for suppressing the check
-    - `suppressed-until` Number, milliseconds between midnight of January 1, 1970 and the time when you want to suppress the check until. *Null if suppressing indefinitely*
+    - `suppressed-until` Number, milliseconds between midnight of January 1, 1970 and the time when you want to suppress the check until. _Null if suppressing indefinitely_
 - `meta`: a data object containing
   - `note`: String, a message regarding the reason for this check suppression update.
-
 
 Example request for updating a custom check:
 
@@ -403,6 +408,7 @@ curl -X PATCH \
 }' \
 https://us-west-2-api.cloudconformity.com/v1/checks/ccc:H19NxM15-:CUSTOM-001:EC2:us-west-2:sg-956d00ea
 ```
+
 Example Response:
 
 ```
@@ -458,7 +464,6 @@ Example Response:
 }
 ```
 
-
 Example request for suppressing a check:
 
 ```
@@ -482,6 +487,7 @@ curl -X PATCH \
 
 https://us-west-2-api.cloudconformity.com/v1/checks/ccc:H19NxM15:EC2-013:EC2:ap-southeast-2:
 ```
+
 Example Response:
 
 ```
@@ -533,7 +539,6 @@ Example Response:
 }
 ```
 
-
 ## List All Account Checks
 
 This endpoint allows you to collect checks for specified accounts.
@@ -550,10 +555,9 @@ This endpoint allows you to collect checks for specified accounts.
 
 ###### There is a 10k limit to the maximum number of overall results that can be returned. Paging will not work for higher than this limit. To fetch larger numbers, segment your requests using account and region filtering. On larger accounts, filter requests per account, per region, per service.
 
-
 ##### Filtering
-The `filter` query parameter is reserved to be used as the basis for filtering.
 
+The `filter` query parameter is the basis for filtering.
 
 For example, the following is a request for a page of checks filtered by service `EC2`:
 
@@ -562,35 +566,32 @@ GET /checks?accountIds=r1gyR4cqg&page[size]=100&page[number]=0&filter[services]=
 ```
 
 Multiple filter values can be combined in a comma-separated list. For example the following is a request for a page of checks in `us-west-2` or `us-west-1` regions:
+
 ```
 GET /checks?accountIds=r1gyR4cqg&page[size]=100&page[number]=0&filter[regions]=us-west-1,us-west-2
 ```
 
 Furthermore, multiple filters can be applied to a single request. For example, the following is a request to get checks for `us-west-2` region when the status of the check is `SUCCESS`, and it's for `EC2` or `IAM` service in `security` category with `HIGH` risk level
+
 ```
 GET /checks?accountIds=r1gyR4cqg&page[size]=100&page[number]=0&filter[regions]=us-west-2&filter[statuses]=SUCCESS&filter[categories]=security&filter[riskLevels]=HIGH&filter[services]=EC2,IAM
 ```
 
-
 The table below give more information about filter options:
-
-| Name  | Values |
-| ------------- | ------------- |
-| filter[regions]  | AWS Regions: global \| us-east-2 \| us-east-1 \| us-west-1 \| us-west-2 \| ap-south-1 \| ap-northeast-2 \|<br />ap-southeast-1 \| ap-southeast-2 \| ap-northeast-1 \| ca-central-1 \| eu-central-1 \| eu-west-1 \|<br /> eu-west-2 \| sa-east-1 <br /><br />Azure Regions: eastasia \| southeastasia \| centralus \| eastus \| eastus2 \| westus \| northcentralus \|<br />southcentralus \| northeurope \| westeurope \| japanwest \| japaneast \| brazilsouth \| australiaeast \| australiasoutheast \|<br />southindia \| centralindia \| westindia \| canadacentral \| canadaeast \| uksouth \| ukwest \| westcentralus \| westus2 \| koreacentral \| koreasouth \| <br />francecentral \| francesouth \| australiacentral \| australiacentral2 \| southafricanorth \| southafricawest \|<br /><br />For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions) |
-| filter[services]  | AWS Services: AutoScaling \| CloudConformity \|CloudFormation \| CloudFront \| CloudTrail \| CloudWatch \|<br />CloudWatchEvents \| CloudWatchLogs \| Config \| DynamoDB \| EBS \| EC2 \| ElastiCache \| Elasticsearch \| ELB \| IAM \| KMS \| RDS \| Redshift \| ResourceGroup \| Route53 \| S3 \| SES \|<br />SNS \| SQS \| VPC \| WAF \| ACM \| Inspector \| TrustedAdvisor \| Shield \| EMR \| Lambda \|<br />Support \| Organizations \| Kinesis \| EFS<br /><br />Azure Services: StorageAccounts \| SecurityCenter \| ActiveDirectory \| MySQL \| PostgreSQL \|<br />Sql \| Monitor \| AppService \| Network \| ActivityLog \| VirtualMachines \| AKS \| KeyVault \| Locks \| AccessControl<br /><br />For more information about services, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
-| filter[categories]  | security \| cost-optimisation \| reliability \| performance-efficiency  \| operational-excellence <br /><br />For more information about categories, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
-| filter[riskLevels]  | LOW\| MEDIUM \| HIGH \| VERY_HIGH \| EXTREME <br /><br />For more information about risk levels, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
-| filter[statuses]  | SUCCESS \| FAILURE |
-| filter[ruleIds]  |AWS Rules: EC2-001 \| EC2-002 \| etc <br /><br />Azure Rules: KeyVault-001 \| StorageAccounts-001 \| etc <br /><br />For more information about rules, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
-| filter[suppressedFilterMode]  | "v1" \| "v2" <br /><br /> Whether to use the `"v1"` or `"v2"` suppressed functionality. `"v1"`: Using `suppressed=true` will return both suppressed and unsuppressed checks, `suppressed=false` will just return unsuppressed checks. `"v2"`: Using `suppressed=true` return will just return suppressed checks. Defaults to "v1".
-| filter[suppressed]  | true \| false <br /><br /> Whether or not include all suppressed checks. The default value is `true` for "v1" and omitted for "v2" |
-| filter[createdDate]  | The date when the check was created<br /><br />The numeric value of the specified date as the number of milliseconds since January 1, 1970, 00:00:00 UTC |
-| filter[tags]  | Any assigned metadata tags to your AWS resources |
-| filter[compliances]  | An array of supported standard or framework ids. Possible values: ["AWAF" \| "CISAWSF" \| "CISAWSTTW" \| "PCI" \| "HIPAA" \| "GDPR" \| "APRA" \| "NIST4" \| "SOC2" \| "NIST-CSF" \| "ISO27001"\| "AGISM"\| "ASAE-3150"] |
-
+| Name | Values |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| filter[regions] | AWS Regions: global \| us-east-2 \| us-east-1 \| us-west-1 \| us-west-2 \| ap-south-1 \| ap-northeast-2 \|<br />ap-southeast-1 \| ap-southeast-2 \| ap-northeast-1 \| ca-central-1 \| eu-central-1 \| eu-west-1 \|<br /> eu-west-2 \| sa-east-1 <br /><br />Azure Regions: eastasia \| southeastasia \| centralus \| eastus \| eastus2 \| westus \| northcentralus \|<br />southcentralus \| northeurope \| westeurope \| japanwest \| japaneast \| brazilsouth \| australiaeast \| australiasoutheast \|<br />southindia \| centralindia \| westindia \| canadacentral \| canadaeast \| uksouth \| ukwest \| westcentralus \| westus2 \| koreacentral \| koreasouth \| <br />francecentral \| francesouth \| australiacentral \| australiacentral2 \| southafricanorth \| southafricawest \| <br /><br />For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions) |
+| filter[services] | AWS Services: AutoScaling \| CloudConformity \|CloudFormation \| CloudFront \| CloudTrail \| CloudWatch \|<br />CloudWatchEvents \| CloudWatchLogs \| Config \| DynamoDB \| EBS \| EC2 \| ElastiCache \| Elasticsearch \| ELB \| IAM \| KMS \| RDS \| Redshift \| ResourceGroup \| Route53 \| S3 \| SES \|<br />SNS \| SQS \| VPC \| WAF \| ACM \| Inspector \| TrustedAdvisor \| Shield \| EMR \| Lambda \|<br />Support \| Organizations \| Kinesis \| EFS<br /><br />Azure Services: StorageAccounts \| SecurityCenter \| ActiveDirectory \| MySQL \| PostgreSQL \|<br />Sql \| Monitor \| AppService \| Network \| ActivityLog \| VirtualMachines \| AKS \| KeyVault \| Locks \| AccessControl<br /><br />For more information about services, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
+| filter[categories] | security \| cost-optimisation \| reliability \| performance-efficiency \| operational-excellence <br /><br />For more information about categories, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
+| filter[riskLevels] | LOW\| MEDIUM \| HIGH \| VERY_HIGH \| EXTREME <br /><br />For more information about risk levels, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
+| filter[statuses] | SUCCESS \| FAILURE |
+| filter[ruleIds] | AWS Rules: EC2-001 \| EC2-002 \| etc <br /><br />Azure Rules: KeyVault-001 \| StorageAccounts-001 \| etc <br /><br />For more information about rules, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services) |
+| filter[suppressedFilterMode] | "v1" \| "v2" <br /><br /> Whether to use the `"v1"` or `"v2"` suppressed functionality. `"v1"`: Using `suppressed=true` will return both suppressed and unsuppressed checks, `suppressed=false` will just return unsuppressed checks. `"v2"`: Using `suppressed=true` return will just return suppressed checks. Defaults to "v1". |
+| filter[suppressed] | true \| false <br /><br /> Whether or not include all suppressed checks. The default value is `true` for "v1" and omitted for "v2" |
+| filter[createdDate] | The date when the check was created<br /><br />The numeric value of the specified date as the number of milliseconds since January 1, 1970, 00:00:00 UTC |
+| filter[tags] | Any assigned metadata tags to your AWS resources |
+| filter[compliances] | An array of supported standard or framework ids. Possible values: ["AWAF" \| "CISAWSF" \| "CISAWSTTW" \| "PCI" \| "HIPAA" \| "GDPR" \| "APRA" \| "NIST4" \| "SOC2" \| "NIST-CSF" \| "ISO27001"\| "AGISM"\| "ASAE-3150"] |
 <br />
-
-
 
 Example Request:
 
@@ -599,70 +600,72 @@ curl -g -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 https://us-west-2-api.cloudconformity.com/v1/checks?accountIds=r1gyR4cqg&page[size]=100&page[number]=0&filter[regions]=us-west-2&filter[ruleIds]=EC2-001,EC2-002&filter[statuses]=SUCCESS&filter[categories]=security&filter[riskLevels]=HIGH&filter[services]=EC2&filter[createdDate]=1502572157914
 ```
+
 Example Response:
-###### Note the size of this response can be quite large and the example below is purposefully truncated
 
-```
+###### Note the size of this response can be quite large. The example below is purposefully truncated.
+
+```json
 {
-    "data": [
-        {
-            "type": "checks",
-            "id": "ccc:94qQ4DnOB:AG-003:APIGateway:us-east-1:pl63negesk",
-            "attributes": {
-                "region": "us-east-1",
-                "status": "FAILURE",
-                "risk-level": "LOW",
-                "pretty-risk-level": "Low",
-                "message": "API Security Automations - WAF Bad Bot API has stages without active tracing enabled",
-                "resource": "pl63negesk",
-                "descriptorType": "apigateway-restapi",
-                "resourceName": "API Gateway REST API",
-                "last-modified-date": 1561697456359,
-                "created-date": 1561697456359,
-                "categories": [
-                    "operational-excellence"
-                ],
-                "last-updated-date": null,
-                "failure-discovery-date": 1561697456359,
-                "ccrn": "ccrn:aws:94qQ4DnOB:APIGateway:us-east-1:pl63negesk",
-                "tags": [],
-                "cost": 0,
-                "waste": 0,
-                "rule-title": "Tracing Enabled",
-                "link": "https://us-east-1.console.aws.amazon.com/apigateway/home?region=us-east-1#/apis/pl63negesk/resources",
-                "provider": "aws",
-                "resolutionPageUrl": "https://www.cloudconformity.com/conformity-rules/APIGateway/tracing.html#B1nHYYpwx",
-                "uuid": "arn:aws:apigateway:us-west-1::/restapis/pl63negesk/*"
-            },
-            "relationships": {
-                "rule": {
-                    "data": {
-                        "type": "rules",
-                        "id": "AG-003"
-                    }
-                },
-                "account": {
-                    "data": {
-                        "type": "accounts",
-                        "id": "94qQ4DnOB"
-                    }
-                }
-            }
+  "data": [
+    {
+      "type": "checks",
+      "id": "ccc:94qQ4DnOB:AG-003:APIGateway:us-east-1:pl63negesk",
+      "attributes": {
+        "region": "us-east-1",
+        "status": "FAILURE",
+        "risk-level": "LOW",
+        "pretty-risk-level": "Low",
+        "message": "API Security Automations - WAF Bad Bot API has stages without active tracing enabled",
+        "resource": "pl63negesk",
+        "descriptorType": "apigateway-restapi",
+        "resourceName": "API Gateway REST API",
+        "last-modified-date": 1561697456359,
+        "created-date": 1561697456359,
+        "categories": ["operational-excellence"],
+        "last-updated-date": null,
+        "failure-discovery-date": 1561697456359,
+        "ccrn": "ccrn:aws:94qQ4DnOB:APIGateway:us-east-1:pl63negesk",
+        "tags": [],
+        "cost": 0,
+        "waste": 0,
+        "rule-title": "Tracing Enabled",
+        "link": "https://us-east-1.console.aws.amazon.com/apigateway/home?region=us-east-1#/apis/pl63negesk/resources",
+        "provider": "aws",
+        "resolutionPageUrl": "https://www.cloudconformity.com/conformity-rules/APIGateway/tracing.html#B1nHYYpwx"
+      },
+      "relationships": {
+        "rule": {
+          "data": {
+            "type": "rules",
+            "id": "AG-003"
+          }
+        },
+        "account": {
+          "data": {
+            "type": "accounts",
+            "id": "94qQ4DnOB"
+          }
         }
-
-    ],
-    "meta": {
-        "total-pages": 714
+      }
     }
+  ],
+  "meta": {
+    "total-pages": 714
+  }
 }
 ```
+
 Example Request:
+
 ```
 curl -g -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 https://us-west-2-api.cloudconformity.com/v1/checks?accountIds=e13vR4c3g&page[size]=100&page[number]=0&&filter[regions]=eastus&filter[ruleIds]=KeyVault-004&filter[services]=KeyVault&filter[statuses]=SUCCESS&filter[categories]=security&filter[riskLevels]=HIGH
 ```
+
 Example Response:
+
 ```json
 {
   "data": [
@@ -703,7 +706,6 @@ Example Response:
 }
 ```
 
-
 ## Get Check Details
 
 This endpoint allows you to get the details of the specified check.
@@ -713,8 +715,8 @@ This endpoint allows you to get the details of the specified check.
 `GET /checks/id`
 
 ##### Parameters
-- `id`: The Cloud Conformity ID of the check
 
+- `id`: The Cloud Conformity ID of the check
 
 Example Request:
 
@@ -723,7 +725,9 @@ curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 https://us-west-2-api.cloudconformity.com/v1/checks/ccc:r2gyR4cqg:IAM-017:IAM:global:groups-test
 ```
+
 Example Response:
+
 ```
 {
     "data": {
@@ -771,10 +775,6 @@ Example Response:
 }
 ```
 
-
-
-
-
 ## Delete check
 
 A DELETE request to this endpoint allows a user with WRITE access to the associated account to delete the check.
@@ -784,6 +784,7 @@ A DELETE request to this endpoint allows a user with WRITE access to the associa
 `DELETE /checks/checkId`
 
 Example Request:
+
 ```
 curl -X DELETE \
 -H "Content-Type: application/vnd.api+json" \
@@ -801,5 +802,3 @@ Example Response:
     }]
 }
 ```
-
-
