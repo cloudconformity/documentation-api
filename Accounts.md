@@ -372,7 +372,7 @@ Example Response:
 
 ## Update Account Bot Setting
 
-This endpoint allows ADMIN users to get the current setting Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled. This endpoint also supports updating single attributes under the `settings` field (see below) in which case, only attributes passed in the request body will be updated.
+This endpoint allows ADMIN users to get the current setting that Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled. This endpoint also supports updating single attributes under the `settings` field (see below) in which case, only attributes passed in the request body will be updated.
 
 ##### Endpoints:
 
@@ -391,8 +391,8 @@ This endpoint allows ADMIN users to get the current setting Cloud Conformity use
 - `meta`: a JSON object containing JSONAPI compliant data object with the following properties
   - `otherAccounts`: (optional) An array of other account IDs to which the Conformity Bot settings will also be applied.
 
-Example Request - Update all attributes
-This request disables the Conformity Bot for all regions until the specified date time, after which it will run every 10 hours for all regions besides `us-west-2`.
+Example Request to update all attributes:<br />
+This request disables the Conformity Bot for two accounts. Conformity Bot is disabled in all regions until the specified date-time, after which it will run every 10 hours for all regions besides `us-west-2`.
 ```
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
@@ -413,6 +413,9 @@ curl -X PATCH \
         }
       }
     }
+  },
+  "meta": {
+       "otherAccounts": ["cfe80897"]
   }
 };' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
@@ -454,13 +457,44 @@ Example Response:
           }
         }
       }
+    },
+    {
+      "type": "accounts",
+      "id": "cfe80897",
+      "attributes": {
+        "name": "Test Azure Account",
+        ...
+        "settings": {
+          "rules": [
+           ...
+          ],
+          "bot": {
+            "lastModifiedFrom": "12.345.67.890",
+            "delay": 10
+            "disabled": true,
+            "disabledUntil": 1234567890,
+            "lastModifiedBy": "3456d0"
+          }
+        },
+        ...
+        "cloud-type": "azure",
+        "managed-group-id": "23784h"
+      },
+      "relationships": {
+        "organisation": {
+          "data": {
+            "type": "organisations",
+            "id": "moid324"
+          }
+        }
+      }
     }
   ]
 }
 ```
 
-Other requests for example use cases:
-Temporarily disable Conformity Bot until the specified date-time (for more than one account):
+Other requests for example use cases:<br />
+Temporarily disable Conformity Bot until the specified date-time:
 ```
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
@@ -477,9 +511,6 @@ curl -X PATCH \
         }
       }
     }
-  },
-  "meta": {
-    "otherAccounts": ["cfe80897"]
   }
 };' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
@@ -504,7 +535,7 @@ curl -X PATCH \
 };' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
 ```
-Disable Conformity Bot runs for a few regions and increase delay between runs in others:
+Disable Conformity Bot runs for a few regions and increase delay between enabled regions:
 ```
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
