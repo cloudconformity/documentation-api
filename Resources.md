@@ -46,11 +46,11 @@ GET /resources?excluded=true&accountIds=r1gyR4cqg&page[size]=100&page[number]=0&
 
 The table below give more information about filter options:
 
-| Name  | Values |
-| ------------- | ------------- |
-| filter[regions]  | global \| us-east-2 \| us-east-1 \| us-west-1 \| us-west-2 \| ap-south-1 \| ap-northeast-2 \|<br>ap-southeast-1 \| ap-southeast-2 \| ap-northeast-1 \| ca-central-1 \| eu-central-1 \| eu-west-1 \|<br> eu-west-2 \| sa-east-1 <br><br>For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions) |
-| filter[tags]  | Any assigned metadata tags to your resources |
-| filter[providers]  | Cloud providers. Accepted values: ["aws" \| "azure"] |
+| Name              | Values                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| filter[regions]   | AWS:<br>global \| us-east-1 \| us-east-2 \| us-west-1 \| us-west-2 \| ap-south-1 \| ap-northeast-2 \|<br>ap-southeast-1 \| ap-southeast-2 \| ap-northeast-1 \| eu-central-1 \| eu-west-1 \| eu-west-2 \|<br> eu-west-3 \| eu-north-1 \| sa-east-1 \| ca-central-1 \| me-south-1 \| ap-east-1 <br><br>Azure:<br>global \| eastasia \| southeastasia \| centralus \| eastus \| eastus2 \| westus \| northcentralus \| southcentralus \| northeurope \| westeurope \| japanwest \| japaneast \| brazilsouth \| australiaeast \| australiasoutheast \| southindia \| centralindia \| westindia \| canadacentral \| canadaeast \| uksouth \| ukwest \| westcentralus \| westus2 \| koreacentral \| koreasouth \| francecentral \| francesouth \| australiacentral \| australiacentral2 \| southafricanorth \| southafricawest<br><br>For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions) |
+| filter[tags]      | Any assigned metadata tags to your resources                                                                                                                                                                                                                                                                                                                                    |
+| filter[providers] | Cloud providers. Accepted values: ["aws" \| "azure"]                                                                                                                                                                                                                                                                                                                            |
 
 <br>
 Example Request:
