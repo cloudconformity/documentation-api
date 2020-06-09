@@ -24,13 +24,13 @@ User access to each endpoint is listed below:
 ## List all Reports
 This end point allows you to query all reports that you have access to, based on the query parameters provided.
 
-Admins, power users, and read only users have access to all reports. Includes account, group and organisation reports.
+Admins, Power users, and Read-Only users have access to all reports. Includes account, group and organisation reports.
 
-Users only have access to account reports that they have been granted access to
+Users only have access to account reports that they have been granted access to.
 
-Please note only up to one years worth of reports will be returned
+Please note only up to one year's worth of reports will be returned.
 
-Reports will be ordered based on how recent the report was created.
+Reports will be ordered based on the report's creation date.
 
 ##### Endpoints:
 `GET /reports`
@@ -52,9 +52,9 @@ Reports will be ordered based on how recent the report was created.
         - For a list of user created report Configuration Ids, please see [Report Configs Section](ReportConfigs.md)
 
 
-If no parameters are provided, the end point will retrieve reports associated with the organisation.
+If no parameters are provided, the end point will retrieve reports associated with the organisation i.e. reports that have been generated for all accounts within your organisation.
 
-If both accountId and groupId are present in the query string, only account reports will be returned
+If both accountId and groupId are present in the query string, only account reports will be returned.
 
 ##### Response Explanation: 
 - `status`: status types of a report
