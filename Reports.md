@@ -52,7 +52,7 @@ Reports will be ordered based on the report's creation date.
         - For a list of user created report Configuration Ids, please see [Report Configs Section](ReportConfigs.md)
 
 
-If no parameters are provided, the end point will retrieve reports associated with the organisation i.e. reports that have been generated for all accounts within your organisation.
+If no parameters are provided, the end point will retrieve reports associated with the organisation, i.e. reports that have been generated for all accounts within your organisation.
 
 If both accountId and groupId are present in the query string, only account reports will be returned.
 
