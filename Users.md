@@ -39,12 +39,13 @@ User access to each endpoint is listed below:
 | POST /checks                                                |   Y   |        Y         |       N        |       N        |
 | DELETE /checks/id                                           |   Y   |        Y         |       N        |       N        |
 | GET /events \*\*\*                                          |   Y   |        Y         |       Y        |       N        |
+| POST /external-ids                                          |   Y   |        N         |       N        |       N        |
+| GET /groups                                                 |   Y   |        Y         |       Y        |       N        |
 | GET /resources                                              |   Y   |        Y         |       N        |       N        |
 | GET /settings/communication/accountId \*\*                  |   Y   |        Y         |       Y        |       N        |
 | POST /settings/communication \*\*                           |   Y   |        Y         |       N        |       N        |
 | PATCH /settings/communication/settingId \*\*                |   Y   |        Y         |       N        |       N        |
 | DELETE /settings/settingId \*\*                             |   Y   |        Y         |       N        |       N        |
-| POST /external-ids                                          |   Y   |        N         |       N        |       N        |
 | GET /users/whoami                                           |   Y   |        Y         |       Y        |       Y        |
 | GET /users/id                                               |   Y   |        Y         |       Y        |       Y        |
 | GET /users                                                  |   Y   |        N         |       N        |       N        |
@@ -53,11 +54,7 @@ User access to each endpoint is listed below:
 | PATCH /users/id                                             |   Y   |        N         |       N        |       N        |
 | DELETE /users/id                                            |   Y   |        N         |       N        |       N        |
 
-- Response will depend on the AccountIds added to the query parameter. For example, if a user has no access to an account and they add that account to the AccountIds array, an error will be thrown.
-
-\*\* User role will limit the amount of data they can GET or POST/PATCH. For more information, consult the [Settings ReadMe](./Settings.md#).
-
-\*\*\* If user role is ADMIN, organisation-level events will also be returned.
+- The response will depend on the AccountIds added to the query parameter. For example, if a user has no access to an account and they add that account to the AccountIds array, an error will be thrown.
 
 \*\* User role will limit the amount of data they can GET or POST/PATCH. For more information, consult the [Settings ReadMe](./Settings.md#).
 
