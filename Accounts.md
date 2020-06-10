@@ -372,21 +372,21 @@ Example Response:
 
 ## Update Account Bot Setting
 
-This endpoint allows ADMIN users to get the current setting that Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled. This endpoint also supports updating single attributes under the `settings` field (see below) in which case, only attributes passed in the request body will be updated.
+This endpoint allows ADMIN, POWER USERS, and users with CUSTOM access to accounts to get the current setting that Cloud Conformity uses to determine when Conformity Bot is run and on which regions the Conformity Bot is disabled. This endpoint also supports updating single attributes under the `settings` field (see below) in which case, only attributes passed in the request body will be updated.
 
 ##### Endpoints:
 
 `PATCH  /accounts/id/settings/bot`
 
 ##### Parameters
-- `id`: The Cloud Coformity ID of the account
+- `id`: The Cloud Conformity ID of the account
 - `data`: a JSON object containing JSONAPI compliant data object with the following properties
   - `attributes`: An attribute object containing
     - `settings`: An attribute object containing account settings. This contains the properties
       - `bot`: An attribute object containing
         - `disabled`: A boolean value to disable or enable the Conformity Bot | true, false
         - `delay`: An integer value that sets the number of hours delay between Conformity Bot runs.
-        - `disabledUntil`: A date-time in Unix Epoch timestamp format. Setting this value will disable the Conformity Bot until the date and time indicated. Setting this value to `null` will disable the Conformity Bot indefinitely if `disabled` field is set to `true`. 
+        - `disabledUntil`: A date-time in Unix Epoch timestamp format (in milliseconds). Setting this value will disable the Conformity Bot until the date and time indicated. Setting this value to `null` will disable the Conformity Bot indefinitely if `disabled` field is set to `true`. 
         - `disabledRegions`: This field can only be applied to AWS accounts. An attribute object containing a list of AWS regions for which Conformity Bot runs will be disabled.
 - `meta`: a JSON object containing JSONAPI compliant data object with the following properties
   - `otherAccounts`: (optional) An array of other account IDs to which the Conformity Bot settings will also be applied.
@@ -409,7 +409,7 @@ curl -X PATCH \
              "us-west-2": true
            },
            "disabled": true,
-           "disabledUntil": 1234567890,
+           "disabledUntil": 1591751339519,
         }
       }
     }
@@ -441,7 +441,7 @@ Example Response:
               "us-west-2": true
             },
             "disabled": true,
-            "disabledUntil": 1234567890,
+            "disabledUntil": 1591751339519,
             "lastModifiedBy": "3456d0"
           }
         },
@@ -472,7 +472,7 @@ Example Response:
             "lastModifiedFrom": "12.345.67.890",
             "delay": 10
             "disabled": true,
-            "disabledUntil": 1234567890,
+            "disabledUntil": 1591751339519,
             "lastModifiedBy": "3456d0"
           }
         },
@@ -507,7 +507,7 @@ curl -X PATCH \
       "settings": {
         "bot": {
           "disabled": true,
-          "disabledUntil": 123456789090,
+          "disabledUntil": 1591751339519,
         }
       }
     }
