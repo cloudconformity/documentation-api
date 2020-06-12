@@ -7,26 +7,29 @@ Below is a list of the available APIs:
 - [Download report](#download-report)
 
 ## User Privileges
-There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
+There are 6 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
 
-- __organisation admin__
-- __organisation user with full access to account__
-- __organisation user with read-only access to account__
-- __organisation user with no access to account__
+- __administrator__
+- __power user__
+- __read only__
+- __custom user with full access to account__
+- __custom user with read-only access to account__
+- __custom user with no access to account__
 
 User access to each endpoint is listed below:
 
-| Endpoint | admin | full access user| read-only user | no access user |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| GET /reports  *(get a list reports)* | Y | Y | Y | Y |
-| GET /reports/reportId/entityId/type  *(downloads a report)* | Y | Y | Y | Y |
+| Endpoint | administrator | power user| read-only | custom user - full | custom user - read only | custom user - no access |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| GET /reports  *(get a list reports)* | Y | Y | Y | Y | Y | N |
+| GET /reports/reportId/entityId/type  *(downloads a report)* | Y | Y | Y | Y | Y | N |
 
 ## List all Reports
 This end point allows you to query all reports that you have access to, based on the query parameters provided.
 
-Admins, Power users, and Read-Only users have access to all reports. Includes account, group and organisation reports.
+Administrator, power user, and read only users have access to all reports. Includes account, group and organisation reports.
 
-Users only have access to account reports that they have been granted access to.
+Custom users (full access / read only) only have access to account reports that they have been granted access to.<br />
+Custom users (no access) do not have access to accogunt reports that they have been denied access to.
 
 Please note only up to one year's worth of reports will be returned.
 
@@ -39,7 +42,7 @@ Reports will be ordered based on the report's creation date.
 `Content-Type`: application/vnd.api+json
 `Authorization`: ApiKey
 
-##### Parameters: 
+##### Parameters:
 - `accountId`: account ID (optional)
 - `groupId`: group ID (optional)
 - `reportConfigId`: Configured Report Ids (optional)
@@ -56,14 +59,14 @@ If no parameters are provided, the end point will retrieve reports associated wi
 
 If both accountId and groupId are present in the query string, only account reports will be returned.
 
-##### Response Explanation: 
+##### Response Explanation:
 - `status`: status types of a report
     - `CREATED` : Report data has been created and ready to load for report generating.
     - `READY`   : Report is ready to download, report download end points provided
     - `PENDING` : Report creation pending.
     - `ERROR`   : Something went wrong with the report creation process.
 - `included`: If a report status is READY, an endpoint will be provided for a user to download a report
-    - `report-download-endpoint`: end point which redirects you to download a report, requires an api key. 
+    - `report-download-endpoint`: end point which redirects you to download a report, requires an api key.
     - `type`: type of report { CSV | PDF | XLSX }
 
 ##### Getting Reports
@@ -132,7 +135,7 @@ https://us-west-2-api.cloudconformity.com/v1/reports
 }
 ```
 
-Example Request for getting account reports with reportConfigId 
+Example Request for getting account reports with reportConfigId
  ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -239,9 +242,10 @@ https://us-west-2-api.cloudconformity.com/v1/reports?groupId=grpId123
 
 This end point allows you to download the report using the report-download-endpoint link created in the response body as part of the [list all reports](#list-all-reports) section. The end point will generate a redirection link to download the report.
 
-Admins, power users, and read only users have access to all reports. Includes account, group and organisation reports.
+Administrator, power user, and read only users have access to all reports. Includes account, group and organisation reports.
 
-Users only have access to account reports that they have been granted access to.
+Custom users (full access / read only) only have access to account reports that they have been granted access to.<br />
+Custom users (no access) do not have access to account reports that they have been denied access to.
 
 ##### Endpoints:
 `GET /reports/{reportId}/{entityId}/{type}`
