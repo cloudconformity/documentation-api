@@ -11,7 +11,7 @@ There are 6 possible Cloud Conformity roles. Each role grants different levels o
 
 - __administrator__
 - __power user__
-- __read only__
+- __read-only__
 - __custom user with full access to account__
 - __custom user with read-only access to account__
 - __custom user with no access to account__
@@ -26,7 +26,7 @@ User access to each endpoint is listed below:
 ## List all Reports
 This end point allows you to query all reports that you have access to, based on the query parameters provided.
 
-Administrator, power user, and read only users have access to all reports. Includes account, group and organisation reports.
+Administrator, power user, and read-only users have access to all reports. Includes account, group and organisation reports.
 
 Custom users (full access / read only) only have access to account reports that they have been granted access to.<br />
 Custom users (no access) do not have access to accogunt reports that they have been denied access to.
@@ -242,7 +242,7 @@ https://us-west-2-api.cloudconformity.com/v1/reports?groupId=grpId123
 
 This end point allows you to download the report using the report-download-endpoint link created in the response body as part of the [list all reports](#list-all-reports) section. The end point will generate a redirection link to download the report.
 
-Administrator, power user, and read only users have access to all reports. Includes account, group and organisation reports.
+Administrator, power user, and read-only users have access to all reports. Includes account, group and organisation reports.
 
 Custom users (full access / read only) only have access to account reports that they have been granted access to.<br />
 Custom users (no access) do not have access to account reports that they have been denied access to.
