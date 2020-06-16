@@ -780,16 +780,18 @@ Example Response:
 A DELETE request to this endpoint allows a user with WRITE access to the associated account to delete the check.
 
 ##### Endpoints:
-
 `DELETE /checks/checkId`
 
-Example Request:
+##### Parameters
+- `id`: The Cloud Conformity ID of the check <br /><br />
+Note: the Cloud Conformity ID of a check for an Azure account contains the forward slash character `/` which needs to be replaced with the encoded character `%2F` when passed in the request URL.
 
+Example Request to delete a check for an AWS account:
 ```
 curl -X DELETE \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/checks/ccc:H19NxM15-:CUSTOM-001:EC2:us-west-2:sg-956d00ea
+'https://us-west-2-api.cloudconformity.com/v1/checks/ccc:H19NxM15-:CUSTOM-001:EC2:us-west-2:sg-956d00ea'
 ```
 
 Example Response:
@@ -801,4 +803,12 @@ Example Response:
         "message": "Check successfully deleted"
     }]
 }
+```
+Example Request to delete a check for an Azure account with ID <br />
+`ccc:r2gyR4cqg:SecurityCenter-008:SecurityCenter:global:/subscriptions/9f7bcadb-3626-46dx-9917-1397384797f40/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn`:
+```shell script
+curl -X DELETE \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+'https://us-west-2-api.cloudconformity.com/v1/checks/ccc:r2gyR4cqg:SecurityCenter-008:SecurityCenter:global:%2Fsubscriptions%2F9f7bcadb-3626-46dx-9917-1397384797f40%2Fproviders%2FMicrosoft.Authorization%2FpolicyAssignments%2FSecurityCenterBuiltIn'
 ```
