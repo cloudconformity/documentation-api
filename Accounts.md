@@ -389,7 +389,7 @@ This endpoint allows ADMIN, POWER USERS, and users with CUSTOM access to account
         - `disabledUntil`: A date-time in Unix Epoch timestamp format (in milliseconds). Setting this value will disable the Conformity Bot until the date and time indicated. Setting this value to `null` will disable the Conformity Bot indefinitely if `disabled` field is set to `true`. 
         - `disabledRegions`: This field can only be applied to AWS accounts. An attribute object containing a list of AWS regions for which Conformity Bot runs will be disabled.
 - `meta`: a JSON object containing JSONAPI compliant data object with the following properties
-  - `otherAccounts`: (optional) An array of other account IDs to which the Conformity Bot settings will also be applied.
+  - `otherAccounts`: (optional) An array of other account IDs to which the Conformity Bot settings will also be applied. The limit to the number of accounts permitted in this request is 25.
 
 Example Request to update all attributes:<br />
 This request disables the Conformity Bot for two accounts. Conformity Bot is disabled in all regions until the specified date-time, after which it will run every 10 hours for all regions besides `us-west-2`.
