@@ -112,7 +112,7 @@ curl -X POST \
                         "type": "rules"
                     }
                 }
-            },
+            }
         },
         {
             "attributes": {
