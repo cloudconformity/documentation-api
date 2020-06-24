@@ -18,7 +18,9 @@ Below is a list of the available API calls:
 
 ## Create an Account
 This endpoint is used to register a new AWS account with Cloud Conformity. \
-**Note:** Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Parameters)
+**Note:**
+- Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Parameters)
+- The field `hasRealTimeMonitoring` is planned to be replaced with `subscriptionType` in the future. We advise new customers to use the new field `subscriptionType`, existing customers are able to continue using the field `hasRealTimeMonitoring` until it has been replaced. When an account has the `subscriptionType` of 'advanced', Real-Time threat monitoring is enabled for the account. When an account has subscriptionType of 'essentials', Real-Time threat monitoring is disabled for the account.
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;In order to register a new AWS account, you need to:
@@ -48,9 +50,12 @@ This endpoint is used to register a new AWS account with Cloud Conformity. \
         - `roleArn`: The Role ARN of the role you have already created to grant access to Cloud Conformity
         - `externalId`: The External ID that you have requested on the previous step
     - `costPackage`: Boolean, true for enabling the cost package add-on for the account (AWS spend analysis, forecasting, monitoring) **Note:** The server will throw a 422 error if this field is set to true for customers who do not have cost package enabled in any of their AWS accounts
-    - `hasRealTimeMonitoring`: Boolean, true for enabling the Real-Time Threat monitoring add-on
+    - `hasRealTimeMonitoring`: Boolean, true for enabling the Real-Time Threat monitoring add-on **Note:** This field will be replaced with `subscriptionType` in the future
+    - `subscriptionType`: String, 'advanced' comes with Real-Time threat monitoring enabled, 'essentials' comes with Real-Time threat monitoring disabled
 
-Example Request:
+*Please note the server will not accept both hasRealTimeMonitoring and subscriptionType in the request body. Please provide either hasRealTimeMonitoring or subscriptionType*
+
+Example Request with the old field hasRealTimeMonitoring:
 
 ```
 curl -X POST \
@@ -76,6 +81,33 @@ curl -X POST \
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts
 ```
+
+Example Request with new field subscriptionType:
+
+```
+curl -X POST \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+-d '
+{
+  "data": {
+    "type": "account",
+    "attributes": {
+      "name": "Myaccount",
+      "environment": "MyEnv",
+      "access": {
+        "keys": {
+          "roleArn": "YOUR_ROLE_ARN",
+          "externalId": "THE_EXTERNAL_ID"
+        }
+      },
+      "costPackage": true,
+      "subscriptionType": "advanced"
+    }
+  }
+}' \
+https://us-west-2-api.cloudconformity.com/v1/accounts
+```
 Example Response:
 
 ```
@@ -88,7 +120,7 @@ Example Response:
       "environment": "MyEnv",
       "awsaccount-id": "123456789012",
       "status": "ACTIVE",
-      "has-real-time-monitoring": true,
+      "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
       "cost-package": true,
       "created-date": 1505595441887,
       "settings": {
@@ -115,6 +147,7 @@ Example Response:
         }
       }
     },
+    "subscription-type": "advanced",
     "relationships": {
       "organisation": {
         "data": {
@@ -131,7 +164,10 @@ Example Response:
 ## List All Accounts
 
 This endpoint allows you to query all accounts that you have access to. \
-**Note:** Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Example Responses)
+**Note:** 
+- Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Example Responses)
+- The field `hasRealTimeMonitoring` is planned to be replaced with `subscriptionType` in the future. We advise new customers to use the new field `subscriptionType`, existing customers are able to continue using the field `hasRealTimeMonitoring` until it has been replaced. When an account has the `subscriptionType` of 'advanced', Real-Time threat monitoring is enabled for the account. When an account has subscriptionType of 'essentials', Real-Time threat monitoring is disabled for the account.
+
 
 ##### Endpoints:
 
@@ -160,12 +196,13 @@ Example Response:
         "name": "Test",
         "environment": "Test",
         "awsaccount-id": "123456789013",
-        "has-real-time-monitoring": true,
+        "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
         "created-date": 1502472854056,
         "last-notified-date": 1503580590169,
         "last-checked-date": 1503584192576,
         "last-monitoring-event-date": 1502570799000,
-        "billing-account-id": "r1gyR4cqg"
+        "billing-account-id": "r1gyR4cqg",
+        "subscription-type": "advanced" 
       },
       "relationships": {
         "organisation": {
@@ -183,13 +220,14 @@ Example Response:
         "name": "Route53",
         "environment": "Route53",
         "awsaccount-id": "123456789012",
-        "has-real-time-monitoring": true,
+        "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
         "cost-package": true, **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
         "created-date": 1489703037251,
         "last-notified-date": 1503503192127,
         "last-checked-date": 1503503191166,
         "last-monitoring-event-date": 1502570252000,
-        "billing-account-id": "r1gyR4cqg"
+        "billing-account-id": "r1gyR4cqg",
+        "subscription-type": "advanced"
       },
       "relationships": {
         "organisation": {
@@ -207,7 +245,9 @@ Example Response:
 ## Get Account Details
 
 This endpoint allows you to get the details of the specified account. \
-**Note:** Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Example Responses)
+**Note:** 
+- Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Example Responses)
+- The field `hasRealTimeMonitoring` is planned to be replaced with `subscriptionType` in the future. We advise new customers to use the new field `subscriptionType`, existing customers are able to continue using the field `hasRealTimeMonitoring` until it has been replaced. When an account has the `subscriptionType` of 'advanced', Real-Time threat monitoring is enabled for the account. When an account has subscriptionType of 'essentials', Real-Time threat monitoring is disabled for the account.
 
 ##### Endpoints:
 
@@ -236,7 +276,7 @@ Example Response:
                 "environment": "Test",
                 "awsaccount-id": "123456789012",
                 "status": "ACTIVE",
-                "has-real-time-monitoring": true,
+                "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
                 "created-date": 1502472854056,
                 "settings": {
                     "communication": {
@@ -257,6 +297,7 @@ Example Response:
                         ]
                     }
                 },
+                "subscription-type": "advanced",
                 "last-notified-date": 1503285393239,
                 "last-checked-date": 1503285392447,
                 "last-monitoring-event-date": 1502570799000,
@@ -416,7 +457,10 @@ Example Response:
 A PATCH request to this endpoint allows you to change the add-on package subscription of the specified account.
 
 We recommend you first [Get account details](#get-account-details) to verify that the subscription needs to be updated. \
-**Note:** Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Parameters)
+**Note:** 
+- Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Parameters)
+- The field `hasRealTimeMonitoring` is planned to be replaced with `subscriptionType` in the future. We advise new customers to use the new field `subscriptionType`, existing customers are able to continue using the field `hasRealTimeMonitoring` until it has been replaced. When an account has the `subscriptionType` of 'advanced', Real-Time threat monitoring is enabled for the account. When an account has subscriptionType of 'essentials', Real-Time threat monitoring is disabled for the account.
+
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Only ADMIN users can use this endpoint.
@@ -429,9 +473,12 @@ We recommend you first [Get account details](#get-account-details) to verify tha
 - `data`: an JSON object containing JSONAPI compliant data object with following properties
   - `attributes`: An attribute object containing
     - `costPackage`: Boolean, true for enabling the cost package add-on for the account (AWS spend analysis, forecasting, monitoring) **Note:** The server will throw a 422 error if this field is set to true for customers who do not have cost package enabled in any of their AWS accounts
-    - `hasRealTimeMonitoring`: Boolean, true for enabling the Real-Time Threat Monitoriring package add-on for the account
+    - `hasRealTimeMonitoring`: Boolean, true for enabling the Real-Time Threat Monitoring package add-on for the account **Note:** This field will be replaced with `subscriptionType` in the future
+    - `subscriptionType`: String, 'advanced' comes with Real-Time threat monitoring enabled, 'essentials' comes with Real-Time threat monitoring disabled
 
-Example Request:
+*Please note the server will not accept both hasRealTimeMonitoring and subscriptionType in the request body. Please provide either hasRealTimeMonitoring or subscriptionType*
+
+Example Request with the old field hasRealTimeMonitoring:
 
 ```
 curl -X PATCH \
@@ -442,7 +489,25 @@ curl -X PATCH \
     "data": {
         "attributes": {
             "costPackage": true,
-            "hasRealTimeMonitoring": true
+            "hasRealTimeMonitoring": false 
+        }
+    }
+}' \
+https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/subscription
+```
+
+Example Request with new field subscriptionType:
+
+```
+curl -X PATCH \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+-d '
+{
+    "data": {
+        "attributes": {
+            "costPackage": true,
+            "subscriptionType": "essentials"
         }
     }
 }' \
@@ -461,11 +526,12 @@ Example Response:
             "environment": "myAWSenv",
             "awsaccount-id": "123456789101",
             "status": "ACTIVE",
-            "has-real-time-monitoring": true,
+            "has-real-time-monitoring": false, **Note:** This field is planned to be replaced with subscription-type in the future.
             "cost-package": true,
             "last-notified-date": 1504113512701,
             "last-checked-date": 1504113511956,
             "available-runs": 5,
+            "subscription-type": "essentials"
         },
         "relationships": {
             "organisation": {
@@ -487,7 +553,9 @@ Example Response:
 A PATCH request to this endpoint allows changes to the account name, enviornment, and code.
 
 We recommend you first [Get account details](#get-account-details) to check what existing value of these attributes are. \
-**Note:** Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Example Responses)
+**Note:** 
+- Cost package features will no longer be available for new customers, and existing customers who do not have cost package enabled in any of their AWS accounts (Please take note of the changes in the Example Responses)
+- The field `hasRealTimeMonitoring` is planned to be replaced with `subscriptionType` in the future. We advise new customers to use the new field `subscriptionType`, existing customers are able to continue using the field `hasRealTimeMonitoring` until it has been replaced. When an account has the `subscriptionType` of 'advanced', Real-Time threat monitoring is enabled for the account. When an account has subscriptionType of 'essentials', Real-Time threat monitoring is disabled for the account.
 
 **IMPORTANT:**
 &nbsp;&nbsp;&nbsp;Only ADMINs and users with FULL access to the specified account can use this endpoint.
@@ -539,12 +607,13 @@ Example Response:
             "code": "PAE",
             "awsaccount-id": "123456789101",
             "status": "ACTIVE",
-            "has-real-time-monitoring": true,
+            "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
             "cost-package": true, **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
             "last-notified-date": 1504113512701,
             "last-checked-date": 1504113511956,
             "available-runs": 5,
-            "tags": ["staging", "development", "production"]
+            "tags": ["staging", "development", "production"],
+            "subscription-type": "advanced"
         },
         "relationships": {
             "organisation": {
