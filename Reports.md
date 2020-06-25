@@ -7,18 +7,21 @@ Below is a list of the available APIs:
 - [Download report](#download-report)
 
 ## User Privileges
-There are 6 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
+There are 4 possible Cloud Conformity roles. Each role grants different levels of access via the api. The roles are:
 
 - __administrator__
 - __power user__
 - __read-only__
-- __custom user with full access to account__
-- __custom user with read-only access to account__
-- __custom user with no access to account__
+- __custom__
+
+Users with __custom__ role are managed manually by the __administrator__ and can be given the following permissions:
+- __full access to an account/s__
+- __read-only access to an account/s__
+- __no access to an account/s__
 
 User access to each endpoint is listed below:
 
-| Endpoint | administrator | power user| read-only | custom user - full | custom user - read only | custom user - no access |
+| Endpoint | administrator | power user| read-only | custom - full | custom - read only | custom - no access |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GET /reports  *(get a list reports)* | Y | Y | Y | Y | Y | N |
 | GET /reports/reportId/entityId/type  *(downloads a report)* | Y | Y | Y | Y | Y | N |
@@ -28,8 +31,8 @@ This end point allows you to query all reports that you have access to, based on
 
 Administrator, power user, and read-only users have access to all reports. Includes account, group and organisation reports.
 
-Custom users (full access / read only) only have access to account reports that they have been granted access to.<br />
-Custom users (no access) do not have access to accogunt reports that they have been denied access to.
+Users with custom role (full access / read only) only have access to account reports that they have been granted access to.<br/>
+Users with custom role (no access) do not have access to any reports in the account/s that they have been denied access to.
 
 Please note only up to one year's worth of reports will be returned.
 
@@ -244,8 +247,8 @@ This end point allows you to download the report using the report-download-endpo
 
 Administrator, power user, and read-only users have access to all reports. Includes account, group and organisation reports.
 
-Custom users (full access / read only) only have access to account reports that they have been granted access to.<br />
-Custom users (no access) do not have access to account reports that they have been denied access to.
+Users with custom role (full access / read only) only have access to account reports that they have been granted access to.<br />
+Users with custom role (no access) do not have access to any reports in the account/s that they have been denied access to.
 
 ##### Endpoints:
 `GET /reports/{reportId}/{entityId}/{type}`
