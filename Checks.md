@@ -311,6 +311,12 @@ This endpoint is used to either update one custom check OR suppress/unsuppress o
 
 `PATCH /checks/id`
 
+Note: the Cloud Conformity ID of a check for an Azure account contains the forward slash character / which needs to be replaced with the encoded character `%2F` when passed in the request URL.
+e.g to update a check for an Azure account with the ID:
+`ccc:r2gyR4cqg:SecurityCenter-008:SecurityCenter:global:/subscriptions/9f7bcadb-3626-46dx-9917-1397384797f40/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn`
+the URL in the request body should be:
+`https://us-west-2-api.cloudconformity.com/v1/checks/ccc:r2gyR4cqg:SecurityCenter-008:SecurityCenter:global:%2Fsubscriptions%2F9f7bcadb-3626-46dx-9917-1397384797f40%2Fproviders%2FMicrosoft.Authorization%2FpolicyAssignments%2FSecurityCenterBuiltIn`
+
 ##### Parameters
 
 _The following parameters are for updating a custom check only_
