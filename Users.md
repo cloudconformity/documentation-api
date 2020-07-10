@@ -41,6 +41,7 @@ User access to each endpoint is listed below:
 | GET /events \*\*\*                                          |   Y   |        Y         |       Y        |       N        |
 | POST /external-ids                                          |   Y   |        N         |       N        |       N        |
 | GET /groups                                                 |   Y   |        Y         |       Y        |       N        |
+| POST /groups                                                |   Y   |        N         |       N        |       N        |
 | GET /resources                                              |   Y   |        Y         |       N        |       N        |
 | GET /settings/communication/accountId \*\*                  |   Y   |        Y         |       Y        |       N        |
 | POST /settings/communication \*\*                           |   Y   |        Y         |       N        |       N        |
