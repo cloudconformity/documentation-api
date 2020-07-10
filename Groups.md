@@ -5,6 +5,7 @@ Below is a list of the available API calls:
 - [List All Groups](#list-all-groups)
 - [Get Group Details](#get-group-details)
 - [Create Group](#create-group)
+- [Update Group](#update-group)
 - [Delete Group](#delete-group)
 
 ## List All Groups
@@ -189,6 +190,77 @@ Example Response:
     "data": {
         "type": "groups",
         "id": "DZ0LxGYeg",
+        "attributes": {
+            "name": "New-Test-group",
+            "tags": [
+                "dev",
+                "test"
+            ],
+            "created-date": 1592817235502,
+            "last-modified-date": 1592817235502
+        },
+        "relationships": {
+            "organisation": {
+                "data": {
+                    "type": "organisations",
+                    "id": "g-Xrmwie4"
+                }
+            },
+            "accounts": {
+                "data": [
+                    {
+                        "type": "accounts",
+                        "id": "31SjrPO"
+                    }
+                ]
+            }
+        }
+    }
+}
+```
+
+## Update group
+
+This endpoint allows an ADMIN user to update a new group.
+
+##### Endpoints:
+
+`PATCH /groups/{id}`
+
+##### Parameters
+
+- `id`: The Conformity ID of the group
+- `name`: The name of the group to be updated.
+  - Name should be between 3 to 100 characters.
+  - Name should be alphanumeric, may contain symbols \" - \_ ' # & : , . / | \" and Space.
+- `tags`: An array of strings to group accounts based on the tag associated with it.
+  - There is a maximum of 50 tags per account and a maximum of 80 characters per tag.
+  - Tags should be alphanumeric, and may contain symbols - \_ and Space.
+
+Example Request (AWS group):
+
+```
+curl -X PATCH -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey {YOUR-API-KEY}" \
+-d '
+{
+    "data": {
+        "attributes": {
+            "name": "New-Test-group",
+            "tags": ["dev", "test"]
+        }
+    }
+}' \
+https://us-west-2-api.cloudconformity.com/v1/groups/
+```
+
+Example Response:
+
+```
+{
+    "data": {
+        "type": "groups",
+        "id": {id},
         "attributes": {
             "name": "New-Test-group",
             "tags": [

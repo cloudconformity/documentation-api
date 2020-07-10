@@ -42,6 +42,7 @@ User access to each endpoint is listed below:
 | POST /external-ids                                          |   Y   |        N         |       N        |       N        |
 | GET /groups                                                 |   Y   |        Y         |       Y        |       N        |
 | POST /groups                                                |   Y   |        N         |       N        |       N        |
+| PATCH /groups                                               |   Y   |        N         |       N        |       N        |
 | DELETE /groups                                              |   Y   |        N         |       N        |       N        |
 | GET /resources                                              |   Y   |        Y         |       N        |       N        |
 | GET /settings/communication/accountId \*\*                  |   Y   |        Y         |       Y        |       N        |
