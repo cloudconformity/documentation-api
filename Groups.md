@@ -5,6 +5,7 @@ Below is a list of the available API calls:
 - [List All Groups](#list-all-groups)
 - [Get Group Details](#get-group-details)
 - [Create Group](#create-group)
+- [Delete Group](#delete-group)
 
 ## List All Groups
 
@@ -22,7 +23,7 @@ Example Request:
 
 ```
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+-H "Authorization: ApiKey {YOUR-API-KEY}" \
 https://us-west-2-api.cloudconformity.com/v1/groups
 ```
 
@@ -63,7 +64,7 @@ Example Response:
         "type": "groups",
         "id": "DOL3pfdQF",
         "attributes": {
-            "name": "My Azure Acounts",
+            "name": "My Azure Accounts",
             "tags": [
                 "Azure"
             ],
@@ -92,7 +93,7 @@ This endpoint allows you to get the details of the specified group with accounts
 
 ##### Endpoints:
 
-`GET /groups/id`
+`GET /groups/{id}`
 
 ##### Parameters
 
@@ -102,8 +103,8 @@ Example Request:
 
 ```
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/groups/uUmE2v0ns
+-H "Authorization: ApiKey {YOUR-API-KEY}" \
+https://us-west-2-api.cloudconformity.com/v1/groups/{group-id}
 ```
 
 Example Response:
@@ -213,6 +214,37 @@ Example Response:
                 ]
             }
         }
+    }
+}
+```
+
+## Delete group
+
+A DELETE request to this endpoint allows an ADMIN to delete the specified group.
+
+##### Endpoints:
+
+`DELETE /groups/{id}`
+
+##### Parameters
+
+- `id`: The Conformity ID of the group
+
+Example Request:
+
+```
+curl -X DELETE \
+-H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey {YOUR-API-KEY}" \
+https://us-west-2-api.cloudconformity.com/v1/groups/AgA12vIwb
+```
+
+Example Response:
+
+```
+{
+    "meta": {
+        "status": "deleted"
     }
 }
 ```
