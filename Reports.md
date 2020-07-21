@@ -52,6 +52,7 @@ Reports will be ordered based on the report's creation date.
     - Cloud Conformity Pre-configured Report ID's
         - For Conformity Reports `{ accountId }:CONFORMITY_BOT`
         - CIS AWS Foundations Reports `{ accountId }:CIS_AWS_FOUNDATIONS_1_0_1`
+        - CIS Azure Foundations Reports: `{ accountId }:CIS_AZURE_FOUNDATIONS_1_1_1`
         - Other reports `{accountId | groupId | organisationId}:CUSTOM`
     - User Configured report IDs
         - `{ accountId | groupId | organisationId }:report-config:{ reportConfigId }`
