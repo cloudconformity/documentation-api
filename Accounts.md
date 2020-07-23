@@ -182,7 +182,7 @@ This endpoint allows you to query all accounts that you have access to. \
 
 ##### Parameters
 
-This end point takes no parameters.
+This endpoint takes no parameters.
 
 Example Request:
 
@@ -626,7 +626,7 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
 
 ## Scan Account
 
-This endpoint allows you to run conformity bot for the specified account.
+This endpoint allows you to run Conformity Bot for the specified account.
 
 IMPORTANT:
 
@@ -937,6 +937,9 @@ This feature is used in conjunction with the GET request to the same endpoint fo
       - `id`: Rule Id, same as the one provided in the endpoint
       - `enabled`: Boolean, true for inclusion in bot detection, false for exclusion
       - `riskLevel`: riskLevel you desire for this rule. Must be one of the following: LOW, MEDIUM, HIGH, VERY_HIGH, EXTREME
+      - `exceptions`: an object containing
+        - `resources`: An array of resource IDs that are exempted from the rule when it runs
+        - `tags:`: An array of resource tags that are exempted from the rule when it runs
       - `provider`: Cloud provider that the rule applies to | "aws", "azure" | (optional)
       - `extraSettings`: An array of object(s) for customisable rules only, containing
         - `name`: Keyword
@@ -960,6 +963,10 @@ curl -X PATCH \
                 "ruleExists": false,
                 "riskLevel": "MEDIUM",
                 "id": "RDS-018",
+                "exceptions": {
+                    "resources": ["i-erw82heiu8"],
+                    "tags": ["mysql-backups"]
+                },
                 "extraSettings": [
                     {
                         "name": "threshold",
@@ -1039,6 +1046,10 @@ Example Response:
                         "ruleExists": false,
                         "riskLevel": "MEDIUM",
                         "id": "RDS-018",
+                        "exceptions": {
+                            "resources": ["i-erw82heiu8"],
+                            "tags": ["mysql-backups"]
+                        },
                         "extraSettings": [
                             {
                                 "name": "threshold",
@@ -1066,12 +1077,13 @@ Example Response:
         }
     }
 }
+
 ```
 
 #### Errors:
 
 Some errors thrown from rule setting validation may need further clarification. Below is a list.
-For more information about rule specifivities, consult [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
+For more information about specific rule configurations, consult [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
 
 | Error Details                                                                                            | Resolution                                                                                                                |
 | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -1212,6 +1224,9 @@ This feature is used in conjunction with the GET request to the same endpoint fo
       - `id`: Rule Id, same as the one provided in the endpoint
       - `enabled`: Boolean, true for inclusion in bot detection, false for exclusion
       - `riskLevel`: riskLevel you desire for this rule. Must be one of the following: LOW, MEDIUM, HIGH, VERY_HIGH, EXTREME
+      - `exceptions`: an object containing
+        - `resources`: An array of resource IDs that are exempted from the rule when it runs
+        - `tags:`: An array of resource tags that are exempted from the rule when it runs
       - `provider`: Cloud provider that the rule applies to | "aws", "azure" | (optional)
       - `extraSettings`: An array of object(s) for customisable rules only, containing
         - `name`: Keyword
@@ -1236,6 +1251,10 @@ curl -X PATCH \
                     "ruleExists": false,
                     "riskLevel": "MEDIUM",
                     "id": "RDS-018",
+                    "exceptions": {
+                        "resources": ["i-erw82heiu8"],
+                        "tags": ["mysql-backups"]
+                     },
                     "extraSettings": [
                         {
                             "name": "threshold",
@@ -1297,6 +1316,10 @@ Example Response:
                         "ruleExists": false,
                         "riskLevel": "MEDIUM",
                         "id": "RDS-018",
+                        "exceptions": {
+                            "resources": ["i-erw82heiu8"],
+                            "tags": ["mysql-backups"]
+                        },
                         "extraSettings": [
                             {
                                 "name": "threshold",
@@ -1358,7 +1381,7 @@ Example Response:
 #### Errors:
 
 Some errors thrown from rule settings validation may need further clarification. Below is a list.
-For more information about rule specifivities, consult [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
+For more information about specific rule configurations, consult [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
 
 | Error Details                                                                                             | Resolution                                                                                                                |
 | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
