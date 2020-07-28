@@ -607,11 +607,9 @@ curl -g -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 https://us-west-2-api.cloudconformity.com/v1/checks?accountIds=r1gyR4cqg&page[size]=100&page[number]=0&filter[regions]=us-west-2&filter[ruleIds]=EC2-001,EC2-002&filter[statuses]=SUCCESS&filter[categories]=security&filter[riskLevels]=HIGH&filter[services]=EC2&filter[createdDate]=1502572157914
 ```
-
 Example Response:
-
-###### Note the size of this response can be quite large. The example below is purposefully truncated.
-
+###### Note the size of this response can be quite large and the example below is purposefully truncated.
+###### The check property `providerResourceId` is only returned for a limited amount of AWS rules. This property represents the [AWS ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the related resource.
 ```json
 {
   "data": [
@@ -639,7 +637,8 @@ Example Response:
         "rule-title": "Tracing Enabled",
         "link": "https://us-east-1.console.aws.amazon.com/apigateway/home?region=us-east-1#/apis/pl63negesk/resources",
         "provider": "aws",
-        "resolutionPageUrl": "https://www.cloudconformity.com/conformity-rules/APIGateway/tracing.html#B1nHYYpwx"
+        "resolutionPageUrl": "https://www.cloudconformity.com/conformity-rules/APIGateway/tracing.html#B1nHYYpwx",
+        "providerResourceId": "arn:aws:apigateway:us-west-1::/restapis/pl63negesk/*"
       },
       "relationships": {
         "rule": {
@@ -763,7 +762,7 @@ Example Response:
             "ignored": null,
             "rule-title": "Password Policy Present",
             "resolution-page-url": "https://www.cloudconformity.com/conformity-rules/IAM/unused-iam-group.html#",
-            "uuid": "arn:aws:iam::1234567890:group/groups-test"
+            "providerResourceId": "arn:aws:iam::1234567890:group/groups-test"
         },
         "relationships": {
             "rule": {
