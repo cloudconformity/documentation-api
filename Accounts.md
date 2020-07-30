@@ -867,50 +867,50 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/H19NxMi5-/settings/rules/R
 
 Example Response:
 
-```
+```JSON
 {
-	"data": {
-		"type": "accounts",
-		"id": "H19NxMi5-",
-		"attributes": {
-			"settings": {
-				"rules": [
-					{
-						"ruleExists": false,
-						"riskLevel": "MEDIUM",
-						"id": "RDS-018",
-						"extraSettings": [
-							{
-								"name": "threshold",
-								"value": 90
-							}
-						],
-						"enabled": false
-					}
-				],
-				"access": {}
-			},
-			"available-runs": 5,
-			"access": null
-		},
-		"relationships": {
-			"organisation": {
-				"data": {
-					"type": "organisations",
-					"id": "B1nHYYpwx"
-				}
-			}
-		}
-	},
-	"meta": {
-		"notes": [
-			{
-				"createdBy": "SYmS0YcL-",
-				"createdDate": 1511456432526,
-				"note": "hello world"
-			}
-		]
-	}
+    "data": {
+        "type": "accounts",
+        "id": "H19NxMi5-",
+        "attributes": {
+            "settings": {
+                "rules": [
+                    {
+                        "ruleExists": false,
+                        "riskLevel": "MEDIUM",
+                        "id": "RDS-018",
+                        "extraSettings": [
+                            {
+                                "name": "threshold",
+                                "value": 90
+                            }
+                        ],
+                        "enabled": false
+                    }
+                ],
+                "access": {}
+            },
+            "available-runs": 5,
+            "access": null
+        },
+        "relationships": {
+            "organisation": {
+                "data": {
+                    "type": "organisations",
+                    "id": "B1nHYYpwx"
+                }
+            }
+        }
+    },
+    "meta": {
+        "notes": [
+            {
+                "createdBy": "SYmS0YcL-",
+                "createdDate": 1511456432526,
+                "note": "hello world"
+            }
+        ]
+    }
 }
 ```
 
@@ -937,6 +937,7 @@ This feature is used in conjunction with the GET request to the same endpoint fo
       - `id`: Rule Id, same as the one provided in the endpoint
       - `enabled`: Boolean, true for inclusion in bot detection, false for exclusion
       - `riskLevel`: riskLevel you desire for this rule. Must be one of the following: LOW, MEDIUM, HIGH, VERY_HIGH, EXTREME
+      - `provider`: Cloud provider that the rule applies to | "aws", "azure" | (optional)
       - `extraSettings`: An array of object(s) for customisable rules only, containing
         - `name`: Keyword
         - `type`: Rule specific property
@@ -953,111 +954,117 @@ curl -X PATCH \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-	"data": {
-		"attributes": {
-			"ruleSetting": {
-				"ruleExists": false,
-				"riskLevel": "MEDIUM",
-				"id": "RDS-018",
-				"extraSettings": [
-					{
-						"name": "threshold",
-						"value": 90
-					}
-				],
-				"enabled": false
-			},
-			"note": "copied from account H19NxMi5- via the api"
-		}
-	}
+    "data": {
+        "attributes": {
+            "ruleSetting": {
+                "ruleExists": false,
+                "riskLevel": "MEDIUM",
+                "id": "RDS-018",
+                "extraSettings": [
+                    {
+                        "name": "threshold",
+                        "value": 90
+                    }
+                ],
+                "enabled": false
+            },
+            "note": "copied from account H19NxMi5- via the api"
+        }
+    }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/settings/rules/RDS-018
 ```
 
 Example Response:
 
-```
-
+```JSON
 {
-	"data": {
-		"type": "accounts",
-		"id": "AgA12vIwb",
-		"attributes": {
-			"settings": {
-				"rules": [
-					{
-						"riskLevel": "VERY_HIGH",
-						"id": "CT-001",
-						"extraSettings": null,
-						"enabled": true
-					},
-					{
-						"riskLevel": "MEDIUM",
-						"id": "RTM-005",
-						"extraSettings": [
-							{
-								"name": "authorisedCountries",
-								"countries": true,
-								"type": "countries",
-								"value": null,
-								"values": [
-									{
-										"value": "CA",
-										"label": "Canada"
-									},
-									{
-										"value": "US",
-										"label": "United States"
-									}
-								]
-							}
-						],
-						"enabled": false
-					},
-					{
-						"ruleExists": false,
-						"riskLevel": "MEDIUM",
-						"id": "RTM-008",
-						"extraSettings": [
-							{
-								"name": "authorisedRegions",
-								"regions": true,
-								"type": "regions",
-								"value": null,
-								"values": ["eu-west-1", "eu-west-2"]
-							}
-						],
-						"enabled": false
-					},
-					{
-						"ruleExists": false,
-						"riskLevel": "MEDIUM",
-						"id": "RDS-018",
-						"extraSettings": [
-							{
-								"name": "threshold",
-								"value": 90,
-								"values": [],
-								"type": []
-							}
-						],
-						"enabled": false
-					}
-				],
-				"access": {}
-			},
-			"available-runs": 5,
-			"access": null
-		},
-		"relationships": {
-			"organisation": {
-				"data": {
-					"type": "organisations",
-					"id": "B1nHYYpwx"
-				}
-			}
-		}
-	}
+    "data": {
+        "type": "accounts",
+        "id": "AgA12vIwb",
+        "attributes": {
+            "settings": {
+                "rules": [
+                    {
+                        "riskLevel": "VERY_HIGH",
+                        "id": "CT-001",
+                        "extraSettings": null,
+                        "provider": "aws",
+                        "enabled": true
+                    },
+                    {
+                        "riskLevel": "MEDIUM",
+                        "id": "RTM-005",
+                        "extraSettings": [
+                            {
+                                "name": "authorisedCountries",
+                                "countries": true,
+                                "type": "countries",
+                                "value": null,
+                                "values": [
+                                    {
+                                        "value": "CA",
+                                        "label": "Canada"
+                                    },
+                                    {
+                                        "value": "US",
+                                        "label": "United States"
+                                    }
+                                ]
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    },
+                    {
+                        "ruleExists": false,
+                        "riskLevel": "MEDIUM",
+                        "id": "RTM-008",
+                        "extraSettings": [
+                            {
+                                "name": "authorisedRegions",
+                                "regions": true,
+                                "type": "regions",
+                                "value": null,
+                                "values": [
+                                    "eu-west-1",
+                                    "eu-west-2"
+                                ]
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    },
+                    {
+                        "ruleExists": false,
+                        "riskLevel": "MEDIUM",
+                        "id": "RDS-018",
+                        "extraSettings": [
+                            {
+                                "name": "threshold",
+                                "value": 90,
+                                "values": [],
+                                "type": []
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    }
+                ],
+                "access": {}
+            },
+            "available-runs": 5,
+            "access": null
+        },
+        "relationships": {
+            "organisation": {
+                "data": {
+                    "type": "organisations",
+                    "id": "B1nHYYpwx"
+                }
+            }
+        }
+    }
 }
 ```
 
@@ -1074,6 +1081,7 @@ For more information about rule specifivities, consult [Cloud Conformity Service
 | Rule risk level provided for `ruleId` is incorrect                                                       | only "LOW", "MEDIUM", "HIGH", "VERY_HIGH", and "EXTREME" are accepted risk levels                                         |
 | Rule enable status is not valid for `ruleId`                                                             | `ruleSetting.enabled` is a required boolean parameter                                                                     |
 | One or more rule setting property is invalid for `ruleId`                                                | remove the `ruleSetting` property if it is not `id`, `enabled`, `riskLevel`, `extraSettings`, or `ruleExists`             |
+| Provider `XXX` is invalid for `ruleId`                                                                   | `provider` must match the cloud provider for the rule                                                                                    |
 
 **Extra settings**
 Rule `ruleId` is not configurable | remove `ruleSetting.extraSettings`, you may only change risk level or enable/disable this rule. If you are directly copying this rule from another account and getting this message, this rule may have been previously configurable and is no longer.
@@ -1110,68 +1118,73 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/H19NxMi5-/settings/rules
 
 Example Response:
 
-```
+```JSON
 {
-	"data": {
-		"type": "accounts",
-		"id": "H19NxMi5-",
-		"attributes": {
-			"settings": {
-				"rules": [
-					{
-						"ruleExists": false,
-						"riskLevel": "MEDIUM",
-						"id": "RDS-018",
-						"extraSettings": [
-							{
-								"name": "threshold",
-								"value": 90
-							}
-						],
-						"enabled": false
-					}, {
-						"riskLevel": "LOW",
-						"id": "Config-001",
-						"extraSettings": null,
-						"enabled": true
-					}, {
-						"riskLevel": "MEDIUM",
-						"id": "RTM-005",
-						"extraSettings": [
-							{
-								"name": "authorisedCountries",
-								"countries": true,
-								"type": "countries",
-								"value": null,
-								"values": [
-									{
-										"value": "CA",
-										"label": "Canada"
-									},
-									{
-										"value": "US",
-										"label": "United States"
-									}
-								]
-							}
-						],
-						"enabled": false
-					}
-				],
-				"access": {}
-			},
-			"available-runs": 5,
-			"access": null
-		},
-		"relationships": {
-			"organisation": {
-				"data": {
-					"type": "organisations",
-					"id": "B1nHYYpwx"
-				}
-			}
-		}
-	}
+    "data": {
+        "type": "accounts",
+        "id": "H19NxMi5-",
+        "attributes": {
+            "settings": {
+                "rules": [
+                    {
+                        "ruleExists": false,
+                        "riskLevel": "MEDIUM",
+                        "id": "RDS-018",
+                        "extraSettings": [
+                            {
+                                "name": "threshold",
+                                "value": 90
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    },
+                    {
+                        "riskLevel": "LOW",
+                        "id": "Config-001",
+                        "extraSettings": null,
+                        "provider": "aws",
+                        "enabled": true
+                    },
+                    {
+                        "riskLevel": "MEDIUM",
+                        "id": "RTM-005",
+                        "extraSettings": [
+                            {
+                                "name": "authorisedCountries",
+                                "countries": true,
+                                "type": "countries",
+                                "value": null,
+                                "values": [
+                                    {
+                                        "value": "CA",
+                                        "label": "Canada"
+                                    },
+                                    {
+                                        "value": "US",
+                                        "label": "United States"
+                                    }
+                                ]
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    }
+                ],
+                "access": {}
+            },
+            "available-runs": 5,
+            "access": null
+        },
+        "relationships": {
+            "organisation": {
+                "data": {
+                    "type": "organisations",
+                    "id": "B1nHYYpwx"
+                }
+            }
+        }
+    }
 }
 ```
 
@@ -1199,6 +1212,7 @@ This feature is used in conjunction with the GET request to the same endpoint fo
       - `id`: Rule Id, same as the one provided in the endpoint
       - `enabled`: Boolean, true for inclusion in bot detection, false for exclusion
       - `riskLevel`: riskLevel you desire for this rule. Must be one of the following: LOW, MEDIUM, HIGH, VERY_HIGH, EXTREME
+      - `provider`: Cloud provider that the rule applies to | "aws", "azure" | (optional)
       - `extraSettings`: An array of object(s) for customisable rules only, containing
         - `name`: Keyword
         - `type`: Rule specific property
@@ -1214,121 +1228,130 @@ curl -X PATCH \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-	"data": {
-		"attributes": {
-			"note": "copied from account H19NxMi5- via the api",
-			"ruleSettings": [
-				{
-					"ruleExists": false,
-					"riskLevel": "MEDIUM",
-					"id": "RDS-018",
-					"extraSettings": [
-						{
-							"name": "threshold",
-							"value": 90
-						}
-					],
-					"enabled": false
-				}, {
-					"riskLevel": "LOW",
-					"id": "Config-001",
-					"extraSettings": null,
-					"enabled": true
-				}, {
-					"riskLevel": "MEDIUM",
-					"id": "RTM-005",
-					"extraSettings": [
-						{
-							"name": "authorisedCountries",
-							"countries": true,
-							"type": "countries",
-							"value": null,
-							"values": [
-								{
-									"value": "CA",
-									"label": "Canada"
-								},
-								{
-									"value": "US",
-									"label": "United States"
-								}
-							]
-						}
-					],
-					"enabled": false
-				}
-			]
-		}
-	}
+    "data": {
+        "attributes": {
+            "note": "copied from account H19NxMi5- via the api",
+            "ruleSettings": [
+                {
+                    "ruleExists": false,
+                    "riskLevel": "MEDIUM",
+                    "id": "RDS-018",
+                    "extraSettings": [
+                        {
+                            "name": "threshold",
+                            "value": 90
+                        }
+                    ],
+                    "enabled": false
+                },
+                {
+                    "riskLevel": "LOW",
+                    "id": "Config-001",
+                    "extraSettings": null,
+                    "provider": "aws",
+                    "enabled": true
+                },
+                {
+                    "riskLevel": "MEDIUM",
+                    "id": "RTM-005",
+                    "extraSettings": [
+                        {
+                            "name": "authorisedCountries",
+                            "countries": true,
+                            "type": "countries",
+                            "value": null,
+                            "values": [
+                                {
+                                    "value": "CA",
+                                    "label": "Canada"
+                                },
+                                {
+                                    "value": "US",
+                                    "label": "United States"
+                                }
+                            ]
+                        }
+                    ],
+                    "provider": "aws",
+                    "enabled": false
+                }
+            ]
+        }
+    }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/settings/rules
 ```
 
 Example Response:
 
-```
+```JSON
 
 {
-	"data": {
-		"type": "accounts",
-		"id": "AgA12vIwb",
-		"attributes": {
-			"settings": {
-				"rules": [
-					{
-						"ruleExists": false,
-						"riskLevel": "MEDIUM",
-						"id": "RDS-018",
-						"extraSettings": [
-							{
-								"name": "threshold",
-								"value": 90
-							}
-						],
-						"enabled": false
-					}, {
-						"riskLevel": "LOW",
-						"id": "Config-001",
-						"extraSettings": null,
-						"enabled": true
-					}, {
-						"riskLevel": "MEDIUM",
-						"id": "RTM-005",
-						"extraSettings": [
-							{
-								"name": "authorisedCountries",
-								"countries": true,
-								"type": "countries",
-								"value": null,
-								"values": [
-									{
-										"value": "CA",
-										"label": "Canada"
-									},
-									{
-										"value": "US",
-										"label": "United States"
-									}
-								]
-							}
-						],
-						"enabled": false
-					}
-				],
-				"access": {}
-			},
-			"available-runs": 5,
-			"access": null
-		},
-		"relationships": {
-			"organisation": {
-				"data": {
-					"type": "organisations",
-					"id": "B1nHYYpwx"
-				}
-			}
-		}
-	}
+    "data": {
+        "type": "accounts",
+        "id": "AgA12vIwb",
+        "attributes": {
+            "settings": {
+                "rules": [
+                    {
+                        "ruleExists": false,
+                        "riskLevel": "MEDIUM",
+                        "id": "RDS-018",
+                        "extraSettings": [
+                            {
+                                "name": "threshold",
+                                "value": 90
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    },
+                    {
+                        "riskLevel": "LOW",
+                        "id": "Config-001",
+                        "extraSettings": null,
+                        "provider": "aws",
+                        "enabled": true
+                    },
+                    {
+                        "riskLevel": "MEDIUM",
+                        "id": "RTM-005",
+                        "extraSettings": [
+                            {
+                                "name": "authorisedCountries",
+                                "countries": true,
+                                "type": "countries",
+                                "value": null,
+                                "values": [
+                                    {
+                                        "value": "CA",
+                                        "label": "Canada"
+                                    },
+                                    {
+                                        "value": "US",
+                                        "label": "United States"
+                                    }
+                                ]
+                            }
+                        ],
+                        "provider": "aws",
+                        "enabled": false
+                    }
+                ],
+                "access": {}
+            },
+            "available-runs": 5,
+            "access": null
+        },
+        "relationships": {
+            "organisation": {
+                "data": {
+                    "type": "organisations",
+                    "id": "B1nHYYpwx"
+                }
+            }
+        }
+    }
 }
 ```
 
@@ -1345,6 +1368,7 @@ For more information about rule specifivities, consult [Cloud Conformity Service
 | Rule risk level provided for `ruleId` is incorrect                                                        | only "LOW", "MEDIUM", "HIGH", "VERY_HIGH", and "EXTREME" are accepted risk levels                                         |
 | Rule enable status is not valid for `ruleId`                                                              | `ruleSetting.enabled` is a required boolean parameter                                                                     |
 | One or more rule setting property is invalid for `ruleId`                                                 | remove the `ruleSetting` property if it is not `id`, `enabled`, `riskLevel`, `extraSettings`, or `ruleExists`             |
+| Provider `XXX` is invalid for `ruleId`                                                                    | `provider` must match the cloud provider for the rule                                                                                    |
 
 **Extra Settings**
 Rule `ruleId` is not configurable | remove `ruleSetting.extraSettings`, you may only change risk level or enable/disable this rule. If you are directly copying this rule from another account and getting this message, this rule may have been previously configurable and is no longer.
