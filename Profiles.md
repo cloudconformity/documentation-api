@@ -255,7 +255,7 @@ There are some attributes you need to pass inside the attributes object. The tab
 
 ##### Saving a new Profile
 
-The expected behavior of this request to create a new profile.
+The expected behaviour of this request to create a new profile.
 
 Example request for saving a new profile:
 ```
@@ -325,7 +325,7 @@ There are some attributes you need to pass inside the rule settings attributes o
 
 ###### Save new profile with rule settings included
 
-The expected behavior of this request to save a new profile and configure new rule settings associated with that profile.
+The expected behaviour of this request to save a new profile and configure new rule settings associated with that profile.
 
 Note: A deprecation warning will be included in the response for rules that are deprecated.
 ```json
@@ -480,7 +480,7 @@ Example Response:
 
 ###### Save rule settings to an existing Profile
 
-The expected behavior of this request to overwrite all existing rule settings to a configured profile or write new rule settings to an existing empty profile.
+The expected behaviour of this request to overwrite all existing rule settings to a configured profile or write new rule settings to an existing empty profile.
 
 You must indicate the profile id in the request body otherwise a new profile will be created with the indicated rule settings configured.
 
@@ -619,7 +619,7 @@ Example Response:
 
 ###### Delete all settings
 
-The expected behavior of this request to preserve an existing profile's attributes while deleting all existing rule settings. To do so, exclude the "includes" and "relationships" field from the request.
+The expected behaviour of this request to preserve an existing profile's attributes while deleting all existing rule settings. To do so, exclude the "includes" and "relationships" field from the request.
 
 Example request for modifying an existing profile and deleting its settings:
 ```
