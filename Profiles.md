@@ -327,6 +327,23 @@ There are some attributes you need to pass inside the rule settings attributes o
 
 The expected behavior of this request to save a new profile and configure new rule settings associated with that profile.
 
+Note: A deprecation warning will be included in the response for rules that are deprecated.
+```json
+{
+  "meta": {
+    "deprecation": {
+      "warning": {
+        "message": "1 manually configured rule in this profile is deprecated. Refer to our Help Pages for instructions.",
+        "link": "https://www.cloudconformity.com/help/rules.html",
+        "rules": [
+            "EC2-XXX"
+        ]
+      }
+    }
+  }
+}
+```
+
 Example request for new profile creation including rule settings:
 
 ```
@@ -657,6 +674,23 @@ This endpoint allows you to update profile details and its associated rule setti
 - `data`: An array containing JSONAPI compliant data objects with following properties
   - `type`: `"profiles"`,
   - `attributes`: Object containing profile attributes. For more details consult the [profile-attributes-table](#profile-attributes)
+
+Note: A deprecation warning will be included in the response for rules that are deprecated.
+```json
+{
+  "meta": {
+    "deprecation": {
+      "warning": {
+        "message": "1 manually configured rule in this profile is deprecated. Refer to our Help Pages for instructions.",
+        "link": "https://www.cloudconformity.com/help/rules.html",
+        "rules": [
+            "EC2-XXX"
+        ]
+      }
+    }
+  }
+}
+```
 
 Example request to only update profile details - name and description:
 
