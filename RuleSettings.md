@@ -105,24 +105,23 @@ _Example:_
       "name": "desiredInstanceTypes",
       "type": "multiple-object-values",
       "valueKeys": [
-      "eventName",
-      "eventSource",
-      "userIdentityType"
-    ],
-    "values": [
-      {
-        "value": {
-          "eventName": "^(iam.amazonaws.com)",
-          "eventSource": "^(IAM).*",
-          "userIdentityType": "^(Delete).*"
+        "eventName",
+        "eventSource",
+        "userIdentityType"
+      ],
+      "values": [
+        {
+          "value": {
+            "eventName": "^(iam.amazonaws.com)",
+            "eventSource": "^(IAM).*",
+            "userIdentityType": "^(Delete).*"
+          }
         }
-      }
-    ]
+      ]
     }
   ],
   //...
 }
-```
 
 #### choice-multiple-value
 * **Usage:** Used when one or more selections from a predefined set of values are required.
