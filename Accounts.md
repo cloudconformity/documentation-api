@@ -35,7 +35,7 @@ This endpoint is used to register a new AWS account with Cloud Conformity. \
       [![API Keys](images/cloudformation-launch-stack.png)](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https:%2F%2Fs3-us-west-2.amazonaws.com%2Fcloudconformity%2FCloudConformity.template&stackName=CloudConformity&param_AccountId=717210094962&param_ExternalId=THE_EXTERNAL_ID)
 
    2. Option 2 via the AWS CLI:
-      ```bash
+      ```shell script
       aws cloudformation create-stack --stack-name CloudConformity  --region us-east-1  --template-url https://s3-us-west-2.amazonaws.com/cloudconformity/CloudConformity.template --parameters ParameterKey=AccountId,ParameterValue=717210094962 ParameterKey=ExternalId,ParameterValue=THE_EXTERNAL_ID  --capabilities CAPABILITY_NAMED_IAM
       ```
 
@@ -64,7 +64,7 @@ _Please note the server will not accept both hasRealTimeMonitoring and subscript
 
 Example Request with the old field hasRealTimeMonitoring:
 
-```
+```shell script
 curl -X POST \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
@@ -91,7 +91,7 @@ https://us-west-2-api.cloudconformity.com/v1/accounts
 
 Example Request with new field subscriptionType:
 
-```
+```shell script
 curl -X POST \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
@@ -118,49 +118,43 @@ https://us-west-2-api.cloudconformity.com/v1/accounts
 
 Example Response:
 
-```
+```json5
 {
-  "data": {
-    "type": "accounts",
-    "id": "H19NxMi5-",
-    "attributes": {
-      "name": "Myaccount",
-      "environment": "MyEnv",
+  data: {
+    type: "accounts",
+    id: "H19NxMi5-",
+    attributes: {
+      name: "Myaccount",
+      environment: "MyEnv",
       "awsaccount-id": "123456789012",
-      "status": "ACTIVE",
-      "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
+      status: "ACTIVE",
+      "has-real-time-monitoring": true, // **Note:** This field is planned to be replaced with subscription-type in the future.
       "cost-package": true,
       "created-date": 1505595441887,
-      "settings": {
-        "communication": {
-          "channels": [
+      settings: {
+        communication: {
+          channels: [
             {
-              "name": "email",
-              "users": [
-                "H13rFYTvl"
-              ],
-              "enabled": true,
-              "levels": [
-                "EXTREME",
-                "VERY_HIGH",
-                "HIGH"
-              ]
+              name: "email",
+              users: ["H13rFYTvl"],
+              enabled: true,
+              levels: ["EXTREME", "VERY_HIGH", "HIGH"]
             }
           ]
         },
-        "rules": {},
-        "access": {
-          "type": "CROSS_ACCOUNT",
-          "stackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/CloudConformity/56db5b90-7ebb-11e7-8a78-500c28902e99"
+        rules: {},
+        access: {
+          type: "CROSS_ACCOUNT",
+          stackId: "arn:aws:cloudformation:us-east-1:123456789012:stack/CloudConformity/56db5b90-7ebb-11e7-8a78-500c28902e99"
         }
       }
     },
     "subscription-type": "advanced",
-    "relationships": {
-      "organisation": {
-        "data": {
-          "type": "organisations",
-          "id": "B1nHYYpwx"
+    relationships: {
+      organisation: {
+        data: {
+          type: "organisations",
+          id: "B1nHYYpwx"
         }
       }
     }
@@ -186,25 +180,25 @@ This endpoint takes no parameters.
 
 Example Request:
 
-```
+```shell script
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/accounts
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/accounts
 ```
 
 Example Response:
 
-```
+```json5
 {
-  "data": [
+  data: [
     {
-      "type": "accounts",
-      "id": "AgA12vIwb",
-      "attributes": {
-        "name": "Test",
-        "environment": "Test",
+      type: "accounts",
+      id: "AgA12vIwb",
+      attributes: {
+        name: "Test",
+        environment: "Test",
         "awsaccount-id": "123456789013",
-        "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
+        "has-real-time-monitoring": true, // **Note:** This field is planned to be replaced with subscription-type in the future.
         "created-date": 1502472854056,
         "last-notified-date": 1503580590169,
         "last-checked-date": 1503584192576,
@@ -212,24 +206,24 @@ Example Response:
         "billing-account-id": "r1gyR4cqg",
         "subscription-type": "advanced"
       },
-      "relationships": {
-        "organisation": {
-          "data": {
-            "type": "organisations",
-            "id": "B2UhJY3W1"
+      relationships: {
+        organisation: {
+          data: {
+            type: "organisations",
+            id: "B2UhJY3W1"
           }
         }
       }
     },
     {
-      "type": "accounts",
-      "id": "55Yfrq_IT",
-      "attributes": {
-        "name": "Route53",
-        "environment": "Route53",
+      type: "accounts",
+      id: "55Yfrq_IT",
+      attributes: {
+        name: "Route53",
+        environment: "Route53",
         "awsaccount-id": "123456789012",
-        "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
-        "cost-package": true, **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
+        "has-real-time-monitoring": true, // **Note:** This field is planned to be replaced with subscription-type in the future.
+        "cost-package": true, // **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
         "created-date": 1489703037251,
         "last-notified-date": 1503503192127,
         "last-checked-date": 1503503191166,
@@ -237,11 +231,11 @@ Example Response:
         "billing-account-id": "r1gyR4cqg",
         "subscription-type": "advanced"
       },
-      "relationships": {
-        "organisation": {
-          "data": {
-            "type": "organisations",
-            "id": "B2UhJY3W1"
+      relationships: {
+        organisation: {
+          data: {
+            type: "organisations",
+            id: "B2UhJY3W1"
           }
         }
       }
@@ -268,107 +262,101 @@ This endpoint allows you to get the details of the specified account. \
 
 Example Request:
 
-```
+```shell script
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/accounts/ABA95vIw8
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/accounts/ABA95vIw8
 ```
 
 Example Response:
 
-```
+```json5
 {
-    "data": [
-        {
-            "type": "accounts",
-            "id": "ABA95vIw8",
-            "attributes": {
-                "name": "Test Account",
-                "environment": "Test",
-                "awsaccount-id": "123456789012",
-                "status": "ACTIVE",
-                "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
-                "created-date": 1502472854056,
-                "settings": {
-                    "communication": {
-                        "channels": [
-                            {
-                                "name": "email",
-                                "users": [
-                                    "H22rMyTu5"
-                                ],
-                                "enabled": true,
-                                "levels": [
-                                    "HIGH",
-                                    "LOW",
-                                    "MEDIUM",
-                                    "VERY_HIGH"
-                                ]
-                            }
-                        ]
-                    }
-                },
-                "subscription-type": "advanced",
-                "last-notified-date": 1503285393239,
-                "last-checked-date": 1503285392447,
-                "last-monitoring-event-date": 1502570799000,
-                "billing-account-id": "r1gyR4cqg",
-                "cost": { **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
-                    "billing-account-map": {
-                        "payerAccount": {
-                            "awsId": "123456789012",
-                            "id": "r1gyR4cqg"
-                        },
-                        "linkedAccounts": [
-                            {
-                                "awsId": "123456789011",
-                                "id": "BJ0Ox16Hb"
-                            },
-                            {
-                                "awsId": "123456789012",
-                                "id": "BJA95viwb"
-                            },
-                            {
-                                "awsId": "123456789013",
-                                "id": "SyZZUc_il"
-                            },
-                            {
-                                "awsId": "123456789014",
-                                "id": "S1SFeq_ig"
-                            },
-                            {
-                                "awsId": "123456789015",
-                                "id": "SJQINcOol"
-                            },
-                            {
-                                "awsId": "123456789016",
-                                "id": "ryi6NPivW"
-                            }
-                        ]
-                    },
-                    "last-updated-date": 1503283806380,
-                    "bills": [
-                        {
-                            "current": true,
-                            "accountCost": 319.55255299999976,
-                            "id": "2017-08",
-                            "status": "succeeded"
-                        }
-                    ],
-                    "version": 1.07
-                },
-                "bot-status": null
+  data: [
+    {
+      type: "accounts",
+      id: "ABA95vIw8",
+      attributes: {
+        name: "Test Account",
+        environment: "Test",
+        "awsaccount-id": "123456789012",
+        status: "ACTIVE",
+        "has-real-time-monitoring": true, // **Note:** This field is planned to be replaced with subscription-type in the future.
+        "created-date": 1502472854056,
+        settings: {
+          communication: {
+            channels: [
+              {
+                name: "email",
+                users: ["H22rMyTu5"],
+                enabled: true,
+                levels: ["HIGH", "LOW", "MEDIUM", "VERY_HIGH"]
+              }
+            ]
+          }
+        },
+        "subscription-type": "advanced",
+        "last-notified-date": 1503285393239,
+        "last-checked-date": 1503285392447,
+        "last-monitoring-event-date": 1502570799000,
+        "billing-account-id": "r1gyR4cqg",
+        cost: {
+          // **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
+          "billing-account-map": {
+            payerAccount: {
+              awsId: "123456789012",
+              id: "r1gyR4cqg"
             },
-            "relationships": {
-                "organisation": {
-                    "data": {
-                        "type": "organisations",
-                        "id": "A1iUY1pz3"
-                    }
-                }
+            linkedAccounts: [
+              {
+                awsId: "123456789011",
+                id: "BJ0Ox16Hb"
+              },
+              {
+                awsId: "123456789012",
+                id: "BJA95viwb"
+              },
+              {
+                awsId: "123456789013",
+                id: "SyZZUc_il"
+              },
+              {
+                awsId: "123456789014",
+                id: "S1SFeq_ig"
+              },
+              {
+                awsId: "123456789015",
+                id: "SJQINcOol"
+              },
+              {
+                awsId: "123456789016",
+                id: "ryi6NPivW"
+              }
+            ]
+          },
+          "last-updated-date": 1503283806380,
+          bills: [
+            {
+              current: true,
+              accountCost: 319.55255299999976,
+              id: "2017-08",
+              status: "succeeded"
             }
+          ],
+          version: 1.07
+        },
+        "bot-status": null
+      },
+      relationships: {
+        organisation: {
+          data: {
+            type: "organisations",
+            id: "A1iUY1pz3"
+          }
         }
-    ]
+      }
+    }
+  ]
 }
 ```
 
@@ -386,41 +374,40 @@ This endpoint allows ADMIN users to get the current setting Cloud Conformity use
 
 Example Request:
 
-```
+```shell script
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/accounts/BJ0Ox16Hb/access
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/accounts/BJ0Ox16Hb/access
 ```
 
 Example Response:
 
-```
+```json
 {
-    "id": "BJ0Ox16Hb:access",
-    "type": "settings",
-    "attributes": {
-        "type": "access",
-        "configuration": {
-            "externalId": "XTLFTLAXVS7G",
-            "roleArn": "arn:aws:iam::222274792222:role/myRole"
-        }
-    },
-    "relationships": {
-        "organisation": {
-            "data": {
-                "type": "organisations",
-                "id": "A1iUY1pz3"
-            }
-        },
-        "account": {
-            "data": {
-                "type": "accounts",
-                "id": "BJ0Ox16Hb"
-            }
-        }
+  "id": "BJ0Ox16Hb:access",
+  "type": "settings",
+  "attributes": {
+    "type": "access",
+    "configuration": {
+      "externalId": "XTLFTLAXVS7G",
+      "roleArn": "arn:aws:iam::222274792222:role/myRole"
     }
+  },
+  "relationships": {
+    "organisation": {
+      "data": {
+        "type": "organisations",
+        "id": "A1iUY1pz3"
+      }
+    },
+    "account": {
+      "data": {
+        "type": "accounts",
+        "id": "BJ0Ox16Hb"
+      }
+    }
+  }
 }
-
 ```
 
 ## Update Account Bot Setting
@@ -448,7 +435,7 @@ This endpoint allows ADMIN, POWER USERS, and users with CUSTOM access to account
 Example Request to update all attributes:<br />
 This request disables the Conformity Bot for two accounts. Conformity Bot is disabled in all regions until the specified date-time, after which it will run every 10 hours for all regions besides `us-west-2`.
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
@@ -478,7 +465,7 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
 
 Example Response:
 
-```
+```json5
 {
   "data": [
     {
@@ -486,10 +473,10 @@ Example Response:
       "id": "2fwmithMj",
       "attributes": {
         "name": "Test AWS Account",
-        ...
+        // ...
         "settings": {
           "rules": [
-           ...
+           // ...
           ],
           "bot": {
             "lastModifiedFrom": "12.345.67.890",
@@ -502,7 +489,7 @@ Example Response:
             "lastModifiedBy": "3456d0"
           }
         },
-        ...
+        // ...
         "cloud-type": "aws",
         "managed-group-id": "23784h"
       },
@@ -520,20 +507,20 @@ Example Response:
       "id": "cfe80897",
       "attributes": {
         "name": "Test Azure Account",
-        ...
+        // ...
         "settings": {
           "rules": [
-           ...
+           // ...
           ],
           "bot": {
             "lastModifiedFrom": "12.345.67.890",
-            "delay": 10
+            "delay": 10,
             "disabled": true,
             "disabledUntil": 1591751339519,
             "lastModifiedBy": "3456d0"
           }
         },
-        ...
+        // ...
         "cloud-type": "azure",
         "managed-group-id": "23784h"
       },
@@ -553,7 +540,7 @@ Example Response:
 Other requests for example use cases:<br />
 Temporarily disable Conformity Bot until the specified date-time:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
@@ -576,7 +563,7 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
 
 Disable Conformity Bot indefinitely:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
@@ -598,7 +585,7 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/2fwmithMj/settings/bot
 
 Disable Conformity Bot runs for a few regions and increase delay between enabled regions:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey eab0b7914c3ebv45bcK02cW33ff9564cec8" \
@@ -645,23 +632,22 @@ IMPORTANT:
 
 Example Request:
 
-```
+```shell script
 curl -X POST \
--H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/accounts/BJ0Ox16Hb/scan
-
+     -H "Content-Type: application/vnd.api+json" \
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/accounts/BJ0Ox16Hb/scan
 ```
 
 Example Response:
 
-```
+```json
 {
-    "data": [
-        {
-            "status": "STARTED"
-        }
-    ]
+  "data": [
+    {
+      "status": "STARTED"
+    }
+  ]
 }
 ```
 
@@ -694,68 +680,68 @@ _Please note the server will not accept both hasRealTimeMonitoring and subscript
 
 Example Request with the old field hasRealTimeMonitoring:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-    "data": {
-        "attributes": {
-            "costPackage": true,
-            "hasRealTimeMonitoring": false
-        }
+  "data": {
+    "attributes": {
+      "costPackage": true,
+      "hasRealTimeMonitoring": false
     }
+  }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/subscription
 ```
 
 Example Request with new field subscriptionType:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-    "data": {
-        "attributes": {
-            "costPackage": true,
-            "subscriptionType": "essentials"
-        }
+  "data": {
+    "attributes": {
+      "costPackage": true,
+      "subscriptionType": "essentials"
     }
+  }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/subscription
 ```
 
 Example Response:
 
-```
+```json5
 {
-    "data": {
-        "type": "accounts",
-        "id": "AgA12vIwb",
-        "attributes": {
-            "name": "myCCaccount",
-            "environment": "myAWSenv",
-            "awsaccount-id": "123456789101",
-            "status": "ACTIVE",
-            "has-real-time-monitoring": false, **Note:** This field is planned to be replaced with subscription-type in the future.
-            "cost-package": true,
-            "last-notified-date": 1504113512701,
-            "last-checked-date": 1504113511956,
-            "available-runs": 5,
-            "subscription-type": "essentials"
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            }
+  "data": {
+    "type": "accounts",
+    "id": "AgA12vIwb",
+    "attributes": {
+      "name": "myCCaccount",
+      "environment": "myAWSenv",
+      "awsaccount-id": "123456789101",
+      "status": "ACTIVE",
+      "has-real-time-monitoring": false, // **Note:** This field is planned to be replaced with subscription-type in the future.
+      "cost-package": true,
+      "last-notified-date": 1504113512701,
+      "last-checked-date": 1504113511956,
+      "available-runs": 5,
+      "subscription-type": "essentials"
+    },
+    "relationships": {
+      "organisation": {
+        "data": {
+          "type": "organisations",
+          "id": "B1nHYYpwx"
         }
+      }
     }
+  }
 }
 ```
 
@@ -789,54 +775,54 @@ We recommend you first [Get account details](#get-account-details) to check what
 
 Example Request:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-    "data": {
-        "attributes": {
-            "name": "myProductionAccount",
-            "environment": "myProductionEnvironment",
-            "code": "PAE",
-            "tags": ["staging", "development", "production"]
-        }
+  "data": {
+    "attributes": {
+      "name": "myProductionAccount",
+      "environment": "myProductionEnvironment",
+      "code": "PAE",
+      "tags": ["staging", "development", "production"]
     }
+  }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb
 ```
 
 Example Response:
 
-```
+```json
 {
-    "data": {
-        "type": "accounts",
-        "id": "AgA12vIwb",
-        "attributes": {
-            "name": "myProductionAccount",
-            "environment": "myProductionEnvironment",
-            "code": "PAE",
-            "awsaccount-id": "123456789101",
-            "status": "ACTIVE",
-            "has-real-time-monitoring": true, **Note:** This field is planned to be replaced with subscription-type in the future.
-            "cost-package": true, **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
-            "last-notified-date": 1504113512701,
-            "last-checked-date": 1504113511956,
-            "available-runs": 5,
-            "tags": ["staging", "development", "production"],
-            "subscription-type": "advanced"
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            }
+  "data": {
+    "type": "accounts",
+    "id": "AgA12vIwb",
+    "attributes": {
+      "name": "myProductionAccount",
+      "environment": "myProductionEnvironment",
+      "code": "PAE",
+      "awsaccount-id": "123456789101",
+      "status": "ACTIVE",
+      "has-real-time-monitoring": true, // **Note:** This field is planned to be replaced with subscription-type in the future.
+      "cost-package": true, // **Note:** this field would not be displayed for customers who do not have cost package enabled in any of their AWS accounts
+      "last-notified-date": 1504113512701,
+      "last-checked-date": 1504113511956,
+      "available-runs": 5,
+      "tags": ["staging", "development", "production"],
+      "subscription-type": "advanced"
+    },
+    "relationships": {
+      "organisation": {
+        "data": {
+          "type": "organisations",
+          "id": "B1nHYYpwx"
         }
+      }
     }
+  }
 }
 ```
 
@@ -858,8 +844,7 @@ For example, even if our bots run rule RDS-018 for your account hourly, if you h
 
 Example Request:
 
-```
-
+```shell script
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 https://us-west-2-api.cloudconformity.com/v1/accounts/H19NxMi5-/settings/rules/RDS-018?notes=true
@@ -867,50 +852,50 @@ https://us-west-2-api.cloudconformity.com/v1/accounts/H19NxMi5-/settings/rules/R
 
 Example Response:
 
-```JSON
+```json
 {
-    "data": {
-        "type": "accounts",
-        "id": "H19NxMi5-",
-        "attributes": {
-            "settings": {
-                "rules": [
-                    {
-                        "ruleExists": false,
-                        "riskLevel": "MEDIUM",
-                        "id": "RDS-018",
-                        "extraSettings": [
-                            {
-                                "name": "threshold",
-                                "value": 90
-                            }
-                        ],
-                        "enabled": false
-                    }
-                ],
-                "access": {}
-            },
-            "available-runs": 5,
-            "access": null
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            }
-        }
+  "data": {
+    "type": "accounts",
+    "id": "H19NxMi5-",
+    "attributes": {
+      "settings": {
+        "rules": [
+          {
+            "ruleExists": false,
+            "riskLevel": "MEDIUM",
+            "id": "RDS-018",
+            "extraSettings": [
+              {
+                "name": "threshold",
+                "value": 90
+              }
+            ],
+            "enabled": false
+          }
+        ],
+        "access": {}
+      },
+      "available-runs": 5,
+      "access": null
     },
-    "meta": {
-        "notes": [
-            {
-                "createdBy": "SYmS0YcL-",
-                "createdDate": 1511456432526,
-                "note": "hello world"
-            }
-        ]
+    "relationships": {
+      "organisation": {
+        "data": {
+          "type": "organisations",
+          "id": "B1nHYYpwx"
+        }
+      }
     }
+  },
+  "meta": {
+    "notes": [
+      {
+        "createdBy": "SYmS0YcL-",
+        "createdDate": 1511456432526,
+        "note": "hello world"
+      }
+    ]
+  }
 }
 ```
 
@@ -951,133 +936,129 @@ This feature is used in conjunction with the GET request to the same endpoint fo
 
 Example Request:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-    "data": {
-        "attributes": {
-            "ruleSetting": {
-                "ruleExists": false,
-                "riskLevel": "MEDIUM",
-                "id": "RDS-018",
-                "exceptions": {
-                    "resources": ["i-erw82heiu8"],
-                    "tags": ["mysql-backups"]
-                },
-                "extraSettings": [
-                    {
-                        "name": "threshold",
-                        "value": 90
-                    }
-                ],
-                "enabled": false
-            },
-            "note": "copied from account H19NxMi5- via the api"
-        }
+  "data": {
+    "attributes": {
+      "ruleSetting": {
+        "ruleExists": false,
+        "riskLevel": "MEDIUM",
+        "id": "RDS-018",
+        "exceptions": {
+          "resources": ["i-erw82heiu8"],
+          "tags": ["mysql-backups"]
+        },
+        "extraSettings": [
+          {
+            "name": "threshold",
+            "value": 90
+          }
+        ],
+        "enabled": false
+      },
+      "note": "copied from account H19NxMi5- via the api"
     }
+  }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/settings/rules/RDS-018
 ```
 
 Example Response:
 
-```JSON
+```json
 {
-    "data": {
-        "type": "accounts",
-        "id": "AgA12vIwb",
-        "attributes": {
-            "settings": {
-                "rules": [
-                    {
-                        "riskLevel": "VERY_HIGH",
-                        "id": "CT-001",
-                        "extraSettings": null,
-                        "provider": "aws",
-                        "enabled": true
-                    },
-                    {
-                        "riskLevel": "MEDIUM",
-                        "id": "RTM-005",
-                        "extraSettings": [
-                            {
-                                "name": "authorisedCountries",
-                                "countries": true,
-                                "type": "countries",
-                                "value": null,
-                                "values": [
-                                    {
-                                        "value": "CA",
-                                        "label": "Canada"
-                                    },
-                                    {
-                                        "value": "US",
-                                        "label": "United States"
-                                    }
-                                ]
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    },
-                    {
-                        "ruleExists": false,
-                        "riskLevel": "MEDIUM",
-                        "id": "RTM-008",
-                        "extraSettings": [
-                            {
-                                "name": "authorisedRegions",
-                                "regions": true,
-                                "type": "regions",
-                                "value": null,
-                                "values": [
-                                    "eu-west-1",
-                                    "eu-west-2"
-                                ]
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    },
-                    {
-                        "ruleExists": false,
-                        "riskLevel": "MEDIUM",
-                        "id": "RDS-018",
-                        "exceptions": {
-                            "resources": ["i-erw82heiu8"],
-                            "tags": ["mysql-backups"]
-                        },
-                        "extraSettings": [
-                            {
-                                "name": "threshold",
-                                "value": 90,
-                                "values": [],
-                                "type": []
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    }
-                ],
-                "access": {}
+  "data": {
+    "type": "accounts",
+    "id": "AgA12vIwb",
+    "attributes": {
+      "settings": {
+        "rules": [
+          {
+            "riskLevel": "VERY_HIGH",
+            "id": "CT-001",
+            "extraSettings": null,
+            "provider": "aws",
+            "enabled": true
+          },
+          {
+            "riskLevel": "MEDIUM",
+            "id": "RTM-005",
+            "extraSettings": [
+              {
+                "name": "authorisedCountries",
+                "countries": true,
+                "type": "countries",
+                "value": null,
+                "values": [
+                  {
+                    "value": "CA",
+                    "label": "Canada"
+                  },
+                  {
+                    "value": "US",
+                    "label": "United States"
+                  }
+                ]
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          },
+          {
+            "ruleExists": false,
+            "riskLevel": "MEDIUM",
+            "id": "RTM-008",
+            "extraSettings": [
+              {
+                "name": "authorisedRegions",
+                "regions": true,
+                "type": "regions",
+                "value": null,
+                "values": ["eu-west-1", "eu-west-2"]
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          },
+          {
+            "ruleExists": false,
+            "riskLevel": "MEDIUM",
+            "id": "RDS-018",
+            "exceptions": {
+              "resources": ["i-erw82heiu8"],
+              "tags": ["mysql-backups"]
             },
-            "available-runs": 5,
-            "access": null
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            }
+            "extraSettings": [
+              {
+                "name": "threshold",
+                "value": 90,
+                "values": [],
+                "type": []
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          }
+        ],
+        "access": {}
+      },
+      "available-runs": 5,
+      "access": null
+    },
+    "relationships": {
+      "organisation": {
+        "data": {
+          "type": "organisations",
+          "id": "B1nHYYpwx"
         }
+      }
     }
+  }
 }
-
 ```
 
 #### Errors:
@@ -1093,7 +1074,7 @@ For more information about specific rule configurations, consult [Cloud Conformi
 | Rule risk level provided for `ruleId` is incorrect                                                       | only "LOW", "MEDIUM", "HIGH", "VERY_HIGH", and "EXTREME" are accepted risk levels                                         |
 | Rule enable status is not valid for `ruleId`                                                             | `ruleSetting.enabled` is a required boolean parameter                                                                     |
 | One or more rule setting property is invalid for `ruleId`                                                | remove the `ruleSetting` property if it is not `id`, `enabled`, `riskLevel`, `extraSettings`, or `ruleExists`             |
-| Provider `XXX` is invalid for `ruleId`                                                                   | `provider` must match the cloud provider for the rule                                                                                    |
+| Provider `XXX` is invalid for `ruleId`                                                                   | `provider` must match the cloud provider for the rule                                                                     |
 
 **Extra settings**
 Rule `ruleId` is not configurable | remove `ruleSetting.extraSettings`, you may only change risk level or enable/disable this rule. If you are directly copying this rule from another account and getting this message, this rule may have been previously configurable and is no longer.
@@ -1121,82 +1102,81 @@ Details of rule setting types used by Cloud Conformity are available [here](./Ru
 
 Example Request:
 
-```
-
+```shell script
 curl -H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/accounts/H19NxMi5-/settings/rules
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/accounts/H19NxMi5-/settings/rules
 ```
 
 Example Response:
 
-```JSON
+```json
 {
-    "data": {
-        "type": "accounts",
-        "id": "H19NxMi5-",
-        "attributes": {
-            "settings": {
-                "rules": [
-                    {
-                        "ruleExists": false,
-                        "riskLevel": "MEDIUM",
-                        "id": "RDS-018",
-                        "extraSettings": [
-                            {
-                                "name": "threshold",
-                                "value": 90
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    },
-                    {
-                        "riskLevel": "LOW",
-                        "id": "Config-001",
-                        "extraSettings": null,
-                        "provider": "aws",
-                        "enabled": true
-                    },
-                    {
-                        "riskLevel": "MEDIUM",
-                        "id": "RTM-005",
-                        "extraSettings": [
-                            {
-                                "name": "authorisedCountries",
-                                "countries": true,
-                                "type": "countries",
-                                "value": null,
-                                "values": [
-                                    {
-                                        "value": "CA",
-                                        "label": "Canada"
-                                    },
-                                    {
-                                        "value": "US",
-                                        "label": "United States"
-                                    }
-                                ]
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    }
-                ],
-                "access": {}
-            },
-            "available-runs": 5,
-            "access": null
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            }
+  "data": {
+    "type": "accounts",
+    "id": "H19NxMi5-",
+    "attributes": {
+      "settings": {
+        "rules": [
+          {
+            "ruleExists": false,
+            "riskLevel": "MEDIUM",
+            "id": "RDS-018",
+            "extraSettings": [
+              {
+                "name": "threshold",
+                "value": 90
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          },
+          {
+            "riskLevel": "LOW",
+            "id": "Config-001",
+            "extraSettings": null,
+            "provider": "aws",
+            "enabled": true
+          },
+          {
+            "riskLevel": "MEDIUM",
+            "id": "RTM-005",
+            "extraSettings": [
+              {
+                "name": "authorisedCountries",
+                "countries": true,
+                "type": "countries",
+                "value": null,
+                "values": [
+                  {
+                    "value": "CA",
+                    "label": "Canada"
+                  },
+                  {
+                    "value": "US",
+                    "label": "United States"
+                  }
+                ]
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          }
+        ],
+        "access": {}
+      },
+      "available-runs": 5,
+      "access": null
+    },
+    "relationships": {
+      "organisation": {
+        "data": {
+          "type": "organisations",
+          "id": "B1nHYYpwx"
         }
+      }
     }
+  }
 }
 ```
 
@@ -1237,144 +1217,143 @@ This feature is used in conjunction with the GET request to the same endpoint fo
 
 Example Request:
 
-```
+```shell script
 curl -X PATCH \
 -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
 -d '
 {
-    "data": {
-        "attributes": {
-            "note": "copied from account H19NxMi5- via the api",
-            "ruleSettings": [
+  "data": {
+    "attributes": {
+      "note": "copied from account H19NxMi5- via the api",
+      "ruleSettings": [
+        {
+          "ruleExists": false,
+          "riskLevel": "MEDIUM",
+          "id": "RDS-018",
+          "exceptions": {
+            "resources": ["i-erw82heiu8"],
+            "tags": ["mysql-backups"]
+           },
+          "extraSettings": [
+            {
+              "name": "threshold",
+              "value": 90
+            }
+          ],
+          "enabled": false
+        },
+        {
+          "riskLevel": "LOW",
+          "id": "Config-001",
+          "extraSettings": null,
+          "provider": "aws",
+          "enabled": true
+        },
+        {
+          "riskLevel": "MEDIUM",
+          "id": "RTM-005",
+          "extraSettings": [
+            {
+              "name": "authorisedCountries",
+              "countries": true,
+              "type": "countries",
+              "value": null,
+              "values": [
                 {
-                    "ruleExists": false,
-                    "riskLevel": "MEDIUM",
-                    "id": "RDS-018",
-                    "exceptions": {
-                        "resources": ["i-erw82heiu8"],
-                        "tags": ["mysql-backups"]
-                     },
-                    "extraSettings": [
-                        {
-                            "name": "threshold",
-                            "value": 90
-                        }
-                    ],
-                    "enabled": false
+                  "value": "CA",
+                  "label": "Canada"
                 },
                 {
-                    "riskLevel": "LOW",
-                    "id": "Config-001",
-                    "extraSettings": null,
-                    "provider": "aws",
-                    "enabled": true
-                },
-                {
-                    "riskLevel": "MEDIUM",
-                    "id": "RTM-005",
-                    "extraSettings": [
-                        {
-                            "name": "authorisedCountries",
-                            "countries": true,
-                            "type": "countries",
-                            "value": null,
-                            "values": [
-                                {
-                                    "value": "CA",
-                                    "label": "Canada"
-                                },
-                                {
-                                    "value": "US",
-                                    "label": "United States"
-                                }
-                            ]
-                        }
-                    ],
-                    "provider": "aws",
-                    "enabled": false
+                  "value": "US",
+                  "label": "United States"
                 }
-            ]
+              ]
+            }
+          ],
+          "provider": "aws",
+          "enabled": false
         }
+      ]
     }
+  }
 }' \
 https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb/settings/rules
 ```
 
 Example Response:
 
-```JSON
-
+```json
 {
-    "data": {
-        "type": "accounts",
-        "id": "AgA12vIwb",
-        "attributes": {
-            "settings": {
-                "rules": [
-                    {
-                        "ruleExists": false,
-                        "riskLevel": "MEDIUM",
-                        "id": "RDS-018",
-                        "exceptions": {
-                            "resources": ["i-erw82heiu8"],
-                            "tags": ["mysql-backups"]
-                        },
-                        "extraSettings": [
-                            {
-                                "name": "threshold",
-                                "value": 90
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    },
-                    {
-                        "riskLevel": "LOW",
-                        "id": "Config-001",
-                        "extraSettings": null,
-                        "provider": "aws",
-                        "enabled": true
-                    },
-                    {
-                        "riskLevel": "MEDIUM",
-                        "id": "RTM-005",
-                        "extraSettings": [
-                            {
-                                "name": "authorisedCountries",
-                                "countries": true,
-                                "type": "countries",
-                                "value": null,
-                                "values": [
-                                    {
-                                        "value": "CA",
-                                        "label": "Canada"
-                                    },
-                                    {
-                                        "value": "US",
-                                        "label": "United States"
-                                    }
-                                ]
-                            }
-                        ],
-                        "provider": "aws",
-                        "enabled": false
-                    }
-                ],
-                "access": {}
+  "data": {
+    "type": "accounts",
+    "id": "AgA12vIwb",
+    "attributes": {
+      "settings": {
+        "rules": [
+          {
+            "ruleExists": false,
+            "riskLevel": "MEDIUM",
+            "id": "RDS-018",
+            "exceptions": {
+              "resources": ["i-erw82heiu8"],
+              "tags": ["mysql-backups"]
             },
-            "available-runs": 5,
-            "access": null
-        },
-        "relationships": {
-            "organisation": {
-                "data": {
-                    "type": "organisations",
-                    "id": "B1nHYYpwx"
-                }
-            }
+            "extraSettings": [
+              {
+                "name": "threshold",
+                "value": 90
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          },
+          {
+            "riskLevel": "LOW",
+            "id": "Config-001",
+            "extraSettings": null,
+            "provider": "aws",
+            "enabled": true
+          },
+          {
+            "riskLevel": "MEDIUM",
+            "id": "RTM-005",
+            "extraSettings": [
+              {
+                "name": "authorisedCountries",
+                "countries": true,
+                "type": "countries",
+                "value": null,
+                "values": [
+                  {
+                    "value": "CA",
+                    "label": "Canada"
+                  },
+                  {
+                    "value": "US",
+                    "label": "United States"
+                  }
+                ]
+              }
+            ],
+            "provider": "aws",
+            "enabled": false
+          }
+        ],
+        "access": {}
+      },
+      "available-runs": 5,
+      "access": null
+    },
+    "relationships": {
+      "organisation": {
+        "data": {
+          "type": "organisations",
+          "id": "B1nHYYpwx"
         }
+      }
     }
+  }
 }
 ```
 
@@ -1391,7 +1370,7 @@ For more information about specific rule configurations, consult [Cloud Conformi
 | Rule risk level provided for `ruleId` is incorrect                                                        | only "LOW", "MEDIUM", "HIGH", "VERY_HIGH", and "EXTREME" are accepted risk levels                                         |
 | Rule enable status is not valid for `ruleId`                                                              | `ruleSetting.enabled` is a required boolean parameter                                                                     |
 | One or more rule setting property is invalid for `ruleId`                                                 | remove the `ruleSetting` property if it is not `id`, `enabled`, `riskLevel`, `extraSettings`, or `ruleExists`             |
-| Provider `XXX` is invalid for `ruleId`                                                                    | `provider` must match the cloud provider for the rule                                                                                    |
+| Provider `XXX` is invalid for `ruleId`                                                                    | `provider` must match the cloud provider for the rule                                                                     |
 
 **Extra Settings**
 Rule `ruleId` is not configurable | remove `ruleSetting.extraSettings`, you may only change risk level or enable/disable this rule. If you are directly copying this rule from another account and getting this message, this rule may have been previously configurable and is no longer.
@@ -1406,16 +1385,16 @@ A DELETE request to this endpoint allows an ADMIN to delete the specified accoun
 
 Example Request:
 
-```
+```shell script
 curl -X DELETE \
--H "Content-Type: application/vnd.api+json" \
--H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
-https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb
+     -H "Content-Type: application/vnd.api+json" \
+     -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+     https://us-west-2-api.cloudconformity.com/v1/accounts/AgA12vIwb
 ```
 
 Example Response:
 
-```
+```json
 {
     "meta": {
         "status": "sent"
