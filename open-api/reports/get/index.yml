@@ -21,13 +21,13 @@ parameters:
     description: Configured Report Ids (optional)
 responses:
   200:
-    description: "OK"
+    description: OK
     content:
       application/json:
         schema:
           $ref: "./response-200.yml"
   401:
-    description: "Unauthorized. The requester user does not have enough privilege."
+    description: Unauthorized. The requester user does not have enough privilege.
     content:
       application/json:
         schema:

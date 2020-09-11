@@ -6,7 +6,7 @@ parameters:
     schema:
       type: string
     required: true
-    description: The Id of the report
+    description: ID of the report
     parameters:
   - in: path
     name: entityId
@@ -18,11 +18,12 @@ parameters:
     name: type
     schema:
       type: string
-    required: true
-    description: The report type { pdf | csv | xlsx }
+      required: true
+      enum: [pdf, csv, xlsx]
+      description: The report type
 responses:
   200:
-    description: "OK"
+    description: OK
     content:
       application/json:
         schema:
@@ -32,7 +33,7 @@ responses:
               type: string
               description: Redirection url to download report
   401:
-    description: "Unauthorized. The requester user does not have enough privilege."
+    description: Unauthorized. The requester user does not have enough privilege.
     content:
       application/json:
         schema:
