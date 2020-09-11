@@ -20,7 +20,8 @@
     "swagger-cli": "^4.0.4"
   },
   "devDependencies": {
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "prettier": "^2.1.1"
   },
   "husky": {
     "hooks": {

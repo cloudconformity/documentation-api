@@ -7,7 +7,6 @@ parameters:
       type: string
     required: true
     description: ID of the report
-    parameters:
   - in: path
     name: entityId
     schema:
@@ -18,9 +17,9 @@ parameters:
     name: type
     schema:
       type: string
-      required: true
       enum: [pdf, csv, xlsx]
-      description: The report type
+    required: true
+    description: The report type
 responses:
   200:
     description: OK
@@ -37,6 +36,6 @@ responses:
     content:
       application/json:
         schema:
-          $ref: "../../../shared-schemas/401.yml"
+          $ref: "../../../../../shared-schemas/401.yml"
 security:
   - Authorizer: []

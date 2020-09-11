@@ -31,6 +31,6 @@ responses:
     content:
       application/json:
         schema:
-          $ref: "../../../shared-schemas/401.yml"
+          $ref: "../../shared-schemas/401.yml"
 security:
   - Authorizer: []
