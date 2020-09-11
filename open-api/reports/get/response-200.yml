@@ -1,0 +1,56 @@
+type: object
+properties:
+  data:
+    type: array
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          example: reports
+        id:
+          type: string
+          description: ID of the report
+          example: abc123
+        attributes:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Title of the report
+              example: Organisation Report
+            created-date:
+              type: string
+              description: Date report was created
+              example: 1581378332097
+            # entity-id:
+            #   type: string
+            #   description: Account Id
+            #   example: accountId
+            report-config-id:
+              type: string
+              description: Configured report id
+              example: accountId:CONFORMITY_BOT
+            status:
+              type: string
+              enum: [CREATED, READY, PENDING, ERROR]
+              example: READY
+            formats:
+              type: array
+              items:
+                type: string
+                enum: [CSV, PDF]
+                example: CSV
+            # included:
+            #   type: array
+            #   items:
+            #     type: object
+            #     properties:
+            #       report-download-endpoint:
+            #         type: string
+            #         description: Endpoint where report can be downloaded from
+            #         example: https://us-west-2-api.cloudconformity.com/v1/reports/abc123/accountId/csv
+            #       type:
+            #         type: string
+            #         enum: [CSV, PDF]
+            #         example: CSV
