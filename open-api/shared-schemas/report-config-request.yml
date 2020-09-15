@@ -1,0 +1,75 @@
+type: object
+properties:
+  data:
+    type: object
+    properties:
+      attributes:
+        type: object
+        properties:
+          accountId:
+            type: string
+            description: ID of the account.
+            example: HksLj2_
+          configuration:
+            type: object
+            required: [title]
+            properties:
+              title:
+                type: string
+                description: This attribute is report title, which must be a string
+                example: Daily report of IAM
+              sendEmail:
+                type: boolean
+                description: This attribute is optional. When report was scheduled, aka the attribute scheduled is true, this is a toggle to send report to specific email addresses. It should be boolean when provided
+                default: false
+              emails:
+                type: array
+                description: This attribute is optional, represents email addresses that report would be sent to. It must be a array contains valid email addresses.
+                items:
+                  type: string
+              filter:
+                $ref: ./filter.yml
+              scheduled:
+                type: boolean
+                description: This attribute is optional, means whether the report is scheduled. It must be a boolean value when it was provided.
+                default: false
+              frequency:
+                type: string
+                description: This attribute is optional, but when the attribute scheduled is true, it must be a cron expression string that starts with day of month field. For example, daily cron expression would be * * *
+                example: "* * *"
+              tz:
+                type: string
+                description: This attribute is optional. It's used as which timezone the report schedule is based on, when the attribute scheduled is true.
+                example: Australia/Sydney
+              generateReportType:
+                type: string
+                description: This attribute is optional. Specifies the report type to be generated.
+                example: COMPLIANCE-STANDARD
+                enum: [GENERIC, COMPLIANCE-STANDARD]
+              includeChecks:
+                type: boolean
+                description: Specifies whether or not to include individual checks in PDF reports when total number of checks is below 10000.
+                default: false
+              shouldEmailIncludePdf:
+                type: boolean
+                description: This attribute is optional. Specifies whether or not to include PDF attachment in email.
+                default: true
+              shouldEmailIncludeCsv:
+                type: boolean
+                description: This attribute is optional. Specifies whether or not to include CSV attachment in email.
+                default: true
+    example:
+      data:
+        type: report-config
+        attributes:
+          accountId: HksLj2_
+          configuration:
+            title: Daily report of IAM
+            scheduled: true,
+            frequency: "* * *"
+            tz: Australia/Sydney
+            sendEmail: true
+            emails: ["user@email.com"]
+            filter:
+              services: [IAM]
+              suppressed: true

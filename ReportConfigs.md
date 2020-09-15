@@ -29,7 +29,7 @@ This feature can be used in conjunction with a GET request to copy report config
 `Content-Type`: application/vnd.api+json
 
 ##### Request Body Parameters
-- `data`: An array containing JSONAPI compliant data objects with following properties
+- `data`: A JSONAPI compliant data object with following properties
   - `type`: `"report-config"`,
   - `attributes`: Object containing
     - `accountId`: Optional account ID that user could access to
@@ -357,7 +357,7 @@ A PATCH request to this endpoint allows you to update a specific report config.
 `id` is the Cloud Conformity report config id
 
 ##### Request Body Parameters
-- `data`: An array containing JSONAPI compliant data objects with following properties
+- `data`: A JSONAPI compliant data object with following properties
   - `type`: `"report-config"`,
   - `attributes`: Object containing
     - `configuration`: Object containing parameters that are different for each channel. For more details consult the [configurations-table](#configuration)

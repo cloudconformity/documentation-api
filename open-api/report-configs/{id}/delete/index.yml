@@ -1,30 +1,24 @@
+summary: Delete report config
+description: A DELETE request to this endpoint allows a user to delete a report config.
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: id is the Cloud Conformity report config id
 responses:
   200:
-    description: "200 response"
-    content: {}
-  400:
-    description: "400 response"
-    content: {}
-  422:
-    description: "422 response"
-    content: {}
+    description: OK
+    content:
+      application/json:
+        schema:
+          $ref: "./response-200.yml"
   401:
-    description: "401 response"
-    content: {}
-  423:
-    description: "423 response"
-    content: {}
-  500:
-    description: "500 response"
-    content: {}
-  402:
-    description: "402 response"
-    content: {}
-  403:
-    description: "403 response"
-    content: {}
-  404:
-    description: "404 response"
-    content: {}
+    description: "Unauthorized. The requester user does not have enough privilege."
+    content:
+      application/json:
+        schema:
+          $ref: "../../../shared-schemas/401.yml"
 security:
   - Authorizer: []

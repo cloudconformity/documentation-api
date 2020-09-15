@@ -1,0 +1,160 @@
+type: object
+properties:
+  services:
+    type: array
+    items:
+      type: string
+      description: An array of AWS service strings
+      enum:
+        [
+          AutoScaling,
+          CloudConformity,
+          CloudFormation,
+          CloudFront,
+          CloudTrail,
+          CloudWatch,
+          CloudWatchEvents,
+          CloudWatchLogs,
+          Config,
+          DynamoDB,
+          EBS,
+          EC2,
+          ElastiCache,
+          Elasticsearch,
+          ELB,
+          IAM,
+          KMS,
+          RDS,
+          Redshift,
+          ResourceGroup,
+          Route53,
+          S3,
+          SES,
+          SNS,
+          SQS,
+          VPC,
+          WAF,
+          ACM,
+          Inspector,
+          TrustedAdvisor,
+          Shield,
+          EMR,
+          Lambda,
+          Support,
+          Organizations,
+          Kinesis,
+          EFS,
+        ]
+  resourceTypes:
+    type: array
+    items:
+      type: string
+      description: An array of resource types.
+      example: kms-key
+  regions:
+    type: array
+    items:
+      type: string
+      description: An array of valid AWS region strings.
+      example: us-west-1
+  ruleIds:
+    type: array
+    items:
+      type: string
+      description: An array of rule ids.
+      example: EC2-001
+  tags:
+    type: array
+    items:
+      type: string
+      description: An array of any assigned metadata tags to your AWS resources.
+  text:
+    type: string
+    description: Filter by resource Id, rule title or message.
+    example: S3
+  createdLessThanDays:
+    type: number
+    description: Only show checks created less than X days ago.
+    example: 5
+  categories:
+    type: array
+    example: [security]
+    items:
+      type: string
+      description: An array of category (AWS well-architected framework category) strings.
+      enum:
+        [security, cost-optimisation, reliability, performance-efficiency, operational-excellence]
+  riskLevels:
+    type: string
+    description: Risk level.
+    enum: [EXTREME, VERY_HIGH, HIGH, MEDIUM, LOW]
+    example: EXTREME
+  complianceStandards:
+    type: array
+    example: [AWAF]
+    items:
+      type: string
+      description: An array of supported standard or framework ids.
+      enum:
+        [
+          AWAF,
+          CISAWSF,
+          CISAZUREF,
+          CISAWSTTW,
+          PCI,
+          HIPAA,
+          GDPR,
+          APRA,
+          NIST4,
+          SOC2,
+          NIST-CSF,
+          ISO27001,
+          AGISM,
+          ASAE-3150,
+          MAS,
+        ]
+  reportComplianceStandardId:
+    type: string
+    description: A single standard or framework id string.
+    enum:
+      [
+        AWAF,
+        CISAWSF,
+        CISAZUREF,
+        CISAWSTTW,
+        PCI,
+        HIPAA,
+        GDPR,
+        APRA,
+        NIST4,
+        SOC2,
+        NIST-CSF,
+        ISO27001,
+        AGISM,
+        ASAE-3150,
+        MAS,
+      ]
+    example: NIST4
+  statuses:
+    type: array
+    example: [SUCCESS]
+    items:
+      type: string
+      description: Whether to use the "v1" or "v2" suppressed functionality.
+      enum: [SUCCESS, FAILURE]
+  suppressedFilterMode:
+    type: string
+    description: The status of the check.
+    enum: [v1, v2]
+    example: v1
+    default: v1
+  suppressed:
+    type: boolean
+    description: Show Suppressed rules. A boolean. Will default to true for "v1", and omitted for "v2".
+  providers:
+    type: array
+    example: [aws]
+    items:
+      type: string
+      description: Cloud providers.
+      enum: [aws, azure]
