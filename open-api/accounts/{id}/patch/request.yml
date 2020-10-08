@@ -27,3 +27,5 @@ properties:
               An array of strings to group accounts based on the tag associated with it. (optional)
               There is a maximum of 50 tags per account and maximum of 80 characters per tag.
               Tags should be alphanumeric, and may contain symbols -  _ and Space.
+            items:
+              type: string
