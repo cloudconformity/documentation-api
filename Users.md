@@ -481,8 +481,6 @@ https://us-west-2-api.cloudconformity.com/v1/users
 
 This endpoint is only available for organisations with an external identity provider setup.
 
-Only ADMINS from an external identity provider can use this endpoint to add new sso users to their organisation.
-
 ##### Endpoints:
 
 `POST /users/sso`
