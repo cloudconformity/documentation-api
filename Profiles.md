@@ -1085,3 +1085,4 @@ When the applying the profile to the account using the `overwrite` mode, the res
 </table>
 
 By default, omitting the `include` field defaults to all configurations in the account rule setting being overwritten by the profile's. 
+For more information, refer to the [Profiles Help Pages](https://www.cloudconformity.com/help/profiles.html).
