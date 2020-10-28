@@ -260,6 +260,7 @@ There are some attributes you need to pass inside the attributes object. The tab
 The expected behaviour of this request to create a new profile.
 
 Example request for saving a new profile:
+
 ```
 curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -331,6 +332,7 @@ There are some attributes you need to pass inside the rule settings attributes o
 The expected behaviour of this request to save a new profile and configure new rule settings associated with that profile.
 
 Note: A deprecation warning will be included in the response for rules that are deprecated.
+
 ```json
 {
   "meta": {
@@ -338,9 +340,7 @@ Note: A deprecation warning will be included in the response for rules that are 
       "warning": {
         "message": "1 manually configured rule in this profile is deprecated. Refer to our Help Pages for instructions.",
         "link": "https://www.cloudconformity.com/help/rules.html",
-        "rules": [
-            "EC2-XXX"
-        ]
+        "rules": ["EC2-XXX"]
       }
     }
   }
@@ -492,6 +492,7 @@ The expected behaviour of this request to overwrite all existing rule settings t
 You must indicate the profile id in the request body otherwise a new profile will be created with the indicated rule settings configured.
 
 Example request for saving rule settings:
+
 ```
 curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -633,6 +634,7 @@ Example Response:
 The expected behaviour of this request to preserve an existing profile's attributes while deleting all existing rule settings. To do so, exclude the "includes" and "relationships" field from the request.
 
 Example request for modifying an existing profile and deleting its settings:
+
 ```
 curl -X POST -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -687,6 +689,7 @@ This endpoint allows you to update profile details and its associated rule setti
   - `attributes`: Object containing profile attributes. For more details consult the [profile-attributes-table](#profile-attributes)
 
 Note: A deprecation warning will be included in the response for rules that are deprecated.
+
 ```json
 {
   "meta": {
@@ -694,9 +697,7 @@ Note: A deprecation warning will be included in the response for rules that are 
       "warning": {
         "message": "1 manually configured rule in this profile is deprecated. Refer to our Help Pages for instructions.",
         "link": "https://www.cloudconformity.com/help/rules.html",
-        "rules": [
-            "EC2-XXX"
-        ]
+        "rules": ["EC2-XXX"]
       }
     }
   }
@@ -754,8 +755,9 @@ To update rule settings along with your profile, only the settings passed in the
     - `type`: `"rules"`,
     - `id`: This attribute is the id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list). If the id belongs to a deprecated rule, an error will be thrown.
     - `attributes`: Object containing profile attributes. For more details consult the [rule-settings-table](#rule-settings).
-			
+
 Example request to update profile details and add one rule setting to existing settings:
+
 ```
 curl -X PATCH -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -933,9 +935,11 @@ This endpoint allows you to apply profile and rule settings to a set of accounts
 - `id`: The Cloud Conformity ID of the profile
 - `meta`:
   - `accountIds`: An Array of account Id's that will be configured by the profile.
-  - `types`: An Array of setting types to be applied to the accounts. NOTE: Only `rule` is supported in the current version.
+  - `types`: [**Note:**  Only `rule` is supported in the current version] An Array of setting types to be applied to the accounts.
   - `mode`: Mode of how the profile will be applied to the accounts, i.e. "fill-gaps", "overwrite" or "replace". For a description of these modes, see the [modes-table](#modes) below.
   - `notes`: Log notes. This field is expected to be filled out, ideally with a reason for the profile being applied.
+  - `include`: [**Note:** this field can only be used in `overwrite` mode] An object containing rule setting configurations. For instructions on how to use this parameter, see the ["Using the include parameter" section](#using-the-include-parameter) below.
+    - `exceptions`: A boolean value to allow/prevent the account rule setting's `exceptions` field from being overwritten when applying a profile.
 
 #### Modes
 
@@ -945,8 +949,9 @@ This endpoint allows you to apply profile and rule settings to a set of accounts
 | overwrite | Merge existing settings with this Profile. If there is a conflict, the Profile's setting will be used.          |
 | replace   | Clear all existing settings and apply settings from this Profile.                                               |
 
-Example request for applying a profile to accounts:
+Example requests for applying a profile to accounts
 
+Using `overwrite` mode:
 ```
 curl -H "Content-Type: application/vnd.api+json" \
 -H "Authorization: ApiKey YOUR-API-KEY" \
@@ -957,6 +962,23 @@ curl -H "Content-Type: application/vnd.api+json" \
 		"types": ["rule"],
 		"mode": "overwrite",
 		"notes": "Applying profile to accounts",
+                "include" : {
+                    "exceptions": false
+                }
+	}
+}' https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/apply
+```
+Using `fill-gaps` mode:
+```
+curl -H "Content-Type: application/vnd.api+json" \
+-H "Authorization: ApiKey YOUR-API-KEY" \
+-d '
+{
+	"meta": {
+		"accountIds": [{account-id-1}, {account-id-2}],
+		"types": ["rule"],
+		"mode": "fill-gaps",
+		"notes": "Applying profile to accounts"
 	}
 }' https://us-west-2-api.cloudconformity.com/v1/profiles/{profile-id}/apply
 ```
@@ -972,3 +994,94 @@ Example Response:
 }
 
 ```
+
+#### Using the `include` parameter
+
+When using the `overwrite` mode when applying a profile to account/s, there might be data on an account's rule settings that you want to retain,
+e.g. You want to replace the `enabled`, `extraSettings` and `riskLevel` but wish to keep the `exceptions`.
+
+When using the:
+
+```json
+{
+  "include": {
+    "exceptions": true
+  }
+}
+```
+
+parameter in the `meta` part of the request, setting the `exceptions` to true or false alters how the profile rule setting is applied to the account rule setting.
+
+For example, given a rule setting in a profile:
+```json
+{
+  "id": "EC2-001",
+  "enabled": "true",
+  "riskLevel": "LOW"
+}
+```
+
+And the same rule setting in an account:
+```json
+{
+  "id": "EC2-001",
+  "enabled": "false",
+  "riskLevel": "EXTREME",
+  "exceptions": {
+    "resources": ["i-098765432"],
+    "tags": ["development"]
+  }
+}
+```
+
+When the applying the profile to the account using the `overwrite` mode, the resulting rule setting will appear as per the table below:<br />
+**Note:** Currently, only `exceptions` configuration is supported.
+
+<table>
+    <tr>
+        <th>
+            Without "include" in the request
+        </th>
+        <th>
+            Using "include" with "exceptions" set to true in the request
+        </th>
+        <th>
+            Using "include" with "exceptions" set to false in the request
+        </th>
+    </tr>
+    <tr>
+         <td>
+            <pre lang="json">
+{
+  "id": "EC2-001",
+  "enabled": "true",
+  "riskLevel": "LOW"
+}
+            </pre>
+        </td>
+        <td>
+            <pre lang="json">
+{
+  "id": "EC2-001",
+  "enabled": "true",
+  "riskLevel": "LOW"
+}
+            </pre>
+        </td>
+        <td>
+            <pre lang="json">
+{
+  "id": "EC2-001",
+  "enabled": "true",
+  "riskLevel": "LOW",
+  "exceptions": {
+    "resources": ["i-098765432"],
+    "tags": ["development"]
+  }
+}
+            </pre>
+        </td>
+    </tr>
+</table>
+
+By default, omitting the `include` field defaults to all configurations in the account rule setting being overwritten by the profile's. 
