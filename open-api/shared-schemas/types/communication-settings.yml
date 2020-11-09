@@ -1,0 +1,116 @@
+type: object
+properties:
+  type:
+    type: string
+    example: settings
+  id:
+    type: string
+    description: ID of setting.
+    example: communication:email-3JD1mkXfz
+  attributes:
+    type: object
+    properties:
+      type:
+        type: string
+        description: Description of type of setting
+        example: communication
+      manual:
+        type: boolean
+        description: /
+        example: false
+      enabled:
+        type: boolean
+        description: /
+        example: true
+      filter:
+        type: object
+        properties:
+          riskLevels:
+            type: string
+            description: /
+            enum:
+              - EXTREME
+              - VERY_HIGH
+          statuses:
+            type: string
+            description: /
+            example: null
+          services:
+            type: string
+            description: /
+            enum:
+              - S3
+      configuration:
+        type: object
+        properties:
+          users:
+            type: string
+            description: /
+            enum:
+              - something?
+      created-by:
+        type: string
+        description: ID of user that created this communication setting
+        example: n6yTeW_lx
+      created-date:
+        type: string
+        description: Epoch string for the date time when the communication setting was created
+        example: 1565165403747
+      channel:
+        type: string
+        description: Description for the type of communication setting
+        example: email
+      is-account-level:
+        type: boolean
+        description: Defines if communication setting is set at an account level
+        example: false
+      is-group-level:
+        type: boolean
+        description: Defines if communication setting is set for a group
+        example: false
+      is-organisation-level:
+        type: boolean
+        description: Defines if communication setting is set at an organisation level
+        example: true
+  relationships:
+    type: object
+    properties:
+      organisation:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              type:
+                type: string
+                description: /
+                example: organisations
+              id:
+                type: string
+                description: ID of the organisation this account is a part of
+                example: v1nHLpkex
+      account:
+        type: object
+        properties:
+          data:
+            type: string
+            description: /
+            example: null
+      group:
+        type: object
+        properties:
+          data:
+            type: string
+            description: /
+            example: null
+      profile:
+        type: object
+        properties:
+          data:
+            type: string
+            description: /
+            example: null
+
+
+
+

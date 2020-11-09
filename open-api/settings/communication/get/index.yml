@@ -1,30 +1,48 @@
+summary: Get Communication Settings
+description: A GET request to this endpoint allows you to get communication settings.
 tags:
   - Communication settings
+parameters:
+  - in: query
+    name: accountId
+    schema:
+      type: string
+    required: false
+    description: Specify an ID of account to get communication settings for
+  - in: query
+    name: channel
+    schema:
+      type: string
+    require: false
+    description: Specify a type of communication setting to get
 responses:
   200:
-    description: 200 response
-    content: {}
+    description: OK
+    content:
+      application/json:
+        schema:
+          $ref: ./response-200.yml
   400:
-    description: 400 response
+    description: Cannot get channel name settings via API
     content: {}
   422:
     description: 422 response
     content: {}
   401:
-    description: 401 response
-    content: {}
-  423:
-    description: 423 response
-    content: {}
+    description: Unauthorized. The requester user does not have enough privilege.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/401.yml
   500:
     description: 500 response
     content: {}
-  402:
-    description: 402 response
-    content: {}
   403:
-    description: 403 response
-    content: {}
+    description: Forbidden
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/403.yml
   404:
     description: 404 response
     content: {}
