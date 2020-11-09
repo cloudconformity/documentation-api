@@ -2,19 +2,6 @@ summary: Get Communication Settings
 description: A GET request to this endpoint allows you to get communication settings.
 tags:
   - Communication settings
-parameters:
-  - in: query
-    name: accountId
-    schema:
-      type: string
-    required: false
-    description: Specify an ID of account to get communication settings for
-  - in: query
-    name: channel
-    schema:
-      type: string
-    require: false
-    description: Specify a type of communication setting to get
 responses:
   200:
     description: OK
