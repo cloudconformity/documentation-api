@@ -1,0 +1,49 @@
+summary: Update Communication Settings
+description: |
+  A PATCH request to this endpoint allows you to update a specific communication setting.
+  
+  **IMPORTANT**: User role defines how they may use this endpoint:
+
+  1. Only ADMIN users can update organisation-level settings.
+  2. For an account-level setting, both ADMINs and users with FULL access to the account can update it.
+tags:
+  - Communication settings
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ./request.yml
+responses:
+  200:
+    description: OK
+    content:
+      application/json:
+        schema:
+          $ref: ./responses/200.yml
+  401:
+    description: Unauthorized. The requester user does not have enough privilege.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/401.yml
+  422:
+    description: 422 Unprocessable Entity
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/422-unprocessed-entity.yml
+  403:
+    description: 403 Forbidden
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/403.yml
+  500:
+    description: 500 Internal Server Error
+    content:
+      application/json:
+        schema:
+          $ref: ./responses/500.yml
+security:
+  - Authorizer: []

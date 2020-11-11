@@ -1,14 +1,282 @@
 summary: Get Communication Settings
-description: A GET request to this endpoint allows you to get communication settings.
+description: |
+  A GET request to this endpoint allows you to get communication settings. This feature can be used in conjunction with a POST request to copy communication settings from one account to others.
+
+  **Important**: Users with different roles can get different results from this endpoint.
+  
+  The table below describes the relationship between user role or account access level, and type of data the user can get for account level settings.
+  
+  | **Role / access to account**   | **Account-Level Settings**       |
+  |--------------------------------|----------------------------------|
+  | ADMIN                          | Full settings with configuration |
+  | FULL access to the account     | Full settings with configuration |
+  | READONLY access to the account | Settings without configuration   |
+  | NO access to the account	     | No settings                      |
+
+  For organisation level settings, the ADMIN users are the only users who can access those settings. The table below describes the relationship between user role and type of the data user can get for organisation level settings.
+
+  | **Role**                       | **Organisation-Level Settings**       |
+  |--------------------------------|---------------------------------------|
+  | ADMIN                          | Full settings with configuration      |
+  | FULL access to the account     | Full settings with configuration      |
+  | READONLY access to the account | Settings without configuration        |
+  | NO access to the account	     | No settings                           |
+
+  Example request for email-only settings:
+
+  ```
+  curl -H "Content-Type: application/vnd.api+json" \
+  -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \
+  https://us-west-2-api.cloudconformity.com/v1/settings/communication?accountId=H19NxM15-&channel=email&includeParents=true
+  ```
+
+  Example Response for an ADMIN user: (**Note**: The first object is for an organisation-level setting: `setting.relationships.account.data` is NULL)
+
+  ```
+  {
+    "data": [
+        {
+            "type": "settings",
+            "id": "communication:email-HJgeFWmpVf",
+            "attributes": {
+                "type": "communication",
+                "manual": false,
+                "enabled": true,
+                "filter": {
+                    "services": [
+                        "Organizations"
+                    ],
+                    "suppressed": false
+                },
+                "configuration": {
+                    "users": [
+                        "BJlqMqknVb"
+                    ]
+                },
+                "channel": "email"
+            },
+            "relationships": {
+                "organisation": {
+                    "data": {
+                        "type": "organisations",
+                        "id": "ryqMcJn4b"
+                    }
+                },
+                "account": {
+                    "data": null
+                }
+            }
+        },
+        {
+            "type": "settings",
+            "id": "ryqs8LNKW:communication:email-Ske1cKKEvM",
+            "attributes": {
+                "type": "communication",
+                "manual": false,
+                "enabled": true,
+                "filter": {
+                    "categories": [
+                        "security"
+                    ],
+                    "suppressed": false
+                },
+                "configuration": {
+                    "users": [
+                        "HyL7K6GrZ"
+                    ]
+                },
+                "channel": "email"
+            },
+            "relationships": {
+                "organisation": {
+                    "data": {
+                        "type": "organisations",
+                        "id": "ryqMcJn4b"
+                    }
+                },
+                "account": {
+                    "data": {
+                        "type": "accounts",
+                        "id": "H19NxM15-"
+                    }
+                }
+            }
+        }
+    ]
+  }
+  ```
+
+  Example response for a user with FULL access to the acount: (**Note**: The list does not contain organisation-level settings as only ADMIN users have access to organisation-level settings).
+
+  ```
+  {
+    "data": [
+        {
+            "type": "settings",
+            "id": "ryqs8LNKW:communication:email-Ske1cKKEvM",
+            "attributes": {
+                "type": "communication",
+                "manual": false,
+                "enabled": true,
+                "filter": {
+                    "categories": [
+                        "security"
+                    ],
+                    "suppressed": false
+                },
+                "configuration": {
+                    "users": [
+                        "HyL7K6GrZ"
+                    ]
+                },
+                "channel": "email"
+            },
+            "relationships": {
+                "organisation": {
+                    "data": {
+                        "type": "organisations",
+                        "id": "ryqMcJn4b"
+                    }
+                },
+                "account": {
+                    "data": {
+                        "type": "accounts",
+                        "id": "H19NxM15-"
+                    }
+                }
+            }
+        }
+    ]
+  }
+  ```
+
+  Example request for **organisation-level** email-only settings:
+
+  ```
+  curl -H "Content-Type: application/vnd.api+json" \ 
+  -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \ 
+  https://us-west-2-api.cloudconformity.com/v1/settings/communication?channel=email
+  ```
+
+  Example Response for an ADMIN user:
+
+  ```
+  {
+    "data": [
+        {
+            "type": "settings",
+            "id": "communication:email-HJgeFWmpVf",
+            "attributes": {
+                "type": "communication",
+                "manual": false,
+                "enabled": true,
+                "filter": {
+                    "services": [
+                        "Organizations"
+                    ],
+                    "suppressed": false
+                },
+                "configuration": {
+                    "users": [
+                        "BJlqMqknVb"
+                    ]
+                },
+                "channel": "email"
+            },
+            "relationships": {
+                "organisation": {
+                    "data": {
+                        "type": "organisations",
+                        "id": "ryqMcJn4b"
+                    }
+                },
+                "account": {
+                    "data": null
+                }
+            }
+        }
+    ]
+  }
+  ```
+
+  Example request for **account-level** email-only settings:
+
+  ```
+  curl -H "Content-Type: application/vnd.api+json" \ 
+  -H "Authorization: ApiKey S1YnrbQuWagQS0MvbSchNHDO73XHqdAqH52RxEPGAggOYiXTxrwPfmiTNqQkTq3p" \ 
+  https://us-west-2-api.cloudconformity.com/v1/settings/communication?accountId=H19NxM15-&channel=email
+  ```
+
+  Example Response for an ADMIN user: (**Note**: Without the `includeParents` parameter, no organisation-level settings are shown.)
+
+  ```
+  {
+    "data": [
+        {
+            "type": "settings",
+            "id": "ryqs8LNKW:communication:email-Ske1cKKEvM",
+            "attributes": {
+                "type": "communication",
+                "manual": false,
+                "enabled": true,
+                "filter": {
+                    "categories": [
+                        "security"
+                    ],
+                    "suppressed": false
+                },
+                "configuration": {
+                    "users": [
+                        "HyL7K6GrZ"
+                    ]
+                },
+                "channel": "email"
+            },
+            "relationships": {
+                "organisation": {
+                    "data": {
+                        "type": "organisations",
+                        "id": "ryqMcJn4b"
+                    }
+                },
+                "account": {
+                    "data": {
+                        "type": "accounts",
+                        "id": "H19NxM15-"
+                    }
+                }
+            }
+        }
+    ]
+  }
+  ```  
 tags:
   - Communication settings
+parameters:
+  - in: query
+    name: channel
+    schema:
+      type: string
+    description:
+      "Provide if you want to only get settings for one specific channel: email, sms, slack, pager-duty, or sns."
+    example: abc
+  - in: query
+    name: accountId
+    schema:
+      type: string
+    description: Cloud Conformity ID of the account. Provide to get only settings set for the specified account.
+  - in: query
+    name: includeParents
+    schema:
+      type: boolean
+    description: Can only be used in conjunction with the accountId parameter. Specify true if you want to see both account level settings and organisation level settings.
 responses:
   200:
-    description: OK
+    description: OK.
     content:
       application/json:
         schema:
-          $ref: ./response-200.yml
+          $ref: ./responses/200.yml
   400:
     description: Cannot get channel name settings via API
     content: {}
@@ -22,16 +290,22 @@ responses:
         schema:
           $ref: ../../../shared-schemas/responses/401.yml
   500:
-    description: 500 response
-    content: {}
+    description: Internal Server Error
+    content:
+      application/json:
+        schema:
+          $ref: ./responses/500.yml
   403:
-    description: Forbidden
+    description: Forbidden. This happens when an invalid api key is provided or the user does not have access to the api keys.
     content:
       application/json:
         schema:
           $ref: ../../../shared-schemas/responses/403.yml
   404:
-    description: 404 response
-    content: {}
+    description: Not found.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/404.yml
 security:
   - Authorizer: []

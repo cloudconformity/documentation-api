@@ -1,6 +1,0 @@
-type: object
-properties:
-  data:
-    type: array
-    items:
-      $ref: "../../../shared-schemas/types/communication-settings.yml"
