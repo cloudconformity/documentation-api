@@ -1,7 +1,7 @@
 summary: Update Communication Settings
 description: |
   A PATCH request to this endpoint allows you to update a specific communication setting.
-  
+
   **IMPORTANT**: User role defines how they may use this endpoint:
 
   1. Only ADMIN users can update organisation-level settings.

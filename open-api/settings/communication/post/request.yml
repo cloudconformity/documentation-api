@@ -141,11 +141,10 @@ properties:
                     example: "S3-016"
                 categories:
                   type: array
-                  description:
-                    "An array of category (AWS well-architected framework category) strings from the following: security | cost-optimisation | reliability | performance-efficiency | operational-excellence"
+                  description: "An array of category (AWS well-architected framework category) strings from the following: security | cost-optimisation | reliability | performance-efficiency | operational-excellence"
                   items:
                     type: string
-                    enum: 
+                    enum:
                       - security
                       - cost-optimisation
                       - reliability
@@ -154,21 +153,19 @@ properties:
                     example: security
                 riskLevels:
                   type: array
-                  description:
-                    "An array of risk-level strings from the following: LOW| MEDIUM | HIGH | VERY_HIGH | EXTREME"
+                  description: "An array of risk-level strings from the following: LOW| MEDIUM | HIGH | VERY_HIGH | EXTREME"
                   items:
                     type: string
                     enum:
                       - LOW
-                      - MEDIUM 
-                      - HIGH 
-                      - VERY_HIGH 
+                      - MEDIUM
+                      - HIGH
+                      - VERY_HIGH
                       - EXTREME
                     example: LOW
                 statuses:
                   type: array
-                  description:
-                    "(only used for SNS channels) An array of statuses strings from the following: SUCCESS | FAILURE"
+                  description: "(only used for SNS channels) An array of statuses strings from the following: SUCCESS | FAILURE"
                   items:
                     type: string
                     example: SUCCESS

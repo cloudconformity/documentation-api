@@ -3,9 +3,9 @@ description: |
   A GET request to this endpoint allows you to get communication settings. This feature can be used in conjunction with a POST request to copy communication settings from one account to others.
 
   **Important**: Users with different roles can get different results from this endpoint.
-  
+
   The table below describes the relationship between user role or account access level, and type of data the user can get for account level settings.
-  
+
   | **Role / access to account**   | **Account-Level Settings**       |
   |--------------------------------|----------------------------------|
   | ADMIN                          | Full settings with configuration |
@@ -249,7 +249,7 @@ description: |
         }
     ]
   }
-  ```  
+  ```
 tags:
   - Communication settings
 parameters:
@@ -257,8 +257,7 @@ parameters:
     name: channel
     schema:
       type: string
-    description:
-      "Provide if you want to only get settings for one specific channel: email, sms, slack, pager-duty, or sns."
+    description: "Provide if you want to only get settings for one specific channel: email, sms, slack, pager-duty, or sns."
     example: abc
   - in: query
     name: accountId
