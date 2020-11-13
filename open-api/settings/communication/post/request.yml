@@ -10,129 +10,29 @@ properties:
           example: settings
         attributes:
           type: object
-          description: object containing attributes type, channel, enabled, manual, filter, configuration
+          description: Object containing attributes type, channel, enabled, manual, filter, configuration.
           properties:
             channel:
-              type: string
-              enum:
-                - email
-                - sms
-                - slack
-                - pager-duty
-                - sns
-                - ms-teams
-              example: email
+              $ref: ../../../shared-schemas/fields/communication-channels.yml
             enabled:
               type: boolean
               example: true
             manual:
               type: boolean
               example: true
-              description: only used for SNS channels, true for allowing users to manually send individual checks, false for disabling this option
+              description: Only used for SNS channels, true for allowing users to manually send individual checks, false for disabling this option.
             filter:
               type: object
               properties:
                 regions:
-                  type: array
-                  description: An array of valid AWS region strings (e.g. `["us-west-1", "us-west-2"]`). For more information about regions, please refer to [Cloud Conformity Region Endpoint](https://us-west-2.cloudconformity.com/v1/regions)
-                  items:
-                    type: string
-                    enum:
-                      - "us-east-1"
-                      - "us-east-2"
-                      - "us-west-1"
-                      - "us-west-2"
-                      - "ap-south-1"
-                      - "ap-northeast-2"
-                      - "ap-southeast-1"
-                      - "ap-southeast-2"
-                      - "ap-northeast-1"
-                      - "eu-central-1"
-                      - "eu-west-1"
-                      - "eu-west-2"
-                      - "eu-west-3"
-                      - "eu-north-1"
-                      - "sa-east-1"
-                      - "ca-central-1"
-                      - "me-south-1"
-                      - "ap-east-1"
-                      - "af-south-1"
-                      - "eu-south-1"
-                      - "eastasia"
-                      - "southeastasia"
-                      - "centralus"
-                      - "eastus"
-                      - "eastus2"
-                      - "westus"
-                      - "northcentralus"
-                      - "southcentralus"
-                      - "northeurope"
-                      - "westeurope"
-                      - "japanwest"
-                      - "japaneast"
-                      - "brazilsouth"
-                      - "australiaeast"
-                      - "australiasoutheast"
-                      - "southindia"
-                      - "centralindia"
-                      - "westindia"
-                      - "canadacentral"
-                      - "canadaeast"
-                      - "uksouth"
-                      - "ukwest"
-                      - "westcentralus"
-                      - "westus2"
-                      - "koreacentral"
-                      - "koreasouth"
-                      - "francecentral"
-                      - "francesouth"
-                      - "australiacentral"
-                      - "australiacentral2"
-                      - "southafricanorth"
-                      - "southafricawest"
+                  schema:
+                    $ref: ../../../shared-schemas/fields/all-regions.yml
+                  #   anyOf:
+                  #     - $ref: ../../../shared-schemas/fields/aws-regions.yml
+                  #     - $ref: ../../../shared-schemas/fields/azure-regions.yml
                 services:
-                  type: array
-                  description: An array of AWS service strings. For more information about services, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
-                  items:
-                    type: string
-                    enum:
-                      - AutoScaling
-                      - CloudConformity
-                      - CloudFormation
-                      - CloudFront
-                      - CloudTrail
-                      - CloudWatch
-                      - CloudWatchEvents
-                      - CloudWatchLogs
-                      - Config
-                      - DynamoDB
-                      - EBS
-                      - EC2
-                      - ElastiCache
-                      - Elasticsearch
-                      - ELB
-                      - IAM
-                      - KMS
-                      - RDS
-                      - Redshift
-                      - ResourceGroup
-                      - Route53
-                      - S3
-                      - SES
-                      - SNS
-                      - SQS
-                      - VPC
-                      - WAF
-                      - ACM
-                      - Inspector
-                      - TrustedAdvisor
-                      - Shield
-                      - EMR
-                      - Lambda
-                      - Support
-                      - Organizations
-                      - Kinesis
-                      - EFS
+                  schema:
+                    $ref: ../../../shared-schemas/types/filter-array.yml
                 ruleIds:
                   type: array
                   description: An array of valid AWS rule Ids (e.g. ["S3-016", "EC2-001"]). For more information about rules, please refer to [Cloud Conformity Rules API](https://github.com/cloudconformity/documentation-api/blob/master/Rules.md)

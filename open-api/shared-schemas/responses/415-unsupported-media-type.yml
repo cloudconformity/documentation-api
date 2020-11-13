@@ -1,0 +1,5 @@
+type: object
+properties:
+  Message:
+    type: string
+    example: Unsupported media type.

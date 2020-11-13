@@ -1,0 +1,10 @@
+type: string
+description: Communication channels.
+enum:
+  - email
+  - sms
+  - slack
+  - pager-duty
+  - sns
+  - ms-teams
+example: email

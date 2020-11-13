@@ -12,12 +12,12 @@ description: |
     4. With organisation-level user-based (email & sms) settings, the onus is on you to ensure these users have at least read-only access to all accounts.
 tags:
   - Communication settings
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: ./request.yml
+# requestBody:
+#   required: true
+#   content:
+#     application/json:
+#       schema:
+#         $ref: ./request.yml
 responses:
   200:
     description: OK
@@ -48,6 +48,6 @@ responses:
     content:
       application/json:
         schema:
-          $ref: ./responses/500.yml
+          $ref: ../../../shared-schemas/responses/500.yml
 security:
   - Authorizer: []

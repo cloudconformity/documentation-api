@@ -1,0 +1,42 @@
+type: array
+description: An array of AWS service strings. For more information about services, please refer to [Cloud Conformity Services Endpoint](https://us-west-2.cloudconformity.com/v1/services)
+items:
+  type: string
+  enum:
+    - AutoScaling
+    - CloudConformity
+    - CloudFormation
+    - CloudFront
+    - CloudTrail
+    - CloudWatch
+    - CloudWatchEvents
+    - CloudWatchLogs
+    - Config
+    - DynamoDB
+    - EBS
+    - EC2
+    - ElastiCache
+    - Elasticsearch
+    - ELB
+    - IAM
+    - KMS
+    - RDS
+    - Redshift
+    - ResourceGroup
+    - Route53
+    - S3
+    - SES
+    - SNS
+    - SQS
+    - VPC
+    - WAF
+    - ACM
+    - Inspector
+    - TrustedAdvisor
+    - Shield
+    - EMR
+    - Lambda
+    - Support
+    - Organizations
+    - Kinesis
+    - EFS
