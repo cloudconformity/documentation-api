@@ -1,0 +1,100 @@
+type: object
+properties:
+  data:
+    type: object
+    properties:
+      type:
+        type: string
+        example: "settings"
+      attributes:
+        type: object
+        description: Object containing attributes type, channel, enabled, manual, filter, configuration.
+        properties:
+          type:
+            type: string
+            example: "communication"
+          channel:
+            $ref: ../../../../shared-schemas/fields/communication-channels.yml
+          enabled:
+            type: boolean
+            example: true
+          manual:
+            type: boolean
+            example: true
+            description: (Only used if communication channel is set to `sns`). True for allowing users to manually send individual checks, false for disabling this option.
+          filter:
+            type: object
+            properties:
+              regions:
+                anyOf:
+                  - $ref: ../../../../shared-schemas/fields/aws-regions.yml
+                  - $ref: ../../../../shared-schemas/fields/azure-regions.yml
+              services:
+                $ref: ../../../../shared-schemas/types/services.yml
+              ruleIds:
+                type: array
+                description: An array of valid AWS rule Ids (e.g. ["S3-016", "EC2-001"]). For more information about rules, please refer to [Cloud Conformity Rules API](https://github.com/cloudconformity/documentation-api/blob/master/Rules.md).
+                items:
+                  type: string
+                  example: "S3-016"
+              categories:
+                $ref: ../../../../shared-schemas/types/categories.yml
+              riskLevels:
+                $ref: ../../../../shared-schemas/fields/risk-level.yml
+              statuses:
+                type: array
+                description: "(Only used if communication channel is set to `sns`). An array of check outcomes to be notified about."
+                items:
+                  type: string
+                  enum:
+                    - "SUCCESS"
+                    - "FAILURE"
+              tags:
+                type: array
+                description: An array of any assigned metadata tags to your AWS resources.
+                items:
+                  type: string
+                  example: tagName
+          configuration:
+            type: object
+            properties:
+              channelName:
+                type: string
+                description: Label to display in the application (to distinguish between multiple instances of the same channel type).
+                example: someChannelName
+              users:
+                type: array
+                description: If communication channel is set to "email", then "users" is an array of users with at least `readOnly` access to the account. If communication channel is set to "sms", then "users" is an array of users with verified mobile numbers that have at least `readOnly` access to the account.
+              url:
+                type: string
+                description: (Only used if communication channel is set to `slack` or `ms-teams`). Url to webhook
+                example: "https://hooks.slack.com/services/your-slack-webhook"
+              channel:
+                type: string
+                description: (Only used if communication channel is set to `slack` or `ms-teams`). Name of channel
+                example: "#your-channel"
+              displayIntroducedBy:
+                type: boolean
+                description: (Only used if communication channel is set to `slack` or `ms-teams`). True for adding user to message.
+              displayResource:
+                type: boolean
+                description: (Only used if communication channel is set to `slack` or `ms-teams`). True for adding resource to message.
+              displayTags:
+                type: boolean
+                description: (Only used if communication channel is set to `slack` or `ms-teams`). True for adding associated tags to message.
+              displayExtraData:
+                type: boolean
+                description: (Only used if communication channel is set to `ms-teams`).
+              serviceName:
+                type: string
+                description: (Only used if communication channel is set to `pager-duty`). Your service name.
+                example: "yourServiceName"
+              serviceKey:
+                type: string
+                description: (Only used if communication channel is set to `pager-duty`). Your service key.
+                example: "yourServiceKey"
+              arn:
+                type: string
+                description: (Only used if communication channel is set to `sns`). ARN of SNS
+                example: |
+                  { "arn": "arn:aws:sns:REGION:ACCOUNT_ID:TOPIC_NAME"}

@@ -16,38 +16,70 @@ properties:
         example: communication
       manual:
         type: boolean
-        description: /
+        description: (Only used if communication channel is set to `sns`). True for allowing users to manually send individual checks, false for disabling this option.
         example: false
       enabled:
         type: boolean
-        description: /
+        description: True for turning on channel
         example: true
       filter:
         type: object
         properties:
           riskLevels:
-            type: string
-            description: /
-            enum:
-              - EXTREME
-              - VERY_HIGH
+            $ref: ../fields/risk-level.yml
           statuses:
-            type: string
-            description: /
-            example: null
+            type: array
+            description: "(Only used if communication channel is set to `sns`). An array of check outcomes to be notified about."
+            items:
+              type: string
+              enum:
+                - "SUCCESS"
+                - "FAILURE"
           services:
-            type: string
-            description: /
-            enum:
-              - S3
+            $ref: ../types/services.yml
       configuration:
         type: object
         properties:
-          users:
+          channelName:
             type: string
-            description: /
-            enum:
-              - something?
+            description: Label to display in the application (to distinguish between multiple instances of the same channel type).
+            example: someChannelName
+          users:
+            type: array
+            description: If communication channel is set to "email", then "users" is an array of users with at least `readOnly` access to the account. If communication channel is set to "sms", then "users" is an array of users with verified mobile numbers that have at least `readOnly` access to the account.
+          url:
+            type: string
+            description: (Only used if communication channel is set to `slack` or `ms-teams`). Url to webhook
+            example: "https://hooks.slack.com/services/your-slack-webhook"
+          channel:
+            type: string
+            description: (Only used if communication channel is set to `slack` or `ms-teams`). Name of channel
+            example: "#your-channel"
+          displayIntroducedBy:
+            type: boolean
+            description: (Only used if communication channel is set to `slack` or `ms-teams`). True for adding user to message.
+          displayResource:
+            type: boolean
+            description: (Only used if communication channel is set to `slack` or `ms-teams`). True for adding resource to message.
+          displayTags:
+            type: boolean
+            description: (Only used if communication channel is set to `slack` or `ms-teams`). True for adding associated tags to message.
+          displayExtraData:
+            type: boolean
+            description: (Only used if communication channel is set to `ms-teams`).
+          serviceName:
+            type: string
+            description: (Only used if communication channel is set to `pager-duty`). Your service name.
+            example: "yourServiceName"
+          serviceKey:
+            type: string
+            description: (Only used if communication channel is set to `pager-duty`). Your service key.
+            example: "yourServiceKey"
+          arn:
+            type: string
+            description: (Only used if communication channel is set to `sns`). ARN of SNS
+            example: |
+              { "arn": "arn:aws:sns:REGION:ACCOUNT_ID:TOPIC_NAME"}
       created-by:
         type: string
         description: ID of user that created this communication setting
@@ -75,38 +107,29 @@ properties:
   relationships:
     type: object
     properties:
+      account:
+        type: object
+        properties:
+          data:
+            type: object
+            description: <code>null</code> if only creating organization-level setting.
+            properties:
+              type:
+                type: string
+                example: accounts
+              id:
+                type: string
+                description: Cloud Conformity account ID
       organisation:
         type: object
         properties:
           data:
             type: object
+            description: Information about organisation.
             properties:
               type:
                 type: string
-                description: /
                 example: organisations
               id:
                 type: string
-                description: ID of the organisation this account is a part of
-                example: v1nHLpkex
-      account:
-        type: object
-        properties:
-          data:
-            type: string
-            description: /
-            example: null
-      group:
-        type: object
-        properties:
-          data:
-            type: string
-            description: /
-            example: null
-      profile:
-        type: object
-        properties:
-          data:
-            type: string
-            description: /
-            example: null
+                description: Cloud Conformity organisation ID

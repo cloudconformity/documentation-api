@@ -1,32 +1,76 @@
+summary: Get Details of Specified Communication Settings
+description: |
+  This endpoint allows you to get communication settings. This feature can be used in conjunction with a POST request to copy communication settings from one account to others.
+
+  **Important**: Users with different roles can get different results from this endpoint.
+
+  The table below describes the relationship between user role or account access level, and type of data the user can get for account level settings.
+
+  | **Role / access to account**   | **Account-Level Settings**       |
+  |--------------------------------|----------------------------------|
+  | ADMIN                          | Full settings with configuration |
+  | FULL access to the account     | Full settings with configuration |
+  | READONLY access to the account | Settings without configuration   |
+  | NO access to the account	     | No settings                      |
+
+  For organisation level settings, the ADMIN users are the only users who can access those settings. The table below describes the relationship between user role and type of the data user can get for organisation level settings.
+
+  | **Role**                       | **Organisation-Level Settings**       |
+  |--------------------------------|---------------------------------------|
+  | ADMIN                          | Full settings with configuration      |
+  | FULL access to the account     | Full settings with configuration      |
+  | READONLY access to the account | Settings without configuration        |
+  | NO access to the account	   | No settings                           |
+
 tags:
-  - Settings
+  - Communication settings
+parameters:
+  - in: query
+    name: channel
+    schema:
+      type: string
+    description: "Provide if you want to only get settings for one specific channel: email, sms, slack, pager-duty, or sns."
+    example: abc
+  - in: query
+    name: accountId
+    schema:
+      type: string
+    description: Cloud Conformity ID of the account. Provide to get only settings set for the specified account.
+  - in: query
+    name: includeParents
+    schema:
+      type: boolean
+    description: Can only be used in conjunction with the accountId parameter. Specify true if you want to see both account level settings and organisation level settings.
 responses:
-  200:
-    description: 200 response
-    content: {}
-  400:
-    description: 400 response
-    content: {}
-  422:
-    description: 422 response
-    content: {}
+  # 200:
+  #   description: OK.
+  #   content:
+  #     application/json:
+  #       schema:
+  #         $ref: ./responses/200.yml
   401:
-    description: 401 response
-    content: {}
-  423:
-    description: 423 response
-    content: {}
-  500:
-    description: 500 response
-    content: {}
-  402:
-    description: 402 response
-    content: {}
+    description: Unauthorized. The requested user does not have enough privilege.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/401.yml
   403:
-    description: 403 response
-    content: {}
-  404:
-    description: 404 response
-    content: {}
+    description: Forbidden. This happens when an invalid api key is provided or the user does not have access to the api keys.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/403.yml
+  415:
+    description: Unsupported media type.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/415-unsupported-media-type.yml
+  422:
+    description: Unknown. This happens when parameter is unknown.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/responses/422-unprocessed-entity.yml
 security:
   - Authorizer: []
