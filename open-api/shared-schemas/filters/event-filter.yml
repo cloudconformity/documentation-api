@@ -43,4 +43,3 @@ parameters:
           description: A date-time in Unix Epoch timestamp format (in milliseconds)
             which is the date the end of the time range you want to query for events.
           example: 1521660152755
-

@@ -30,8 +30,7 @@ properties:
               example: cloudfront.amazonaws.com
             identity:
               type: string
-              description:
-                The identifier of the user that caused the event
+              description: The identifier of the user that caused the event
               example: static-deployer
             region:
               type: string
