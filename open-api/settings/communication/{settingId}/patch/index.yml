@@ -8,7 +8,6 @@ description: |
   2. For an account-level setting, both ADMINs and users with FULL access to the account can update it.
 tags:
   - Communication settings
-<<<<<<< HEAD
 parameters:
   - in: path
     name: settingId
@@ -16,14 +15,12 @@ parameters:
       type: string
     required: true
     description: The ID of the setting.
-=======
 requestBody:
   required: true
   content:
     application/json:
       schema:
         $ref: ./request.yml
->>>>>>> Docs: PD-7405 Refactored endpoints, added shared-schemas, correct yaml validation
 responses:
   200:
     description: OK
