@@ -1,6 +1,6 @@
-summary: Get Details of Specified Communication Settings
+summary: Get Communication Setting Details
 description: |
-  This endpoint allows you to get communication settings. This feature can be used in conjunction with a POST request to copy communication settings from one account to others.
+  This endpoint allows a user to get the details of the specified communication setting.
 
   **Important**: Users with different roles can get different results from this endpoint.
 
@@ -20,34 +20,17 @@ description: |
   | ADMIN                          | Full settings with configuration      |
   | FULL access to the account     | Full settings with configuration      |
   | READONLY access to the account | Settings without configuration        |
-  | NO access to the account	   | No settings                           |
+  | NO access to the account	     | No settings                           |
 
 tags:
   - Communication settings
-parameters:
-  - in: query
-    name: channel
-    schema:
-      type: string
-    description: "Provide if you want to only get settings for one specific channel: email, sms, slack, pager-duty, or sns."
-    example: abc
-  - in: query
-    name: accountId
-    schema:
-      type: string
-    description: Cloud Conformity ID of the account. Provide to get only settings set for the specified account.
-  - in: query
-    name: includeParents
-    schema:
-      type: boolean
-    description: Can only be used in conjunction with the accountId parameter. Specify true if you want to see both account level settings and organisation level settings.
 responses:
-  # 200:
-  #   description: OK.
-  #   content:
-  #     application/json:
-  #       schema:
-  #         $ref: ./responses/200.yml
+  200:
+    description: OK.
+    content:
+      application/json:
+        schema:
+          $ref: ../../../shared-schemas/types/communication-settings.yml
   401:
     description: Unauthorized. The requested user does not have enough privilege.
     content:
@@ -66,11 +49,11 @@ responses:
       application/json:
         schema:
           $ref: ../../../shared-schemas/responses/415-unsupported-media-type.yml
-  422:
-    description: Unknown. This happens when parameter is unknown.
+  500:
+    description: Internal Server Error
     content:
       application/json:
         schema:
-          $ref: ../../../shared-schemas/responses/422-unprocessed-entity.yml
+          $ref: ../../../shared-schemas/responses/500.yml
 security:
   - Authorizer: []

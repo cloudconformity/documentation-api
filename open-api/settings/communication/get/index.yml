@@ -20,7 +20,7 @@ description: |
   | ADMIN                          | Full settings with configuration      |
   | FULL access to the account     | Full settings with configuration      |
   | READONLY access to the account | Settings without configuration        |
-  | NO access to the account	   | No settings                           |
+  | NO access to the account	     | No settings                           |
 
 tags:
   - Communication settings
