@@ -306,7 +306,7 @@ This option allows you to add rule settings to your profile at creation or after
     - `attributes`: Object containing profile attributes. For more details consult the [profile-attributes-table](#profile-attributes).
     - `relationships`: Object containing rule settings that are associated to this profile:
       - `ruleSettings`:
-      - `data`: An array of associated rule settings. - `type`: `"rules"`,
+        - `data`: An array of associated rule setting IDs. - `type`: `"rules"`, `id`: `"<RULE-ID>"`
   - `included`: An array containing JSONAPI compliant data objects with the following properties:
     - `type`: `"rules"`,
     - `id`: This attribute is the id of the rule type being updated e.g. S3-001 (refer to Cloud Conformity rules for the full list). If the id belongs to a deprecated rule, an error will be thrown.
