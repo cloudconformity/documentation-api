@@ -1,3 +1,10 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Cloud Conformity Rules API
 
 Below is a list of the available API calls:
@@ -34,7 +41,7 @@ This endpoint returns information about the available services and mapped rules 
 | release-date | Date the rule was released |   |
 | update-date | Date the rule has been updated |   |
 | is-deprecated | Flag indicating whether the rule is marked as deprecated | true, false |
-| provider | Cloud provider that the rule applies to | "aws", "azure" | 
+| provider | Cloud provider that the rule applies to | "aws", "azure" |
 
 ### Examples
 Example request to download a JSON of rules:
@@ -70,7 +77,7 @@ Example Response:
       }
     }
     ...
-  ],    
+  ],
   "included": [
     {
       "type":"rules",

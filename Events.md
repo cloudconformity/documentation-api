@@ -1,3 +1,10 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Cloud Conformity Events API
 
 Below is a list of the available APIs:
@@ -14,7 +21,7 @@ This endpoint allows you to collect events that you have access to.
 `GET /events`
 
 ##### Parameters
-- `accountIds`: A comma-separated list of Cloud Conformity accountIds. 
+- `accountIds`: A comma-separated list of Cloud Conformity accountIds.
 - `aws`: true | false; defaults to true for returning AWS events.
 - `cc`: true | false; defaults to true for returning Cloud Conformity activity-events.
 - `page[size]`: Indicates the number of results that should be returned. Maximum value is 1000 and defaults to 100 if not specified
@@ -30,7 +37,7 @@ This endpoint allows you to collect events that you have access to.
 Using the filter[name] as part of your query will get a history of that specific event. filter[name] also supports wildcards.
     1. Asterisk at the end: `filter[name]=account.bot.update*` will get all events where the name starts with account.bot.update.
     2. Asterisk in the middle:`filter[name]=account.*.update*` will match all account updating events like `account.bot.update` and `account.rule.update`.
-    3. Use of question marks: `filter[name]=a??.check.create` will match `api.check.created` and not `account.check.created`. Each ? is a character wildcard. 
+    3. Use of question marks: `filter[name]=a??.check.create` will match `api.check.created` and not `account.check.created`. Each ? is a character wildcard.
 <br />
 
 ##### Filtering

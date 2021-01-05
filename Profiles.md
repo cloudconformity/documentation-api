@@ -1,3 +1,10 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Cloud Conformity Profiles API
 
 Below is a list of the available APIs:
@@ -1084,5 +1091,5 @@ When the applying the profile to the account using the `overwrite` mode, the res
     </tr>
 </table>
 
-By default, omitting the `include` field defaults to all configurations in the account rule setting being overwritten by the profile's. 
+By default, omitting the `include` field defaults to all configurations in the account rule setting being overwritten by the profile's.
 For more information, refer to the [Profiles Help Pages](https://www.cloudconformity.com/help/profiles.html).

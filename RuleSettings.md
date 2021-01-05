@@ -1,6 +1,13 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Cloud Conformity API rule settings guide
 
-Every rule in Cloud Conformity can be configured via API. These rule settings can disable or enable rules, change 
+Every rule in Cloud Conformity can be configured via API. These rule settings can disable or enable rules, change
 default risk level, setup exceptions and configure rule-specific settings.
 
 Below is a list of the available API calls
@@ -75,7 +82,7 @@ A GET request to this endpoint allows you to get rule settings.
   - Type: boolean
   - Values: true, false
 
-    
+
 ###### Extra setting types
 These formats are are found in `type` field of rule extra settings:
 
@@ -146,7 +153,7 @@ _Example:_
 * **Usage:** Used when one or more selections from a predefined set of values are required.
 * **UI:** List of checkboxes
 
-Note that all allowed values are returned from `GET /v1/accounts/{accountId}/settings/rules?includeDefaults=true` endpoint 
+Note that all allowed values are returned from `GET /v1/accounts/{accountId}/settings/rules?includeDefaults=true` endpoint
 
 _Example:_
 ```json5
@@ -181,22 +188,22 @@ _Example:_
 ```
 
 ###### choice-single-value
-* **Usage:** Used when a single value should be selected from multiple choices. 
+* **Usage:** Used when a single value should be selected from multiple choices.
 * **UI:** List of radio buttons
 
 Note that the allowed values differ for each rule:
 
-* Support-001 (Support Plan) 
-  - "Basic" 
-  - "Developer" 
-  - "Business" 
+* Support-001 (Support Plan)
+  - "Basic"
+  - "Developer"
+  - "Business"
   - "Enterprise"
 * EC2-025 (EC2 Instance Tenancy)
   - "default"
   - "dedicated"
   - "host"
 * ELB-008 (ELB Listener Security)
-  - "1" (Yes) 
+  - "1" (Yes)
   - "0" (No)
 * ELB-010, ELBv2-004 (ELB/ELBv2 Minimum Number Of EC2 Instances)
   - Minimum Number Of EC2 Instances
@@ -204,7 +211,7 @@ Note that the allowed values differ for each rule:
     - 2 (Two instances)
 * ELBv2-005 (ELBv2 ALB Listener Security)
   - Include Internal Load Balancers
-    - "1" (Yes) 
+    - "1" (Yes)
     - "0" (No)
 
 _Example:_
@@ -290,7 +297,7 @@ _Example:_
 ###### multiple-ip-values
 * **Usage:** Used when one or more IP addresses or CIDRs are required.
 * **UI:** List of text fields accepting IP address or CIDRs.
- 
+
 _Example:_
 ```json5
 {
@@ -345,7 +352,7 @@ _Example:_
 
 ###### regions
 * **Usage:** Used when one or more AWS region should be selected.
-* **UI:** List of on/off sliders for every supported AWS region 
+* **UI:** List of on/off sliders for every supported AWS region
 
 Note that setting values only include selected region identifiers.
 
@@ -373,7 +380,7 @@ _Example:_
 ```
 
 ###### single-number-value
-* **Usage:** Used when a single numeric value is required. 
+* **Usage:** Used when a single numeric value is required.
 * **UI:** Text field accepting numbers
 
 _Example:_
@@ -393,7 +400,7 @@ _Example:_
 ```
 
 ###### single-string-value
-* **Usage:** Used when a single string value is required. 
+* **Usage:** Used when a single string value is required.
 * **UI:** Text field
 
 _Example:_
@@ -414,7 +421,7 @@ _Example:_
 ```
 
 ###### single-value-regex
-* **Usage:** Used when a regular expression is required. 
+* **Usage:** Used when a regular expression is required.
 * **UI:** Text field accepting regular expressions
 
 _Example:_
@@ -434,10 +441,10 @@ _Example:_
 ```
 
 ###### ttl
-* **Usage:** Real-time monitoring (RTM) rules have _Time To Live_. This is the 
-number of hours that an RTM check remains valid after which time it is expired 
+* **Usage:** Real-time monitoring (RTM) rules have _Time To Live_. This is the
+number of hours that an RTM check remains valid after which time it is expired
 and may get triggered again.
-* **UI:** Text field accepting numbers 
+* **UI:** Text field accepting numbers
 
 _Example:_
 ```json5
@@ -742,14 +749,14 @@ A PATCH request to this endpoint allows you to update a specific rule's settings
       - `ruleExists`: Boolean, true for existing, false for not existing rule.
       - `provider`: String, the cloud provider which Conformity currently supports: aws \| azure
       - `extraSettings`: Object containing parameters that are extra setting of the rule
-      
+
 Example Request:
 
 ```
 curl --location --request PATCH 'https://us-west-2-api-development.cloudconformity.com/v1/accounts/accountId/settings/rules/VPC-013' \
 --header 'Authorization: ApiKey apiKey' \
 --header 'Content-Type: application/vnd.api+json' \
---data-raw 
+--data-raw
 {
   "data":{
     "attributes":{

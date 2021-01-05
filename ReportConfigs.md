@@ -1,3 +1,10 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Cloud Conformity Report Configs API
 
 Below is a list of the available API calls:

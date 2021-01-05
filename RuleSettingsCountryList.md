@@ -1,3 +1,10 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Rule Settings Country List
 
 For certain rule settings, extra settings require configuration for a "countries" value. Below is the list of supported countries and their respective codes:

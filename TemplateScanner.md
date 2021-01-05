@@ -1,7 +1,14 @@
+# Archived
+
+Please access Trend Micro Cloud One - Conformity's public [API documentation here](https://cloudone.trendmicro.com/docs/conformity/api-reference/)
+for the most updated version. This GitHub repository is no longer maintained and has been archived for historical purposes.
+
+---
+
 # Cloud Conformity Template Scanner API
 
 ## Introduction
-Cloud Conformity provides Template Scanner capability as a preventative measure to 
+Cloud Conformity provides Template Scanner capability as a preventative measure to
 ensure your AWS infrastructure remains compliant by detecting risks in template
 files before they are launched into AWS.
 
